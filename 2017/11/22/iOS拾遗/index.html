@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Objective-C,iOS," />
+  <meta name="keywords" content="iOS,Objective-C," />
 
 
 
@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="Better Late Than Never!">
-<meta name="keywords" content="Objective-C,iOS">
+<meta name="description" content="历史早在20世纪80年代初，Brad Cox为了融合流行的、可移植的C语言和优雅的Smalltalk语言的优势，设计出了Objective-C语言，它是C语言的一个扩展集。1985年，Steve Jobs创立了NeXT公司，他们使用Objective-C语言基于Unix开发了NeXTSTEP操作系统。而在Apple收购了NeXT之后，从NeXTSTEP和OPENSTEP编程环境演化出来了著名的Co">
+<meta name="keywords" content="iOS,Objective-C">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Objective-C">
-<meta property="og:url" content="http://yoursite.com/2017/11/22/Objective-C/index.html">
+<meta property="og:title" content="iOS拾遗">
+<meta property="og:url" content="http://yoursite.com/2017/11/22/iOS拾遗/index.html">
 <meta property="og:site_name" content="Deep Thought">
-<meta property="og:description" content="Better Late Than Never!">
+<meta property="og:description" content="历史早在20世纪80年代初，Brad Cox为了融合流行的、可移植的C语言和优雅的Smalltalk语言的优势，设计出了Objective-C语言，它是C语言的一个扩展集。1985年，Steve Jobs创立了NeXT公司，他们使用Objective-C语言基于Unix开发了NeXTSTEP操作系统。而在Apple收购了NeXT之后，从NeXTSTEP和OPENSTEP编程环境演化出来了著名的Co">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-22T06:11:33.824Z">
+<meta property="og:image" content="http://oztca4xvs.bkt.clouddn.com/Objective-C中的真值类型和数值.png">
+<meta property="og:updated_time" content="2017-11-25T09:28:48.339Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Objective-C">
-<meta name="twitter:description" content="Better Late Than Never!">
+<meta name="twitter:title" content="iOS拾遗">
+<meta name="twitter:description" content="历史早在20世纪80年代初，Brad Cox为了融合流行的、可移植的C语言和优雅的Smalltalk语言的优势，设计出了Objective-C语言，它是C语言的一个扩展集。1985年，Steve Jobs创立了NeXT公司，他们使用Objective-C语言基于Unix开发了NeXTSTEP操作系统。而在Apple收购了NeXT之后，从NeXTSTEP和OPENSTEP编程环境演化出来了著名的Co">
+<meta name="twitter:image" content="http://oztca4xvs.bkt.clouddn.com/Objective-C中的真值类型和数值.png">
 
 
 
@@ -120,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/11/22/Objective-C/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/11/22/iOS拾遗/"/>
 
 
 
 
 
-  <title>Objective-C | Deep Thought</title>
+  <title>iOS拾遗 | Deep Thought</title>
   
 
 
@@ -253,7 +255,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/22/Objective-C/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/22/iOS拾遗/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="姚七六">
@@ -270,7 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Objective-C</h1>
+          <h1 class="post-title" itemprop="name headline">iOS拾遗</h1>
         
 
         <div class="post-meta">
@@ -305,8 +307,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
+                  <a href="/categories/iOS拾遗/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS拾遗</span>
                   </a>
                 </span>
 
@@ -342,7 +344,16 @@
       
 
       
-        
+        <h2 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h2><p>早在20世纪80年代初，Brad Cox为了融合流行的、可移植的C语言和优雅的Smalltalk语言的优势，设计出了Objective-C语言，它是C语言的一个扩展集。1985年，Steve Jobs创立了NeXT公司，他们使用Objective-C语言基于Unix开发了NeXTSTEP操作系统。而在Apple收购了NeXT之后，从NeXTSTEP和OPENSTEP编程环境演化出来了著名的Cocoa编程工具箱，从此Cocoa和Objective-C就成了Apple公司OS X和iOS操作系统的核心。</p>
+<h2 id="iOS知识小集"><a href="#iOS知识小集" class="headerlink" title="iOS知识小集"></a>iOS知识小集</h2><ul>
+<li>Xcode通过.m扩展名来表示文件使用的时Objective-C代码，应由Objective-C编译器处理。而C编译器处理.c文件，C++编译器处理.cpp文件。所有这些编译工作默认由LLVM处理。（扩展名.m表示message）</li>
+<li><p>通过#import导入的头文件使用<strong>预编译头文件</strong>（压缩的、摘要形式的头文件）的方式来加快读取速度。</p>
+</li>
+<li><h3 id="布尔类型"><a href="#布尔类型" class="headerlink" title="布尔类型"></a>布尔类型</h3><p>BOOL实际上是一种对带符号的字符类型（signed char）的（typedef），它使用8位的存储空间，通过#define指令把YES定义为1，NO定义为0。编译器只将BOOL认作8位二进制数，所以讲大于1字节的整型值赋给一个BOOL变量，那么只有低位字节会被用作BOOL值。<br><img src="http://oztca4xvs.bkt.clouddn.com/Objective-C中的真值类型和数值.png" alt="Objective-C中的真值类型和数值"><br>图：<a href="http://nshipster.cn/bool/" target="_blank" rel="external">BOOL / bool / Boolean / NSCFBoolean</a><br>目前在iOS,tvOS,watchOS中BOOL其实是bool的typedef，详见：<a href="https://developer.apple.com/documentation/objectivec/bool?language=objc" target="_blank" rel="external">https://developer.apple.com/documentation/objectivec/bool?language=objc</a></p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">#iOS,tvOS,watchOS:</div><div class="line">typedef bool BOOL;</div><div class="line">#macOS</div><div class="line">typedef signed char BOOL;</div></pre></td></tr></table></figure>
+
       
     </div>
     
@@ -359,9 +370,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Objective-C/" rel="tag"># Objective-C</a>
-          
             <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/Objective-C/" rel="tag"># Objective-C</a>
           
         </div>
       
@@ -434,8 +445,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -533,6 +553,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#历史"><span class="nav-number">1.</span> <span class="nav-text">历史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS知识小集"><span class="nav-number">2.</span> <span class="nav-text">iOS知识小集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#布尔类型"><span class="nav-number">2.1.</span> <span class="nav-text">布尔类型</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
