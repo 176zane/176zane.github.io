@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="How is SDWebImage better than X?开篇，我们翻译一下SDWebImage官方介绍中的这篇文章：How is SDWebImage better than X?从iOS5.0开始NSURLCache会处理磁盘缓存，那么使用SDWebImage相比于单纯使用NSURLRequest强在哪里呢？  确实从iOS5.0开始，NSURLCache会在内存及磁盘中缓存HTTP响应">
+<meta name="description" content="How is SDWebImage better than X?开篇，我先翻译一下 SDWebImage 官方介绍中的这篇文章：How is SDWebImage better than X?  从 iOS5.0 开始 NSURLCache 会处理磁盘缓存，那么使用 SDWebImage 相比于单纯使用 NSURLRequest 强在哪里呢？  确实从iOS5.0开始，NSURLCache 会在内">
 <meta name="keywords" content="iOS,Objective-C,源码">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SDWebImage源码分析">
+<meta property="og:title" content="SDWebImage 源码分析">
 <meta property="og:url" content="http://yoursite.com/2017/11/28/SDWebImage源码分析/index.html">
 <meta property="og:site_name" content="Deep Thought">
-<meta property="og:description" content="How is SDWebImage better than X?开篇，我们翻译一下SDWebImage官方介绍中的这篇文章：How is SDWebImage better than X?从iOS5.0开始NSURLCache会处理磁盘缓存，那么使用SDWebImage相比于单纯使用NSURLRequest强在哪里呢？  确实从iOS5.0开始，NSURLCache会在内存及磁盘中缓存HTTP响应">
+<meta property="og:description" content="How is SDWebImage better than X?开篇，我先翻译一下 SDWebImage 官方介绍中的这篇文章：How is SDWebImage better than X?  从 iOS5.0 开始 NSURLCache 会处理磁盘缓存，那么使用 SDWebImage 相比于单纯使用 NSURLRequest 强在哪里呢？  确实从iOS5.0开始，NSURLCache 会在内">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-28T08:09:54.688Z">
+<meta property="og:updated_time" content="2017-11-28T10:59:30.596Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SDWebImage源码分析">
-<meta name="twitter:description" content="How is SDWebImage better than X?开篇，我们翻译一下SDWebImage官方介绍中的这篇文章：How is SDWebImage better than X?从iOS5.0开始NSURLCache会处理磁盘缓存，那么使用SDWebImage相比于单纯使用NSURLRequest强在哪里呢？  确实从iOS5.0开始，NSURLCache会在内存及磁盘中缓存HTTP响应">
+<meta name="twitter:title" content="SDWebImage 源码分析">
+<meta name="twitter:description" content="How is SDWebImage better than X?开篇，我先翻译一下 SDWebImage 官方介绍中的这篇文章：How is SDWebImage better than X?  从 iOS5.0 开始 NSURLCache 会处理磁盘缓存，那么使用 SDWebImage 相比于单纯使用 NSURLRequest 强在哪里呢？  确实从iOS5.0开始，NSURLCache 会在内">
 
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <title>SDWebImage源码分析 | Deep Thought</title>
+  <title>SDWebImage 源码分析 | Deep Thought</title>
   
 
 
@@ -280,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">SDWebImage源码分析</h1>
+          <h1 class="post-title" itemprop="name headline">SDWebImage 源码分析</h1>
         
 
         <div class="post-meta">
@@ -352,14 +352,19 @@
       
 
       
-        <h2 id="How-is-SDWebImage-better-than-X"><a href="#How-is-SDWebImage-better-than-X" class="headerlink" title="How is SDWebImage better than X?"></a>How is SDWebImage better than X?</h2><p>开篇，我们翻译一下SDWebImage官方介绍中的这篇文章：<a href="https://github.com/rs/SDWebImage/wiki/How-is-SDWebImage-better-than-X%3F" target="_blank" rel="external">How is SDWebImage better than X?</a><br>从iOS5.0开始NSURLCache会处理磁盘缓存，那么使用SDWebImage相比于单纯使用NSURLRequest强在哪里呢？</p>
+        <h2 id="How-is-SDWebImage-better-than-X"><a href="#How-is-SDWebImage-better-than-X" class="headerlink" title="How is SDWebImage better than X?"></a>How is SDWebImage better than X?</h2><p>开篇，我先翻译一下 SDWebImage 官方介绍中的这篇文章：<a href="https://github.com/rs/SDWebImage/wiki/How-is-SDWebImage-better-than-X%3F" target="_blank" rel="external">How is SDWebImage better than X?</a></p>
+<ul>
+<li><p>从 iOS5.0 开始 NSURLCache 会处理磁盘缓存，那么使用 SDWebImage 相比于单纯使用 NSURLRequest 强在哪里呢？</p>
 <blockquote>
-<p>确实从iOS5.0开始，NSURLCache会在内存及磁盘中缓存HTTP响应的原始数据。但是每次缓存命中，应用都需要数据解析（HTTP原始数据是编码的）、内存拷贝等大量的操作将原生的缓存数据转换进UIImage对象中。<br>另一方面，SDWebImage在内存中缓存了UIImage对象，并在磁盘中存储了图片文件的原始压缩数据（已解码）。UIImage对象使用NSCache按原样存储在内存中，所以在使用时并不需要拷贝，而且可以在应用或系统需要时随时释放内存。<br>除此之外，SDWebImageDecoder将UIImageView首次使用UIImage对象的解压缩工作放在了后台线程中而不是通常的主线程中，可以减少主线程堵塞。<br>最后，SDWebImage完全绕过了复杂且易出错的HTTP缓存控制配置，从而极大的加速了缓存查找。</p>
+<p>确实从iOS5.0开始，NSURLCache 会在内存及磁盘中缓存 HTTP 响应的原始数据。但是每次缓存命中，应用都需要数据解析（HTTP 原始数据是编码的）、内存拷贝等大量的操作将原生的缓存数据转换进UIImage对象中。<br>另一方面，SDWebImage 在内存中缓存了 UIImage 对象，并在磁盘中存储了图片文件的原始压缩数据（已解码）。UIImage 对象使用 NSCache 按原样存储在内存中，所以在使用时并不需要拷贝，而且可以在应用或系统需要时随时释放内存。<br>除此之外，SDWebImageDecoder 将 UIImageView 首次使用 UIImage 对象的解压缩工作放在了后台线程中而不是通常的主线程中，可以减少主线程堵塞。<br>最后，SDWebImage 完全绕过了复杂且易出错的 HTTP 缓存控制配置，从而极大的加速了缓存查找。</p>
 </blockquote>
-<p>既然AFNetworking为UIImageView提供了相似的功能，SDWebImage还有用嘛？</p>
+</li>
+<li><p>既然 AFNetworking 为 UIImageView 提供了相似的功能，SDWebImage 还有用嘛？</p>
 <blockquote>
-<p>大概没啥用，AFNetworking也是利用了基于Foundation框架的URL加载系统缓存:NSURLCache，还为UIImageView和UIButton提供了默认使用NSCached的可配置内存缓存。缓存行为可以根据相应的NSURLRequest来配置。AFNetworking还提供了图片数据的后台解压缩等SDWebImage的特性。<br>因此如果你已经使用了AFNetworking，而且只想要简单的异步图片加载分类，内置的UIKIT框架也够用了。</p>
+<p>大概没啥用，AFNetworking 也是利用了基于 Foundation 框架的 URL 加载系统缓存:NSURLCache，还为 UIImageView 和 UIButton 提供了默认使用 NSCached 的可配置内存缓存。缓存行为可以根据相应的 NSURLRequest 来配置。AFNetworking 还提供了图片数据的后台解压缩等 SDWebImage 的特性。<br>因此如果你已经使用了 AFNetworking，而且只想要简单的异步图片加载分类，内置的 UIKIT 框架也够用了。</p>
 </blockquote>
+</li>
+</ul>
 
       
     </div>
@@ -394,8 +399,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/22/Objective-C回忆录/" rel="next" title="Objective-C回忆录">
-                <i class="fa fa-chevron-left"></i> Objective-C回忆录
+              <a href="/2017/11/22/Objective-C回忆录/" rel="next" title="Objective-C 回忆录">
+                <i class="fa fa-chevron-left"></i> Objective-C 回忆录
               </a>
             
           </div>
