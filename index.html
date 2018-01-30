@@ -262,6 +262,345 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/20/Block与GCD学习总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="姚七六">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/self.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Deep Thought">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/20/Block与GCD学习总结/" itemprop="url">Block与GCD学习总结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-20T16:38:36+08:00">
+                2018-01-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS-拾遗/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS 拾遗</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Blocks"><a href="#Blocks" class="headerlink" title="Blocks"></a>Blocks</h2><p>除了函数中的代码，代码块还包含变量绑定。代码块包含两种类型的绑定：automatic binding 使用的是栈中的内存，而 managed binding 是通过堆创建的。</p>
+<p>Blocks 是 C 语言的扩展功能，是带有<strong>自动变量（局部变量）</strong>的<strong>匿名函数</strong>。这一概念在其他程序语言中也称为闭包（Closure）、Lambda等。<br>C 语言标准不允许不带有名称的函数，想要不通过函数名来调用函数可以如下所示：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> count + <span class="number">1</span>;</div><div class="line">&#125;</div><div class="line">    </div><div class="line"><span class="keyword">int</span> (*funcptr)(<span class="keyword">int</span>) = &amp;func;</div><div class="line"><span class="keyword">int</span> result = (*funcptr)(<span class="number">10</span>);</div></pre></td></tr></table></figure>
+<p>但是其实在赋值函数指针时，还是用到了函数的名称。<br>Blocks 还提供了类似 C++ 和 Objective-C 类生成实例或对象来保持变量值的方法，它保持自动变量的值。(避免了声明类的大量代码，也没有使用静态变量、静态全局变量或全局变量时，访问的总是同一个值的问题。)<br>Block 在被创建时会截获当前的自动变量值，在封闭范围内的自动变量会被保存为常量。要想在 Block 中修改它们的值，需要用 <strong>block 声明为可修改的。但是长度可变的数组或包含长度可变数组的结构体是无法声明为 </strong>block 的。<br>如果捕获的自动变量是 Objective-C 对象呢？</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSMutableArray</span> *array = [<span class="built_in">NSMutableArray</span> array];</div><div class="line"><span class="keyword">void</span> (^blk)(<span class="keyword">void</span>) =^&#123;</div><div class="line">    <span class="keyword">id</span> obj = [[<span class="built_in">NSObject</span> alloc] init];</div><div class="line">    [array addObject:obj];<span class="comment">//可以访问、修改该对象。</span></div><div class="line">    <span class="comment">//array = [NSMutableArray array];//但不能赋值。</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>是因为 Block 捕获的是指向该对象的指针，而不是对象本身。所以对该对象的操作是可以的，改变 array 这个指针变量却是不可以的。如果要改变需加 __block 修饰符。<br>还有一点要注意，现在的 Block 并没有实现对 C 语言数组的捕获，如下所示：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//const char t[] = "hello";//会出错，改成使用指针就可以解决</span></div><div class="line"><span class="keyword">const</span> <span class="keyword">char</span> *t = <span class="string">"hello"</span>;</div><div class="line"><span class="keyword">void</span> (^blk)(<span class="keyword">void</span>) =^&#123;</div><div class="line">    printf(<span class="string">"%c\n"</span>,t[<span class="number">2</span>]);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h3 id="Blocks-的语法"><a href="#Blocks-的语法" class="headerlink" title="Blocks 的语法"></a>Blocks 的语法</h3><p>与函数指针<code>void(*my_func)(void)</code>类似，Block 有如下特征：1，返回类型可以手动声明也可以由编译器推导；2，具有指定类型的参数列表；3，拥有名称。只要把 * 替换成 ^ 就可以将上面的函数指针转换为一个 Block 的定义了:<br><code>int (^blk)(int) = ^int (int count){ return count + 1 };</code><br>使用 Block 时通常不需要创建一个 Block 变量，而是在代码中内联它的内容。而且返回值通常可以省略（没有参数时也可忽略参数列表），因此常见的 Block 如下所示：<br><code>^(int count){ return count + 1;};</code><br>在函数参数或返回值中使用 Block 类型变量时，记述起来很复杂，因此常用 typedef 来解决：<br><code>typedef int (^blk_t)(int);</code></p>
+<h2 id="并发性"><a href="#并发性" class="headerlink" title="并发性"></a>并发性</h2><p>利用并发性最基础的方法是使用 POSIX 线程来处理程序的不同该部分使其能够独立执行。因为线程是级别较低的 API 你必须手动管理。<br>mutex 是 mutual exclusion 的缩写，它指的是确保两个线程不会在同一时间进入临界区。<br>使用<code>performSelectorInBackground:withObject:</code>方法应该注意：1，这些方法运行在各自的线程里，因此你必须为这些 Cocoa 对象创建一个自动释放池，而主自动释放池是与主线程相关的。2，这些方法不能有返回值，而已最多只能有一个参数。方法执行结束后也不会通知你。</p>
+<h3 id="GCD"><a href="#GCD" class="headerlink" title="GCD"></a>GCD</h3><p>GCD 使用调度队列，只需写下你的代码，把它指派为一个队列，系统就会执行它了。一共有3中类型的队列：</p>
+<ul>
+<li>连续队列：每个连续队列都根据指派的顺序执行任务，可以创建任意数量的连续队列，它们会并行操作任务。</li>
+<li>并发队列：每个并发队列都能并发执行一个或多个任务，任务会根据指派到队列的顺序开始执行。</li>
+<li>主队列： 执行应用程序中主线程的任务。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/15/KVC-KVO学习总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="姚七六">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/self.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Deep Thought">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/15/KVC-KVO学习总结/" itemprop="url">KVC/KVO学习总结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-15T16:32:46+08:00">
+                2017-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS-拾遗/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS 拾遗</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="KVC-KVO"><a href="#KVC-KVO" class="headerlink" title="KVC/KVO"></a>KVC/KVO</h2><p>KVC/KVO 并不属于 Objective-C 语言的特性，而是 Cocoa 提供的一种特性。KVC/KVO 是通过采用<strong>NSKeyValueCoding / NSKeyValueObserving 非正式协议</strong>的方式所实现的一种机制。从协议的角度讲，它是给我们定义了一套去遵循和实现的方法。不过NSObject 提供了相关方法的默认实现，不需要我们手动去实现了。</p>
+<h3 id="KVC"><a href="#KVC" class="headerlink" title="KVC"></a>KVC</h3><p>除了通过调用访问方法和直接设置实例变量来更改对象状态外，还可以通过键-值编码（key-value coding）的间接方式。<strong>这种间接访问能让开发者在运行时而非编译期决定访问哪个属性</strong>。<br>键-值编码中的基本调用是<code>-valueForKey:</code>和<code>-setValue:forKey:</code>方法，向对象发送消息，并传递想要访问的属性名称字符串（键）作为参数。<code>-valueForKey:</code>会首先查找以参数名命名（格式为 -key 或者 -isKey）的 getter 方法，如果没有这样的 getter 方法，它将会在对象内寻找名称格式为 _key 或者 key 的实例变量(对于 array 或者 set 类型的属性，即使没有这个属性，但是只要实现了<code>countOf&lt;key&gt;</code>和<code>objectIn&lt;key&gt;AtIndex</code>等方法，KVO系统会创建相应容器的代理对象，用起来可以跟其他 array 或 set 一样)。<br><code>-valueForKey:</code>在 Objective-C 运行时中使用元数据打开对象并进入其中查找需要的信息。在 C 或 C++ 中不能执行这种操作。通过使用 KVC，没有相关 getter 方法也能获取对象值。<br>对于 KVC，Cocoa 会自动装箱和开箱标量值。示例如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Car</span> : <span class="title">NSObject</span></span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="keyword">float</span> mileage;</div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line">[car setValue:@(<span class="number">200.0</span>) forKey:<span class="string">@"mileage"</span>];</div><div class="line"><span class="built_in">NSNumber</span> *mileage = [car valueForKey:<span class="string">@"mileage"</span>];</div></pre></td></tr></table></figure>
+<p><code>setValue:forKey:</code>会将 <code>@(200.0)</code> 开箱取出值，再调用<code>setMileage:</code>或者更改 <code>mileage</code> 变量。</p>
+<h4 id="键路径"><a href="#键路径" class="headerlink" title="键路径"></a>键路径</h4><p>可以使用 <code>valueForKeyPath:</code>和<code>setValue:forKeyPath:</code>来通过键路径访问属性。键路径可以包含嵌套关系，如下所示：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[car setValue:@(<span class="number">200</span>) forKeyPath:<span class="string">@"engine.horsepower"</span>];</div></pre></td></tr></table></figure>
+<h4 id="KVC-实现高阶消息传递"><a href="#KVC-实现高阶消息传递" class="headerlink" title="KVC 实现高阶消息传递"></a>KVC 实现高阶消息传递</h4><p>如果键路径中有 NSArray 或 NSSet 这样的容器类属性，则该键路径的其余部分将被发送给容器类的每个对象。而不是对容器本身进行操作。结果会被添加进返回的容器中。这样可以方便的用一个容器对象创建另一个容器对象。示例如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSArray</span> *array = @[<span class="string">@"foo"</span>,<span class="string">@"bar"</span>,<span class="string">@"ted"</span>];</div><div class="line"><span class="built_in">NSArray</span> *capitals = [array valueForKey:<span class="string">@"capitalizedString"</span>];</div></pre></td></tr></table></figure>
+<p>把消息(capitalizedString)作为参数传递称为高阶消息传递。</p>
+<h4 id="容器操作符"><a href="#容器操作符" class="headerlink" title="容器操作符"></a>容器操作符</h4><p>键路径不仅能引用对象值，还可以引用一些运算符来进行一些运算。如：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSArray</span> *array = @[<span class="string">@"foo"</span>,<span class="string">@"bar"</span>,<span class="string">@"ted"</span>];</div><div class="line"><span class="built_in">NSInteger</span> totalLength = [[array valueForKeyPath:<span class="string">@"@sum.length"</span>] intValue];</div></pre></td></tr></table></figure>
+<p><code>@sum</code>是一个操作符，对指定的属性(length)求和。key path 中的 @ 符号代表了一个特定的集合方法。具体的使用也可以参考 NSHipster 的这篇文章：<a href="http://nshipster.cn/kvc-collection-operators/" target="_blank" rel="external">KVC Collection Operators</a>。 KVC 能非常轻松的处理集合类，但是它需要解析字符串来计算你想要的答案，所以通常速度比较慢。</p>
+<h4 id="nil"><a href="#nil" class="headerlink" title="nil"></a>nil</h4><p>对于标量值的属性，如果使用 nil 作为参数调用<code>setValue:forKey:</code>，那么键会被传递给<code>setNilValueForKey:</code>方法，如果该对象支持标量值属性这是为 nil，则需要实现这个方法。默认的行为是抛出异常。<br>对 NSDictionary 对象的<code>setObject:forKey:</code>方法传入 nil 值，会发出警告。但是若使用<code>setValue:forKey:</code>传入 nil 值，则会把对应键的值从字典中删除。</p>
+<h3 id="KVO"><a href="#KVO" class="headerlink" title="KVO"></a>KVO</h3><p>Cocoa 有若干观察者机制，包括委托和 NSNotification，但是 KVO 的开销更小，被观察的对象允许其他对象去监听它的某个属性的改变，并且不需要有任何额外的代码来通知观察者，而如果没有观察者，KVO 就没有运行时的消耗，只有对象被真正观察时，KVO 系统才添加通知代码。<br>关于 KVO 的基本使用可以看看以下几篇博客：</p>
+<ul>
+<li><a href="http://southpeak.github.io/2015/04/23/cocoa-foundation-nskeyvalueobserving/" target="_blank" rel="external">Foundation: NSKeyValueObserving(KVO)</a></li>
+<li><a href="https://objccn.io/issue-7-3/" target="_blank" rel="external">KVC 和 KVO</a></li>
+<li><a href="http://blog.sunnyxx.com/2014/03/09/objc_kvo_secret/" target="_blank" rel="external">objc kvo简单探索</a></li>
+</ul>
+<h4 id="注册观察者"><a href="#注册观察者" class="headerlink" title="注册观察者"></a>注册观察者</h4><p>要让一个对象监听另一个对象属性的变化，首先被观察对象要添加观察者对象为其相关属性的观察者。调用方法如下（注意这个方法调用时，两个对象都不会被<code>retain</code>）：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)addObserver:(<span class="built_in">NSObject</span> *)observer </div><div class="line">         forKeyPath:(<span class="built_in">NSString</span> *)keyPath </div><div class="line">            options:(<span class="built_in">NSKeyValueObservingOptions</span>)options </div><div class="line">            context:(<span class="keyword">nullable</span> <span class="keyword">void</span> *)context;</div></pre></td></tr></table></figure>
+<p>注册 KVO 时，要给 context 传递进去一个随机数据作为上下文数据。因为一个类只能有一个 KVO 回调，所以可能收到父类注册的属性变化事件。如果是这样，需要把回调传递给 super。不幸的是，我们不能总是传递给 super,因为 NSObject 可能会抛出异常，所以要用唯一的 context 来识别观察的事件。推荐一个比较好的 context 值的声明方法：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">void</span> * xxContext = &amp;xxContext;</div></pre></td></tr></table></figure>
+<p>xxContext 静态变量中存储着自己的指针，可以用来确定唯一的 context。<br>传入的 keyPath 最好也不要用字符串字面值，因为不能被编译器检查拼写错误。推荐使用 <code>NSStringFromSelector(@selector(length))</code>这种写法。</p>
+<p>options 为 NSKeyValueObservingOptions 的选项组合。它指定了观察通知中包含了什么数据。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="built_in">NS_OPTIONS</span>(<span class="built_in">NSUInteger</span>, <span class="built_in">NSKeyValueObservingOptions</span>) &#123;</div><div class="line">    <span class="comment">//通知的 change 字典中应该包含新值</span></div><div class="line">    <span class="built_in">NSKeyValueObservingOptionNew</span> = <span class="number">0x01</span>,</div><div class="line">    <span class="comment">//通知的 change 字典中应该包含旧值</span></div><div class="line">    <span class="built_in">NSKeyValueObservingOptionOld</span> = <span class="number">0x02</span>,</div><div class="line">    <span class="comment">/*立即发送一个通知给观察者，甚至在观察者注册方法返回之前。如果同时组合了 NSKeyValueObservingOptionNew 选项的话，</span></div><div class="line"><span class="comment">    通知的 change 字典中总会包含新值。但是永远不会包含旧值。（虽然最初的那一个通知中值可能是旧值，但是对于观察者来说也是新值。）</span></div><div class="line"><span class="comment">    </span></div><div class="line"><span class="comment">    可以将这个选项用来避免初始化或其他场景中显示的调用观察者的 -observeValueForKeyPath:ofObject:change:context: 回调方法中的代码。</span></div><div class="line"><span class="comment">    </span></div><div class="line"><span class="comment">    当这个选项用于 addObserver:toObjectAtIndexes:forKeyPath:options:context: 方法时。通知将会发送给观察者被添加的每一个索引对象。</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="built_in">NSKeyValueObservingOptionInitial</span> = <span class="number">0x04</span>,</div><div class="line">    <span class="comment">/*不仅在属性改变后发送通知，还在改变前发送一条通知。改变前发送的通知的 change 字典中会包含NSKeyValueChangeNotificationIsPriorKey 入口，</span></div><div class="line"><span class="comment">    但是永远不会包含 NSKeyValueChangeNewKey 入口。通常用于当观察者自身的 KVO 需要为自己的某个属性调用 -willChange... 方法，而这个属性的值又依赖于被观察对象的属性时。</span></div><div class="line"><span class="comment">      改变后发送的通知的 change 字典中与不指定此选项时是相同的。（按顺序排列的 to-many 关系的 NSOrderedSets属性例外）。</span></div><div class="line"><span class="comment">    */</span></div><div class="line">    <span class="built_in">NSKeyValueObservingOptionPrior</span> = <span class="number">0x08</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h4 id="观察者回调"><a href="#观察者回调" class="headerlink" title="观察者回调"></a>观察者回调</h4><p>观察者必须实现<code>-observerValueForKeyPath:ofObject:change:context:</code>方法，来对被观察对象属性修改的通知做相应的处理。对观察者对象来说，它所有观察的改变都被聚集到这个方法回调中来，所以需要通过 context 上下文信息来准确的判断是哪个被观察对象的改变通知。<br>change 字典是<code>NSDictionary&lt;NSKeyValueChangeKey,id&gt;</code>类型的, NSKeyValueChangeKey 定义如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="built_in">NSString</span> * <span class="built_in">NSKeyValueChangeKey</span>;</div><div class="line"><span class="built_in">NSKeyValueChangeKey</span> <span class="keyword">const</span> <span class="built_in">NSKeyValueChangeKindKey</span>;</div><div class="line"><span class="built_in">NSKeyValueChangeKey</span> <span class="keyword">const</span> <span class="built_in">NSKeyValueChangeNewKey</span>;</div><div class="line"><span class="built_in">NSKeyValueChangeKey</span> <span class="keyword">const</span> <span class="built_in">NSKeyValueChangeOldKey</span>;</div><div class="line"><span class="built_in">NSKeyValueChangeKey</span> <span class="keyword">const</span> <span class="built_in">NSKeyValueChangeIndexesKey</span>;</div><div class="line"><span class="built_in">NSKeyValueChangeKey</span> <span class="keyword">const</span> <span class="built_in">NSKeyValueChangeNotificationIsPriorKey</span>;</div></pre></td></tr></table></figure>
+<p>举个例子，当注册时的 options 包含<code>NSKeyValueObservingOptionInitial</code>时：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Engine</span>: <span class="title">NSObject</span></span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="built_in">NSInteger</span> horsepower;</div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Engine</span></span></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Car</span> : <span class="title">NSObject</span></span></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Car</span></span></div><div class="line">- (<span class="keyword">void</span>)observeValueForKeyPath:(<span class="built_in">NSString</span> *)keyPath ofObject:(<span class="keyword">id</span>)object change:(<span class="built_in">NSDictionary</span>&lt;<span class="built_in">NSKeyValueChangeKey</span>,<span class="keyword">id</span>&gt; *)change context:(<span class="keyword">void</span> *)context &#123;</div><div class="line">    <span class="comment">//仅打印 change 字典</span></div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"change = %@"</span>,change);  </div><div class="line">&#125;</div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line">Engine *engine = [[Engine alloc] init];</div><div class="line">engine.horsepower = <span class="number">300</span>;</div><div class="line">Car* car = [[Car alloc] init];</div><div class="line"><span class="keyword">static</span> <span class="keyword">void</span> * xxContext = &amp;xxContext;</div><div class="line">[engine addObserver:car forKeyPath:<span class="built_in">NSStringFromSelector</span>(<span class="keyword">@selector</span>(horsepower)) options:<span class="built_in">NSKeyValueObservingOptionInitial</span> | <span class="built_in">NSKeyValueObservingOptionNew</span> | <span class="built_in">NSKeyValueObservingOptionOld</span> context:xxContext];</div><div class="line">engine.horsepower = <span class="number">100</span>;</div></pre></td></tr></table></figure>
+<p>打印结果如下如下所示，注册时会回调一次，change 字典中包含了 new 值：300。改变属性为 100 时，又回调一次， change 字典中包含 old 值：300，new 值：100。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">change = &#123;</div><div class="line">    kind = <span class="number">1</span>;</div><div class="line">    new = <span class="number">300</span>;</div><div class="line">&#125;</div><div class="line">change = &#123;</div><div class="line">    kind = <span class="number">1</span>;</div><div class="line">    new = <span class="number">100</span>;</div><div class="line">    old = <span class="number">300</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>将上述注册方法中的<code>NSKeyValueObservingOptionInitial</code>选项换成<code>NSKeyValueObservingOptionPrior</code>时，打印结果如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">change = &#123;</div><div class="line">    kind = <span class="number">1</span>;</div><div class="line">    notificationIsPrior = <span class="number">1</span>;</div><div class="line">    old = <span class="number">300</span>;</div><div class="line">&#125;</div><div class="line">change = &#123;</div><div class="line">    kind = <span class="number">1</span>;</div><div class="line">    new = <span class="number">100</span>;</div><div class="line">    old = <span class="number">300</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在属性改变为 100 前回调一次，change 字典中包含了<code>notificationIsPrior</code>键，且它的值总为<code>@(YES)</code>。属性改变后回调中的 change 字典跟其他选项时一样。<br>上面的例子中，kind 的值总是 1，其实 NSKeyValueChangeKindKey 键的值的定义如下所示：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSUInteger</span>, <span class="built_in">NSKeyValueChange</span>) &#123;</div><div class="line">    <span class="built_in">NSKeyValueChangeSetting</span> = <span class="number">1</span>,</div><div class="line">    <span class="built_in">NSKeyValueChangeInsertion</span> = <span class="number">2</span>,</div><div class="line">    <span class="built_in">NSKeyValueChangeRemoval</span> = <span class="number">3</span>,</div><div class="line">    <span class="built_in">NSKeyValueChangeReplacement</span> = <span class="number">4</span>,</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>当观察的对象关系是一对多时，出现插入、剔除或替换时就会出现其他值了，change 字典中其他 key 也会相应变化。</p>
+<h4 id="移除观察者"><a href="#移除观察者" class="headerlink" title="移除观察者"></a>移除观察者</h4><p>当观察者完成了对监听对象的观察之后，被观察对象需要调用<code>-removeObserver:forKeyPath:</code>或<code>-removeObserver:forKeyPath:context:</code>方法移除观察者。<br>若不调用该方法移除观察者的话，在对象被释放的时候程序会出现崩溃，因为 KVO 依然保留着它们的注册信息。<br>若调用该方法时，传入的观察者对象并没有被注册为该键路径的观察者，程序也会出现崩溃。因此要追踪自己观察的属性。一个妥协的方法是可以使用 @try/@catch 来使它不崩溃，但这个方法并不推荐。如下所示：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@try</span> &#123;</div><div class="line">    [string removeObserver:<span class="keyword">self</span> forKeyPath:<span class="built_in">NSStringFromSelector</span>(<span class="keyword">@selector</span>(length))];</div><div class="line">&#125;</div><div class="line"><span class="keyword">@catch</span> (<span class="built_in">NSException</span> *exception) &#123;&#125;<span class="comment">//@catch中没有做处理</span></div></pre></td></tr></table></figure>
+<h4 id="KVO-和-容器类"><a href="#KVO-和-容器类" class="headerlink" title="KVO 和 容器类"></a>KVO 和 容器类</h4><p>观察容器类和观察其中的对象是不同的。如果一个容器中包含了 Adam, Bob 和 Carol,那么增加 Denise 就改变了容器，而改变 Adam 不会改变容器。如果要观察容器中的对象的改变，必须观察那些对象，而不是容器本身。一般来讲，可以先观察容器，在添加对象后观察对象，而在删除对象后停止观察对象。</p>
+<h4 id="KVO的实现"><a href="#KVO的实现" class="headerlink" title="KVO的实现"></a>KVO的实现</h4><p>在一个被观察属性发生改变之前，<code>willChangeValueForKey:</code>会被调用，这就会记录旧的值。而当改变发生后，<code>didChangeValueForKey:</code>会被调用，继而观察者的<code>observeValueForKey:ofObject:change:context:</code>也会被调用。</p>
+<p>第一次对一个对象调用<code>addObserver:forKeyPath:options:context:</code>时，框架会创建这个类的新的 KVO 子类，并将被观察对象转换为新子类的对象。在这个特殊的子类中创建对观察属性的设置方法。这种继承和方法注入式在<strong>运行时而不是编译时</strong>实现的。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/28/SDWebImage源码分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -636,41 +975,6 @@
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">ZAThing</span> : <span class="title">NSObject</span> &lt;<span class="title">NSCoding</span>&gt;</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *name;</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="built_in">NSInteger</span> number;</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSMutableArray</span> *subThings;</div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">ZAThing</span></span></div><div class="line">- (<span class="keyword">instancetype</span>)initWithCoder:(<span class="built_in">NSCoder</span> *)aDecoder &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="keyword">super</span> init]) &#123;</div><div class="line">        _name = [aDecoder decodeObjectForKey:<span class="string">@"name"</span>];</div><div class="line">        _number = [aDecoder decodeIntegerForKey:<span class="string">@"number"</span>];</div><div class="line">        _subThings = [aDecoder decodeObjectForKey:<span class="string">@"subThings"</span>];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line">- (<span class="keyword">void</span>)encodeWithCoder:(<span class="built_in">NSCoder</span> *)aCoder &#123;</div><div class="line">    [aCoder encodeObject:<span class="keyword">self</span>.name forKey:<span class="string">@"name"</span>];</div><div class="line">    [aCoder encodeInteger:<span class="keyword">self</span>.number forKey:<span class="string">@"number"</span>];</div><div class="line">    [aCoder encodeObject:<span class="keyword">self</span>.subThings forKey:<span class="string">@"subThings"</span>];</div><div class="line">&#125;</div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">ZAThing *thing = [[ZAThing alloc] init];</div><div class="line">thing.name = <span class="string">@"111"</span>;</div><div class="line">thing.number = <span class="number">222</span>;</div><div class="line"><span class="built_in">NSArray</span> *things = @[@<span class="number">1</span>,@<span class="number">2</span>];</div><div class="line">thing.subThings = [things mutableCopy];</div><div class="line"><span class="built_in">NSData</span> *data = [<span class="built_in">NSKeyedArchiver</span> archivedDataWithRootObject:thing];</div><div class="line">ZAThing *otherThing = [<span class="built_in">NSKeyedUnarchiver</span> unarchiveObjectWithData:data];</div></pre></td></tr></table></figure>
 <p>值得注意的是，在对象中还有嵌套的对象时，如上面的 subThings，在归档和反归档时会递归调用嵌套对象的 encode 和 decode 方法。（注：如果 subThings 中包含 thing 对象，这样循环包含的话，Cocoa 的归档和反归档也可以对其进行处理，但是不要用试图 NSLog 来打印， NSLog 不够智能不能处理这种情况）。</p>
-<h2 id="Blocks"><a href="#Blocks" class="headerlink" title="Blocks"></a>Blocks</h2><p>除了函数中的代码，代码块还包含变量绑定。代码块包含两种类型的绑定：automatic binding 使用的是栈中的内存，而 managed binding 是通过堆创建的。</p>
-<p>Blocks 是 C 语言的扩展功能，是带有<strong>自动变量（局部变量）</strong>的<strong>匿名函数</strong>。这一概念在其他程序语言中也称为闭包（Closure）、Lambda等。<br>C 语言标准不允许不带有名称的函数，想要不通过函数名来调用函数可以如下所示：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> count + <span class="number">1</span>;</div><div class="line">&#125;</div><div class="line">    </div><div class="line"><span class="keyword">int</span> (*funcptr)(<span class="keyword">int</span>) = &amp;func;</div><div class="line"><span class="keyword">int</span> result = (*funcptr)(<span class="number">10</span>);</div></pre></td></tr></table></figure>
-<p>但是其实在赋值函数指针时，还是用到了函数的名称。<br>Blocks 还提供了类似 C++ 和 Objective-C 类生成实例或对象来保持变量值的方法，它保持自动变量的值。(避免了声明类的大量代码，也没有使用静态变量、静态全局变量或全局变量时，访问的总是同一个值的问题。)<br>Block 在被创建时会截获当前的自动变量值，在封闭范围内的自动变量会被保存为常量。要想在 Block 中修改它们的值，需要用 <strong>block 声明为可修改的。但是长度可变的数组或包含长度可变数组的结构体是无法声明为 </strong>block 的。<br>如果捕获的自动变量是 Objective-C 对象呢？</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSMutableArray</span> *array = [<span class="built_in">NSMutableArray</span> array];</div><div class="line"><span class="keyword">void</span> (^blk)(<span class="keyword">void</span>) =^&#123;</div><div class="line">    <span class="keyword">id</span> obj = [[<span class="built_in">NSObject</span> alloc] init];</div><div class="line">    [array addObject:obj];<span class="comment">//可以访问、修改该对象。</span></div><div class="line">    <span class="comment">//array = [NSMutableArray array];//但不能赋值。</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<p>是因为 Block 捕获的是指向该对象的指针，而不是对象本身。所以对该对象的操作是可以的，改变 array 这个指针变量却是不可以的。如果要改变需加 __block 修饰符。<br>还有一点要注意，现在的 Block 并没有实现对 C 语言数组的捕获，如下所示：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//const char t[] = "hello";//会出错，改成使用指针就可以解决</span></div><div class="line"><span class="keyword">const</span> <span class="keyword">char</span> *t = <span class="string">"hello"</span>;</div><div class="line"><span class="keyword">void</span> (^blk)(<span class="keyword">void</span>) =^&#123;</div><div class="line">    printf(<span class="string">"%c\n"</span>,t[<span class="number">2</span>]);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<h3 id="Blocks-的语法"><a href="#Blocks-的语法" class="headerlink" title="Blocks 的语法"></a>Blocks 的语法</h3><p>与函数指针<code>void(*my_func)(void)</code>类似，Block 有如下特征：1，返回类型可以手动声明也可以由编译器推导；2，具有指定类型的参数列表；3，拥有名称。只要把 * 替换成 ^ 就可以将上面的函数指针转换为一个 Block 的定义了:<br><code>int (^blk)(int) = ^int (int count){ return count + 1 };</code><br>使用 Block 时通常不需要创建一个 Block 变量，而是在代码中内联它的内容。而且返回值通常可以省略（没有参数时也可忽略参数列表），因此常见的 Block 如下所示：<br><code>^(int count){ return count + 1;};</code><br>在函数参数或返回值中使用 Block 类型变量时，记述起来很复杂，因此常用 typedef 来解决：<br><code>typedef int (^blk_t)(int);</code></p>
-<h2 id="并发性"><a href="#并发性" class="headerlink" title="并发性"></a>并发性</h2><p>利用并发性最基础的方法是使用 POSIX 线程来处理程序的不同该部分使其能够独立执行。因为线程是级别较低的 API 你必须手动管理。<br>mutex 是 mutual exclusion 的缩写，它指的是确保两个线程不会在同一时间进入临界区。<br>使用<code>performSelectorInBackground:withObject:</code>方法应该注意：1，这些方法运行在各自的线程里，因此你必须为这些 Cocoa 对象创建一个自动释放池，而主自动释放池是与主线程相关的。2，这些方法不能有返回值，而已最多只能有一个参数。方法执行结束后也不会通知你。</p>
-<h3 id="GCD"><a href="#GCD" class="headerlink" title="GCD"></a>GCD</h3><p>GCD 使用调度队列，只需写下你的代码，把它指派为一个队列，系统就会执行它了。一共有3中类型的队列：</p>
-<ul>
-<li>连续队列：每个连续队列都根据指派的顺序执行任务，可以创建任意数量的连续队列，它们会并行操作任务。</li>
-<li>并发队列：每个并发队列都能并发执行一个或多个任务，任务会根据指派到队列的顺序开始执行。</li>
-<li>主队列： 执行应用程序中主线程的任务。</li>
-</ul>
-<h2 id="KVC-KVO"><a href="#KVC-KVO" class="headerlink" title="KVC/KVO"></a>KVC/KVO</h2><p>KVC/KVO 并不属于 Objective-C 语言的特性，而是 Cocoa 提供的一种特性。KVC/KVO 是通过采用<strong>NSKeyValueCoding / NSKeyValueObserving 非正式协议</strong>的方式所实现的一种机制。从协议的角度讲，它是给我们定义了一套去遵循和实现的方法。NSObject 提供了相关方法的默认实现。</p>
-<h3 id="KVC"><a href="#KVC" class="headerlink" title="KVC"></a>KVC</h3><p>除了通过调用访问方法和直接设置实例变量来更改对象状态外，还可以通过键-值编码（key-value coding）的间接方式。<strong>这种间接访问能让开发者在运行时而非编译期决定访问哪个属性</strong>。<br>键-值编码中的基本调用是<code>-valueForKey:</code>和<code>-setValue:forKey:</code>方法，向对象发送消息，并传递想要访问的属性名称字符串（键）作为参数。<code>-valueForKey:</code>会首先查找以参数名命名（格式为 -key 或者 -isKey）的 getter 方法，如果没有这样的 getter 方法，它将会在对象内寻找名称格式为 _key 或者 key 的实例变量(对于 array 或者 set 类型的属性，即使没有这个属性，但是只要实现了<code>countOf&lt;key&gt;</code>和<code>objectIn&lt;key&gt;AtIndex</code>等方法，KVO系统会创建相应容器的代理对象，用起来可以跟其他 array 或 set 一样)。<br><code>-valueForKey:</code>在 Objective-C 运行时中使用元数据打开对象并进入其中查找需要的信息。在 C 或 C++ 中不能执行这种操作。通过使用 KVC，没有相关 getter 方法也能获取对象值。<br>对于 KVC，Cocoa 会自动装箱和开箱标量值。示例如下：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Car</span> : <span class="title">NSObject</span></span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="keyword">float</span> mileage;</div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line">[car setValue:@(<span class="number">200.0</span>) forKey:<span class="string">@"mileage"</span>];</div><div class="line"><span class="built_in">NSNumber</span> *mileage = [car valueForKey:<span class="string">@"mileage"</span>];</div></pre></td></tr></table></figure>
-<p><code>setValue:forKey:</code>会将 <code>@(200.0)</code> 开箱取出值，再调用<code>setMileage:</code>或者更改 <code>mileage</code> 变量。</p>
-<h4 id="键路径"><a href="#键路径" class="headerlink" title="键路径"></a>键路径</h4><p>可以使用 <code>valueForKeyPath:</code>和<code>setValue:forKeyPath:</code>来通过键路径访问属性。键路径可以包含嵌套关系，如下所示：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[car setValue:@(<span class="number">200</span>) forKeyPath:<span class="string">@"engine.horsepower"</span>];</div></pre></td></tr></table></figure>
-<h4 id="KVC-实现高阶消息传递"><a href="#KVC-实现高阶消息传递" class="headerlink" title="KVC 实现高阶消息传递"></a>KVC 实现高阶消息传递</h4><p>如果键路径中有 NSArray 或 NSSet 这样的容器类属性，则该键路径的其余部分将被发送给容器类的每个对象。而不是对容器本身进行操作。结果会被添加进返回的容器中。这样可以方便的用一个容器对象创建另一个容器对象。示例如下：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSArray</span> *array = @[<span class="string">@"foo"</span>,<span class="string">@"bar"</span>,<span class="string">@"ted"</span>];</div><div class="line"><span class="built_in">NSArray</span> *capitals = [array valueForKey:<span class="string">@"capitalizedString"</span>];</div></pre></td></tr></table></figure>
-<p>把消息(capitalizedString)作为参数传递称为高阶消息传递。</p>
-<h4 id="容器操作符"><a href="#容器操作符" class="headerlink" title="容器操作符"></a>容器操作符</h4><p>键路径不仅能引用对象值，还可以引用一些运算符来进行一些运算。如：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSArray</span> *array = @[<span class="string">@"foo"</span>,<span class="string">@"bar"</span>,<span class="string">@"ted"</span>];</div><div class="line"><span class="built_in">NSInteger</span> totalLength = [[array valueForKeyPath:<span class="string">@"@sum.length"</span>] intValue];</div></pre></td></tr></table></figure>
-<p><code>@sum</code>是一个操作符，对指定的属性(length)求和。key path 中的 @ 符号代表了一个特定的集合方法。具体的使用也可以参考 NSHipster 的这篇文章：<a href="http://nshipster.cn/kvc-collection-operators/" target="_blank" rel="external">KVC Collection Operators</a>。 KVC 能非常轻松的处理集合类，但是它需要解析字符串来计算你想要的答案，所以通常速度比较慢。</p>
-<h4 id="nil"><a href="#nil" class="headerlink" title="nil"></a>nil</h4><p>对于标量值的属性，如果使用 nil 作为参数调用<code>setValue:forKey:</code>，那么键会被传递给<code>setNilValueForKey:</code>方法，如果该对象支持标量值属性这是为 nil，则需要实现这个方法。默认的行为是抛出异常。<br>对 NSDictionary 对象的<code>setObject:forKey:</code>方法传入 nil 值，会发出警告。但是若使用<code>setValue:forKey:</code>传入 nil 值，则会把对应键的值从字典中删除。</p>
-<h3 id="KVO"><a href="#KVO" class="headerlink" title="KVO"></a>KVO</h3><p>Cocoa 有若干观察者机制，包括委托和 NSNotification，但是 KVO 的开销更小，被观察的对象允许其他对象去监听它的某个属性的改变，并且不需要有任何额外的代码来通知观察者，而如果没有观察者，KVO 就没有运行时的消耗，只有对象被真正观察时，KVO 系统才添加通知代码。<br>关于 KVO 的基本使用可以看看南峰子的这篇博客：<a href="http://southpeak.github.io/2015/04/23/cocoa-foundation-nskeyvalueobserving/" target="_blank" rel="external">Foundation: NSKeyValueObserving(KVO)</a>。</p>
-<h4 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h4><p>要让一个对象监听另一个对象属性的变化，首先被观察对象要添加观察者对象为其相关属性的观察者。调用方法如下：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)addObserver:(<span class="built_in">NSObject</span> *)observer </div><div class="line">         forKeyPath:(<span class="built_in">NSString</span> *)keyPath </div><div class="line">            options:(<span class="built_in">NSKeyValueObservingOptions</span>)options </div><div class="line">            context:(<span class="keyword">nullable</span> <span class="keyword">void</span> *)context;</div></pre></td></tr></table></figure>
-<p>注册 KVO 时，要给 context 传递进去一个随机数据。因为一个类只能有一个 KVO 回调，所以可能收到父类注册的属性变化事件。如果是这样，需要把回调传递给 super。不幸的是，我们不能总是传递给 super,因为 NSObject 可能会抛出异常，所以要用唯一的 context 来识别观察的事件。</p>
-<h4 id="KVO-和-容器类"><a href="#KVO-和-容器类" class="headerlink" title="KVO 和 容器类"></a>KVO 和 容器类</h4><p>观察容器类和观察其中的对象是不同的。如果一个容器中包含了 Adam, Bob 和 Carol,那么增加 Denise 就改变了容器，而改变 Adam 不会改变容器。如果要观察容器中的对象的改变，必须观察那些对象，而不是容器本身。一般来讲，可以先观察容器，在添加对象后观察对象，而在删除对象后停止观察对象。</p>
-<h4 id="KVO的实现"><a href="#KVO的实现" class="headerlink" title="KVO的实现"></a>KVO的实现</h4><p>在一个被观察属性发生改变之前，<code>willChangeValueForKey:</code>会被调用，这就会记录旧的值。而当改变发生后，<code>didChangeValueForKey:</code>会被调用，继而观察者的<code>observeValueForKey:ofObject:change:context:</code>也会被调用。<br>第一次对一个对象调用<code>addObserver:forKeyPath:options:context:</code>时，框架会创建这个类的新的 KVO 子类，并将被观察对象转换为新子类的对象。在这个特殊的子类中创建对观察属性的设置方法。这种继承和方法注入式在<strong>运行时而不是编译时</strong>实现的。</p>
-<p>当你不是某个键路径的观察者而调用<code>removeObserver:forKeyPath:context:</code>时会发生崩溃，所以你必须追踪自己观察的属性。</p>
 
           
         
@@ -900,7 +1204,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -922,7 +1226,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="iOS,Objective-C,源码," />
+  <meta name="keywords" content="iOS,Objective-C,Foundation," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="How is SDWebImage better than X?开篇，我先翻译一下 SDWebImage 官方介绍中的这篇文章：How is SDWebImage better than X?  从 iOS5.0 开始 NSURLCache 会处理磁盘缓存，那么使用 SDWebImage 相比于单纯使用 NSURLRequest 强在哪里呢？  确实从iOS5.0开始，NSURLCache 会在内">
-<meta name="keywords" content="iOS,Objective-C,源码">
+<meta name="description" content="Blocks除了函数中的代码，代码块还包含变量绑定。代码块包含两种类型的绑定：automatic binding 使用的是栈中的内存，而 managed binding 是通过堆创建的。 Blocks 是 C 语言的扩展功能，是带有自动变量（局部变量）的匿名函数。这一概念在其他程序语言中也称为闭包（Closure）、Lambda等。C 语言标准不允许不带有名称的函数，想要不通过函数名来调用函数可以">
+<meta name="keywords" content="iOS,Objective-C,Foundation">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SDWebImage 源码分析">
-<meta property="og:url" content="http://yoursite.com/2017/11/28/SDWebImage源码分析/index.html">
+<meta property="og:title" content="Block与GCD学习总结">
+<meta property="og:url" content="http://yoursite.com/2018/01/20/Block与GCD学习总结/index.html">
 <meta property="og:site_name" content="Deep Thought">
-<meta property="og:description" content="How is SDWebImage better than X?开篇，我先翻译一下 SDWebImage 官方介绍中的这篇文章：How is SDWebImage better than X?  从 iOS5.0 开始 NSURLCache 会处理磁盘缓存，那么使用 SDWebImage 相比于单纯使用 NSURLRequest 强在哪里呢？  确实从iOS5.0开始，NSURLCache 会在内">
+<meta property="og:description" content="Blocks除了函数中的代码，代码块还包含变量绑定。代码块包含两种类型的绑定：automatic binding 使用的是栈中的内存，而 managed binding 是通过堆创建的。 Blocks 是 C 语言的扩展功能，是带有自动变量（局部变量）的匿名函数。这一概念在其他程序语言中也称为闭包（Closure）、Lambda等。C 语言标准不允许不带有名称的函数，想要不通过函数名来调用函数可以">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-30T08:39:44.512Z">
+<meta property="og:updated_time" content="2018-01-30T08:40:18.057Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SDWebImage 源码分析">
-<meta name="twitter:description" content="How is SDWebImage better than X?开篇，我先翻译一下 SDWebImage 官方介绍中的这篇文章：How is SDWebImage better than X?  从 iOS5.0 开始 NSURLCache 会处理磁盘缓存，那么使用 SDWebImage 相比于单纯使用 NSURLRequest 强在哪里呢？  确实从iOS5.0开始，NSURLCache 会在内">
+<meta name="twitter:title" content="Block与GCD学习总结">
+<meta name="twitter:description" content="Blocks除了函数中的代码，代码块还包含变量绑定。代码块包含两种类型的绑定：automatic binding 使用的是栈中的内存，而 managed binding 是通过堆创建的。 Blocks 是 C 语言的扩展功能，是带有自动变量（局部变量）的匿名函数。这一概念在其他程序语言中也称为闭包（Closure）、Lambda等。C 语言标准不允许不带有名称的函数，想要不通过函数名来调用函数可以">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/11/28/SDWebImage源码分析/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/20/Block与GCD学习总结/"/>
 
 
 
 
 
-  <title>SDWebImage 源码分析 | Deep Thought</title>
+  <title>Block与GCD学习总结 | Deep Thought</title>
   
 
 
@@ -263,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/28/SDWebImage源码分析/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/20/Block与GCD学习总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="姚七六">
@@ -280,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">SDWebImage 源码分析</h1>
+          <h1 class="post-title" itemprop="name headline">Block与GCD学习总结</h1>
         
 
         <div class="post-meta">
@@ -292,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-28T09:42:15+08:00">
-                2017-11-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-20T16:38:36+08:00">
+                2018-01-20
               </time>
             
 
@@ -315,8 +315,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/源码分析/" itemprop="url" rel="index">
-                    <span itemprop="name">源码分析</span>
+                  <a href="/categories/iOS-拾遗/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS 拾遗</span>
                   </a>
                 </span>
 
@@ -352,18 +352,20 @@
       
 
       
-        <h2 id="How-is-SDWebImage-better-than-X"><a href="#How-is-SDWebImage-better-than-X" class="headerlink" title="How is SDWebImage better than X?"></a>How is SDWebImage better than X?</h2><p>开篇，我先翻译一下 SDWebImage 官方介绍中的这篇文章：<a href="https://github.com/rs/SDWebImage/wiki/How-is-SDWebImage-better-than-X%3F" target="_blank" rel="external">How is SDWebImage better than X?</a></p>
+        <h2 id="Blocks"><a href="#Blocks" class="headerlink" title="Blocks"></a>Blocks</h2><p>除了函数中的代码，代码块还包含变量绑定。代码块包含两种类型的绑定：automatic binding 使用的是栈中的内存，而 managed binding 是通过堆创建的。</p>
+<p>Blocks 是 C 语言的扩展功能，是带有<strong>自动变量（局部变量）</strong>的<strong>匿名函数</strong>。这一概念在其他程序语言中也称为闭包（Closure）、Lambda等。<br>C 语言标准不允许不带有名称的函数，想要不通过函数名来调用函数可以如下所示：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> count + <span class="number">1</span>;</div><div class="line">&#125;</div><div class="line">    </div><div class="line"><span class="keyword">int</span> (*funcptr)(<span class="keyword">int</span>) = &amp;func;</div><div class="line"><span class="keyword">int</span> result = (*funcptr)(<span class="number">10</span>);</div></pre></td></tr></table></figure>
+<p>但是其实在赋值函数指针时，还是用到了函数的名称。<br>Blocks 还提供了类似 C++ 和 Objective-C 类生成实例或对象来保持变量值的方法，它保持自动变量的值。(避免了声明类的大量代码，也没有使用静态变量、静态全局变量或全局变量时，访问的总是同一个值的问题。)<br>Block 在被创建时会截获当前的自动变量值，在封闭范围内的自动变量会被保存为常量。要想在 Block 中修改它们的值，需要用 <strong>block 声明为可修改的。但是长度可变的数组或包含长度可变数组的结构体是无法声明为 </strong>block 的。<br>如果捕获的自动变量是 Objective-C 对象呢？</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSMutableArray</span> *array = [<span class="built_in">NSMutableArray</span> array];</div><div class="line"><span class="keyword">void</span> (^blk)(<span class="keyword">void</span>) =^&#123;</div><div class="line">    <span class="keyword">id</span> obj = [[<span class="built_in">NSObject</span> alloc] init];</div><div class="line">    [array addObject:obj];<span class="comment">//可以访问、修改该对象。</span></div><div class="line">    <span class="comment">//array = [NSMutableArray array];//但不能赋值。</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>是因为 Block 捕获的是指向该对象的指针，而不是对象本身。所以对该对象的操作是可以的，改变 array 这个指针变量却是不可以的。如果要改变需加 __block 修饰符。<br>还有一点要注意，现在的 Block 并没有实现对 C 语言数组的捕获，如下所示：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//const char t[] = "hello";//会出错，改成使用指针就可以解决</span></div><div class="line"><span class="keyword">const</span> <span class="keyword">char</span> *t = <span class="string">"hello"</span>;</div><div class="line"><span class="keyword">void</span> (^blk)(<span class="keyword">void</span>) =^&#123;</div><div class="line">    printf(<span class="string">"%c\n"</span>,t[<span class="number">2</span>]);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h3 id="Blocks-的语法"><a href="#Blocks-的语法" class="headerlink" title="Blocks 的语法"></a>Blocks 的语法</h3><p>与函数指针<code>void(*my_func)(void)</code>类似，Block 有如下特征：1，返回类型可以手动声明也可以由编译器推导；2，具有指定类型的参数列表；3，拥有名称。只要把 * 替换成 ^ 就可以将上面的函数指针转换为一个 Block 的定义了:<br><code>int (^blk)(int) = ^int (int count){ return count + 1 };</code><br>使用 Block 时通常不需要创建一个 Block 变量，而是在代码中内联它的内容。而且返回值通常可以省略（没有参数时也可忽略参数列表），因此常见的 Block 如下所示：<br><code>^(int count){ return count + 1;};</code><br>在函数参数或返回值中使用 Block 类型变量时，记述起来很复杂，因此常用 typedef 来解决：<br><code>typedef int (^blk_t)(int);</code></p>
+<h2 id="并发性"><a href="#并发性" class="headerlink" title="并发性"></a>并发性</h2><p>利用并发性最基础的方法是使用 POSIX 线程来处理程序的不同该部分使其能够独立执行。因为线程是级别较低的 API 你必须手动管理。<br>mutex 是 mutual exclusion 的缩写，它指的是确保两个线程不会在同一时间进入临界区。<br>使用<code>performSelectorInBackground:withObject:</code>方法应该注意：1，这些方法运行在各自的线程里，因此你必须为这些 Cocoa 对象创建一个自动释放池，而主自动释放池是与主线程相关的。2，这些方法不能有返回值，而已最多只能有一个参数。方法执行结束后也不会通知你。</p>
+<h3 id="GCD"><a href="#GCD" class="headerlink" title="GCD"></a>GCD</h3><p>GCD 使用调度队列，只需写下你的代码，把它指派为一个队列，系统就会执行它了。一共有3中类型的队列：</p>
 <ul>
-<li><p>从 iOS5.0 开始 NSURLCache 会处理磁盘缓存，那么使用 SDWebImage 相比于单纯使用 NSURLRequest 强在哪里呢？</p>
-<blockquote>
-<p>确实从iOS5.0开始，NSURLCache 会在内存及磁盘中缓存 HTTP 响应的原始数据。但是每次缓存命中，应用都需要数据解析（HTTP 原始数据是编码的）、内存拷贝等大量的操作将原生的缓存数据转换进UIImage对象中。<br>另一方面，SDWebImage 在内存中缓存了 UIImage 对象，并在磁盘中存储了图片文件的原始压缩数据（已解码）。UIImage 对象使用 NSCache 按原样存储在内存中，所以在使用时并不需要拷贝，而且可以在应用或系统需要时随时释放内存。<br>除此之外，SDWebImageDecoder 将 UIImageView 首次使用 UIImage 对象的解压缩工作放在了后台线程中而不是通常的主线程中，可以减少主线程堵塞。<br>最后，SDWebImage 完全绕过了复杂且易出错的 HTTP 缓存控制配置，从而极大的加速了缓存查找。</p>
-</blockquote>
-</li>
-<li><p>既然 AFNetworking 为 UIImageView 提供了相似的功能，SDWebImage 还有用嘛？</p>
-<blockquote>
-<p>大概没啥用，AFNetworking 也是利用了基于 Foundation 框架的 URL 加载系统缓存:NSURLCache，还为 UIImageView 和 UIButton 提供了默认使用 NSCached 的可配置内存缓存。缓存行为可以根据相应的 NSURLRequest 来配置。AFNetworking 还提供了图片数据的后台解压缩等 SDWebImage 的特性。<br>因此如果你已经使用了 AFNetworking，而且只想要简单的异步图片加载分类，内置的 UIKIT 框架也够用了。</p>
-</blockquote>
-</li>
+<li>连续队列：每个连续队列都根据指派的顺序执行任务，可以创建任意数量的连续队列，它们会并行操作任务。</li>
+<li>并发队列：每个并发队列都能并发执行一个或多个任务，任务会根据指派到队列的顺序开始执行。</li>
+<li>主队列： 执行应用程序中主线程的任务。</li>
 </ul>
 
       
@@ -386,7 +388,7 @@
           
             <a href="/tags/Objective-C/" rel="tag"># Objective-C</a>
           
-            <a href="/tags/源码/" rel="tag"># 源码</a>
+            <a href="/tags/Foundation/" rel="tag"># Foundation</a>
           
         </div>
       
@@ -399,8 +401,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/22/Objective-C 回忆录/" rel="next" title="Objective-C 回忆录">
-                <i class="fa fa-chevron-left"></i> Objective-C 回忆录
+              <a href="/2017/12/15/KVC-KVO学习总结/" rel="next" title="KVC/KVO学习总结">
+                <i class="fa fa-chevron-left"></i> KVC/KVO学习总结
               </a>
             
           </div>
@@ -408,10 +410,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/12/15/KVC-KVO学习总结/" rel="prev" title="KVC/KVO学习总结">
-                KVC/KVO学习总结 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -581,7 +579,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#How-is-SDWebImage-better-than-X"><span class="nav-number">1.</span> <span class="nav-text">How is SDWebImage better than X?</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Blocks"><span class="nav-number">1.</span> <span class="nav-text">Blocks</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Blocks-的语法"><span class="nav-number">1.1.</span> <span class="nav-text">Blocks 的语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发性"><span class="nav-number">2.</span> <span class="nav-text">并发性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GCD"><span class="nav-number">2.1.</span> <span class="nav-text">GCD</span></a></li></ol></li></ol></div>
             
 
           </div>
