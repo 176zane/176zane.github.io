@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="iOS,Objective-C," />
+  <meta name="keywords" content="iOS,Objective-C,翻译," />
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="简介Objective-C 语言将尽可能多的决定从编译期和链接期推迟到运行时。它尽可能的动态化。这就意味着这门语言不仅需要编译器还需要运行时系统来执行它编译好的代码。运行时系统对于 Objective-C 语言来说就像操作系统一样来使它运行起来。 这篇文档着眼于NSObject类和 Objective-C 程序如何与运行时系统交互。重点探讨了在运行时动态加载新类的范例，将消息转发给其他对象。还有对">
-<meta name="keywords" content="iOS,Objective-C">
+<meta name="keywords" content="iOS,Objective-C,翻译">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【翻译】Objective-C Runtime Programming Guide">
 <meta property="og:url" content="http://yoursite.com/2017/11/03/【翻译】Objective-C Runtime Programming Guide/index.html">
@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Art/messaging1.gif">
 <meta property="og:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Art/forwarding.gif">
-<meta property="og:updated_time" content="2018-04-14T14:23:12.885Z">
+<meta property="og:updated_time" content="2018-04-24T08:41:43.936Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【翻译】Objective-C Runtime Programming Guide">
 <meta name="twitter:description" content="简介Objective-C 语言将尽可能多的决定从编译期和链接期推迟到运行时。它尽可能的动态化。这就意味着这门语言不仅需要编译器还需要运行时系统来执行它编译好的代码。运行时系统对于 Objective-C 语言来说就像操作系统一样来使它运行起来。 这篇文档着眼于NSObject类和 Objective-C 程序如何与运行时系统交互。重点探讨了在运行时动态加载新类的范例，将消息转发给其他对象。还有对">
@@ -345,10 +345,11 @@
       
 
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Objective-C 语言将尽可能多的决定从编译期和链接期推迟到运行时。它尽可能的动态化。这就意味着这门语言不仅需要编译器还需要运行时系统来执行它编译好的代码。运行时系统对于 Objective-C 语言来说就像操作系统一样来使它运行起来。</p>
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Objective-C 语言将尽可能多的决定从编译期和链接期推迟到运行时。它尽可能的动态化。这就意味着这门语言不仅需要编译器还需要运行时系统来执行它编译好的代码。运行时系统对于 Objective-C 语言来说就像操作系统一样来使它运行起来。</p>
 <p>这篇文档着眼于<code>NSObject</code>类和 Objective-C 程序如何与运行时系统交互。重点探讨了在运行时动态加载新类的范例，将消息转发给其他对象。还有对在程序运行时如何查找对象的有关信息提供了相关资料。</p>
 <p>你可以通过阅读此文档来了解 Objective-C 运行时系统是如何工作的以及如何利用它。同时，你几乎不需要了解这篇文档就可以写 cocoa 应用了。</p>
-<h2 id="不同平台与版本的运行时系统"><a href="#不同平台与版本的运行时系统" class="headerlink" title="不同平台与版本的运行时系统"></a>不同平台与版本的运行时系统</h2><h3 id="遗留版本与现代版本"><a href="#遗留版本与现代版本" class="headerlink" title="遗留版本与现代版本"></a>遗留版本与现代版本</h3><p>现在同时存在着两个版本的运行时系统：“现代版本”和“遗留版本”，现代版本是与 Objective-C 2.0以及很多其他特性一起引入的。遗留版本的编程接口可以在 Objective-C 1 Runtime Reference 中查看。现代版本的编程接口可以在 <a href="https://developer.apple.com/documentation/objectivec/objective_c_runtime?language=objc" target="_blank" rel="external">Objective-C Runtime</a>这里查看。</p>
+<h1 id="不同平台与版本的运行时系统"><a href="#不同平台与版本的运行时系统" class="headerlink" title="不同平台与版本的运行时系统"></a>不同平台与版本的运行时系统</h1><p>不同的平台上使用着不同版本的运行时系统。</p>
+<h2 id="遗留版本与现代版本"><a href="#遗留版本与现代版本" class="headerlink" title="遗留版本与现代版本"></a>遗留版本与现代版本</h2><p>现在同时存在着两个版本的运行时系统：“现代版本”和“遗留版本”，现代版本是与 Objective-C 2.0以及很多其他特性一起引入的。遗留版本的编程接口可以在 Objective-C 1 Runtime Reference 中查看。现代版本的编程接口可以在 <a href="https://developer.apple.com/documentation/objectivec/objective_c_runtime?language=objc" target="_blank" rel="external">Objective-C Runtime</a>这里查看。</p>
 <p>现代版本的运行时系统最值得注意的地方在于实例变量是“稳固的”：</p>
 <ul>
 <li>在遗留版本的运行时系统中，如果你改变了一个类的实例变量的布局，你就得重新编译所有继承于此类的类。</li>
@@ -356,6 +357,7 @@
 </ul>
 <p>除此之外，现代版本的运行时系统支持已声明属性的实例变量的自动合成。</p>
 <h3 id="不同平台的版本"><a href="#不同平台的版本" class="headerlink" title="不同平台的版本"></a>不同平台的版本</h3><p>iphone 应用程序和 OS X 10.5 之后的 64 位程序都使用现代版本的运行时系统。</p>
+<p>其他程序（OS X 上的 32 位应用）使用了遗留版本的运行时系统。</p>
 <h2 id="与运行时系统交互"><a href="#与运行时系统交互" class="headerlink" title="与运行时系统交互"></a>与运行时系统交互</h2><p>Objective-C 程序可以在三个不同的层次上与运行时系统进行交互：通过 Objective-C 源代码；通过 Foundation 框架中<code>NSObject</code>类中定义的方法；通过直接调用运行时函数。</p>
 <h3 id="Objective-C-源代码"><a href="#Objective-C-源代码" class="headerlink" title="Objective-C 源代码"></a>Objective-C 源代码</h3><p>大多数情况下，运行时系统都是在幕后自动工作的，你仅仅需要编写和编译 Objective-C 源代码。</p>
 <p>当你编译包含 Objective-C 类和方法的代码时，编译器会创建实现该语言动态特征的数据结构和函数调用。数据结构中会包含类和分类的定义以及协议声明中的信息。其中有《The Objective-C Programming Language》中<code>Defining a Class and Protocols</code>章节中讨论过的类和协议对象，以及方法选择器，实例变量模板及其他从源代码中提取出的信息。最基本的运行时方法是在<a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html#//apple_ref/doc/uid/TP40008048-CH104-SW1" target="_blank" rel="external">Messaging</a>中描述的发送消息的方法。它通过源代码中的消息表达式调用。</p>
@@ -876,6 +878,8 @@
           
             <a href="/tags/Objective-C/" rel="tag"># Objective-C</a>
           
+            <a href="/tags/翻译/" rel="tag"># 翻译</a>
+          
         </div>
       
 
@@ -1002,7 +1006,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1069,7 +1073,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不同平台与版本的运行时系统"><span class="nav-number">2.</span> <span class="nav-text">不同平台与版本的运行时系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#遗留版本与现代版本"><span class="nav-number">2.1.</span> <span class="nav-text">遗留版本与现代版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不同平台的版本"><span class="nav-number">2.2.</span> <span class="nav-text">不同平台的版本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与运行时系统交互"><span class="nav-number">3.</span> <span class="nav-text">与运行时系统交互</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Objective-C-源代码"><span class="nav-number">3.1.</span> <span class="nav-text">Objective-C 源代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NSObject-方法"><span class="nav-number">3.2.</span> <span class="nav-text">NSObject 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时函数"><span class="nav-number">3.3.</span> <span class="nav-text">运行时函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送消息"><span class="nav-number">4.</span> <span class="nav-text">发送消息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#objc-msgSend-函数"><span class="nav-number">4.1.</span> <span class="nav-text">objc_msgSend 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用隐藏参数"><span class="nav-number">4.2.</span> <span class="nav-text">使用隐藏参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取一个方法的地址"><span class="nav-number">4.3.</span> <span class="nav-text">获取一个方法的地址</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态方法解析"><span class="nav-number">5.</span> <span class="nav-text">动态方法解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#动态方法解析-1"><span class="nav-number">5.1.</span> <span class="nav-text">动态方法解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态加载"><span class="nav-number">5.2.</span> <span class="nav-text">动态加载</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息转发"><span class="nav-number">6.</span> <span class="nav-text">消息转发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#转发"><span class="nav-number">6.1.</span> <span class="nav-text">转发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#转发与多重继承"><span class="nav-number">6.2.</span> <span class="nav-text">转发与多重继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代理对象"><span class="nav-number">6.3.</span> <span class="nav-text">代理对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#转发和继承"><span class="nav-number">6.4.</span> <span class="nav-text">转发和继承</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型编码"><span class="nav-number">7.</span> <span class="nav-text">类型编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#已声明的属性"><span class="nav-number">8.</span> <span class="nav-text">已声明的属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#属性类型和函数"><span class="nav-number">8.1.</span> <span class="nav-text">属性类型和函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性类型字符串"><span class="nav-number">8.2.</span> <span class="nav-text">属性类型字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性特性描述示例"><span class="nav-number">8.3.</span> <span class="nav-text">属性特性描述示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修正历史"><span class="nav-number">9.</span> <span class="nav-text">修正历史</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#不同平台与版本的运行时系统"><span class="nav-number">2.</span> <span class="nav-text">不同平台与版本的运行时系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#遗留版本与现代版本"><span class="nav-number">2.1.</span> <span class="nav-text">遗留版本与现代版本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#不同平台的版本"><span class="nav-number">2.1.1.</span> <span class="nav-text">不同平台的版本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与运行时系统交互"><span class="nav-number">2.2.</span> <span class="nav-text">与运行时系统交互</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Objective-C-源代码"><span class="nav-number">2.2.1.</span> <span class="nav-text">Objective-C 源代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NSObject-方法"><span class="nav-number">2.2.2.</span> <span class="nav-text">NSObject 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时函数"><span class="nav-number">2.2.3.</span> <span class="nav-text">运行时函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送消息"><span class="nav-number">2.3.</span> <span class="nav-text">发送消息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#objc-msgSend-函数"><span class="nav-number">2.3.1.</span> <span class="nav-text">objc_msgSend 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用隐藏参数"><span class="nav-number">2.3.2.</span> <span class="nav-text">使用隐藏参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取一个方法的地址"><span class="nav-number">2.3.3.</span> <span class="nav-text">获取一个方法的地址</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态方法解析"><span class="nav-number">2.4.</span> <span class="nav-text">动态方法解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#动态方法解析-1"><span class="nav-number">2.4.1.</span> <span class="nav-text">动态方法解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态加载"><span class="nav-number">2.4.2.</span> <span class="nav-text">动态加载</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息转发"><span class="nav-number">2.5.</span> <span class="nav-text">消息转发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#转发"><span class="nav-number">2.5.1.</span> <span class="nav-text">转发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#转发与多重继承"><span class="nav-number">2.5.2.</span> <span class="nav-text">转发与多重继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代理对象"><span class="nav-number">2.5.3.</span> <span class="nav-text">代理对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#转发和继承"><span class="nav-number">2.5.4.</span> <span class="nav-text">转发和继承</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型编码"><span class="nav-number">2.6.</span> <span class="nav-text">类型编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#已声明的属性"><span class="nav-number">2.7.</span> <span class="nav-text">已声明的属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#属性类型和函数"><span class="nav-number">2.7.1.</span> <span class="nav-text">属性类型和函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性类型字符串"><span class="nav-number">2.7.2.</span> <span class="nav-text">属性类型字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性特性描述示例"><span class="nav-number">2.7.3.</span> <span class="nav-text">属性特性描述示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修正历史"><span class="nav-number">2.8.</span> <span class="nav-text">修正历史</span></a></li></ol></li></ol></div>
             
 
           </div>

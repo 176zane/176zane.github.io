@@ -874,10 +874,11 @@
       
         
           
-            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Objective-C 语言将尽可能多的决定从编译期和链接期推迟到运行时。它尽可能的动态化。这就意味着这门语言不仅需要编译器还需要运行时系统来执行它编译好的代码。运行时系统对于 Objective-C 语言来说就像操作系统一样来使它运行起来。</p>
+            <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Objective-C 语言将尽可能多的决定从编译期和链接期推迟到运行时。它尽可能的动态化。这就意味着这门语言不仅需要编译器还需要运行时系统来执行它编译好的代码。运行时系统对于 Objective-C 语言来说就像操作系统一样来使它运行起来。</p>
 <p>这篇文档着眼于<code>NSObject</code>类和 Objective-C 程序如何与运行时系统交互。重点探讨了在运行时动态加载新类的范例，将消息转发给其他对象。还有对在程序运行时如何查找对象的有关信息提供了相关资料。</p>
 <p>你可以通过阅读此文档来了解 Objective-C 运行时系统是如何工作的以及如何利用它。同时，你几乎不需要了解这篇文档就可以写 cocoa 应用了。</p>
-<h2 id="不同平台与版本的运行时系统"><a href="#不同平台与版本的运行时系统" class="headerlink" title="不同平台与版本的运行时系统"></a>不同平台与版本的运行时系统</h2><h3 id="遗留版本与现代版本"><a href="#遗留版本与现代版本" class="headerlink" title="遗留版本与现代版本"></a>遗留版本与现代版本</h3><p>现在同时存在着两个版本的运行时系统：“现代版本”和“遗留版本”，现代版本是与 Objective-C 2.0以及很多其他特性一起引入的。遗留版本的编程接口可以在 Objective-C 1 Runtime Reference 中查看。现代版本的编程接口可以在 <a href="https://developer.apple.com/documentation/objectivec/objective_c_runtime?language=objc" target="_blank" rel="external">Objective-C Runtime</a>这里查看。</p>
+<h1 id="不同平台与版本的运行时系统"><a href="#不同平台与版本的运行时系统" class="headerlink" title="不同平台与版本的运行时系统"></a>不同平台与版本的运行时系统</h1><p>不同的平台上使用着不同版本的运行时系统。</p>
+<h2 id="遗留版本与现代版本"><a href="#遗留版本与现代版本" class="headerlink" title="遗留版本与现代版本"></a>遗留版本与现代版本</h2><p>现在同时存在着两个版本的运行时系统：“现代版本”和“遗留版本”，现代版本是与 Objective-C 2.0以及很多其他特性一起引入的。遗留版本的编程接口可以在 Objective-C 1 Runtime Reference 中查看。现代版本的编程接口可以在 <a href="https://developer.apple.com/documentation/objectivec/objective_c_runtime?language=objc" target="_blank" rel="external">Objective-C Runtime</a>这里查看。</p>
 <p>现代版本的运行时系统最值得注意的地方在于实例变量是“稳固的”：</p>
 <ul>
 <li>在遗留版本的运行时系统中，如果你改变了一个类的实例变量的布局，你就得重新编译所有继承于此类的类。</li>
@@ -885,6 +886,7 @@
 </ul>
 <p>除此之外，现代版本的运行时系统支持已声明属性的实例变量的自动合成。</p>
 <h3 id="不同平台的版本"><a href="#不同平台的版本" class="headerlink" title="不同平台的版本"></a>不同平台的版本</h3><p>iphone 应用程序和 OS X 10.5 之后的 64 位程序都使用现代版本的运行时系统。</p>
+<p>其他程序（OS X 上的 32 位应用）使用了遗留版本的运行时系统。</p>
 <h2 id="与运行时系统交互"><a href="#与运行时系统交互" class="headerlink" title="与运行时系统交互"></a>与运行时系统交互</h2><p>Objective-C 程序可以在三个不同的层次上与运行时系统进行交互：通过 Objective-C 源代码；通过 Foundation 框架中<code>NSObject</code>类中定义的方法；通过直接调用运行时函数。</p>
 <h3 id="Objective-C-源代码"><a href="#Objective-C-源代码" class="headerlink" title="Objective-C 源代码"></a>Objective-C 源代码</h3><p>大多数情况下，运行时系统都是在幕后自动工作的，你仅仅需要编写和编译 Objective-C 源代码。</p>
 <p>当你编译包含 Objective-C 类和方法的代码时，编译器会创建实现该语言动态特征的数据结构和函数调用。数据结构中会包含类和分类的定义以及协议声明中的信息。其中有《The Objective-C Programming Language》中<code>Defining a Class and Protocols</code>章节中讨论过的类和协议对象，以及方法选择器，实例变量模板及其他从源代码中提取出的信息。最基本的运行时方法是在<a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html#//apple_ref/doc/uid/TP40008048-CH104-SW1" target="_blank" rel="external">Messaging</a>中描述的发送消息的方法。它通过源代码中的消息表达式调用。</p>
@@ -1525,7 +1527,7 @@
       
         
           
-            <p>注：这篇基本上是重新翻看《Objective-C 基础教程》时的一些阅读笔记，内容偏入门级。熟悉 Objc 的就不需要翻啦 (ー`´ー)</p>
+            <p>注：这篇基本上是重新翻看《Objective-C 基础教程》时的一些阅读笔记，内容偏入门级。熟悉 Objc 的就不需要翻啦(ー`´ー)。</p>
 <h2 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h2><p>早在 20 世纪 80 年代初，Brad Cox 为了融合流行的、可移植的 C 语言和优雅的 Smalltalk 语言的优势，设计出了 Objective-C 语言，它是 C 语言的一个扩展集。1985年，Steve Jobs 创立了 NeXT 公司，他们使用 Objective-C 语言基于 Unix 开发了 NeXTSTEP 操作系统。而在 Apple 收购了 NeXT 之后，从 NeXTSTEP 和 OPENSTEP 编程环境演化出来了著名的 Cocoa 编程工具箱，从此 Cocoa 和 Objective-C 就成了 Apple 公司 OS X 和 iOS 操作系统的核心。</p>
 <h2 id="Objective-C-小知识点"><a href="#Objective-C-小知识点" class="headerlink" title="Objective-C 小知识点"></a>Objective-C 小知识点</h2><ul>
 <li>Xcode 通过 .m 扩展名来表示文件使用的时 Objective-C 代码，应由 Objective-C 编译器处理。而 C 编译器处理 .c 文件，C++ 编译器处理 .cpp 文件。所有这些编译工作默认由 LLVM 处理。（扩展名 .m 表示 message）</li>
@@ -1544,8 +1546,7 @@
 <p><img src="http://oztca4xvs.bkt.clouddn.com/支持继承程序中的方法调度.png" alt="支持继承程序中的方法调度"></p>
 <h3 id="实例变量"><a href="#实例变量" class="headerlink" title="实例变量"></a>实例变量</h3><p>在创建一个新类时，其对象首先会从它的超类继承实例变量，然后根据自身情况添加自己的实例变量。</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">RoundedRectangle</span> : <span class="title">Shape</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> radius;</div><div class="line">&#125;</div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
-<p>下图展示了RoundedRectangle对象的内存布局。<br><img src="http://oztca4xvs.bkt.clouddn.com/对象中实例变量的布局.png" alt="对象中实例变量的布局"><br>最上面是 NSObject 对象声明的名为 isa 的实例变量，它保存着指向对象当前类的指针，接下来是由 Shape 类声明的两个实例变量 fillColor 和 bounds，最后是由 RoundedRectangle 类声明的实例变量 radius。<br>每个方法调用都获得了一个名为 self 的隐藏参数，它是一个指向接收消息的对象的指针，self 指向继承链中第一个类的第一个实例变量，如上图所示也就是 isa 变量。因为编译器已经看到了所有这些类的 @interface 声明，也就知道了对象中的实例变量的布局，根据这个<strong>基地址再加上偏移地址</strong>，编译器就可以查找其他实例变量的位置了。<br><strong>脆弱的基类问题</strong>：在 Snow Leopard 和 iOS4.0 系统中引入 64 位的 Objective-C 运行时之前，即使苹果工程师想在 NSObject 中添加其他的实例变量也是无法做到的，因为在编译器生成的程序中，那些偏移位置是通过硬编码实现的。在引入运行时之后它使用<strong>间接寻址方式</strong>确定了变量的位置（把<strong>实例变量当做一种存储偏移量所用的特殊变量</strong>，交由<strong>类对象</strong>管理，偏移量会在运行时查找，如果类的定义变了，那么存储的偏移量也就变了。因此任何时候都能访问到实例变量正确的偏移量，甚至可以在运行时向类中新增实例变量,这就是<strong>稳固的 ABI</strong> 机制，通过这个机制我们可以在类扩展或实现文件中定义实例变量），从而解决了这个问题。示例代码如下：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;objc/runtime.h&gt;</span></span></div><div class="line"><span class="meta">#import <span class="meta-string">&lt;Foundation/Foundation.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NSObject</span> (<span class="title">AssociatedObject</span>)</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="keyword">id</span> associatedObject;</div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">NSObject</span> (<span class="title">AssociatedObject</span>)</span></div><div class="line"><span class="keyword">@dynamic</span> associatedObject;<span class="comment">//@dynamic指令用于告诉编译器不要自动生成 setter 和 getter 方法，不要自动创建实现属性所用的实例变量。</span></div><div class="line">- (<span class="keyword">void</span>)setAssociatedObject:(<span class="keyword">id</span>)object &#123;</div><div class="line">    objc_setAssociatedObject(<span class="keyword">self</span>, <span class="keyword">@selector</span>(associatedObject), object, OBJC_ASSOCIATION_RETAIN_NONATOMIC);</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(<span class="keyword">id</span>)associatedObject &#123;</div><div class="line">    <span class="keyword">return</span> objc_getAssociatedObject(<span class="keyword">self</span>, <span class="keyword">@selector</span>(associatedObject));</div><div class="line">&#125;</div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<p>下图展示了RoundedRectangle对象的内存布局。<br><img src="http://oztca4xvs.bkt.clouddn.com/对象中实例变量的布局.png" alt="对象中实例变量的布局"><br>最上面是 NSObject 对象声明的名为 isa 的实例变量，它保存着指向对象当前类的指针，接下来是由 Shape 类声明的两个实例变量 fillColor 和 bounds，最后是由 RoundedRectangle 类声明的实例变量 radius。<br>每个方法调用都获得了一个名为 self 的隐藏参数，它是一个指向接收消息的对象的指针，self 指向继承链中第一个类的第一个实例变量，如上图所示也就是 isa 变量。因为编译器已经看到了所有这些类的 @interface 声明，也就知道了对象中的实例变量的布局，根据这个<strong>基地址再加上偏移地址</strong>，编译器就可以查找其他实例变量的位置了。<br><strong>脆弱的基类问题</strong>：在 Snow Leopard 和 iOS4.0 系统中引入 64 位的 Objective-C 运行时之前，即使苹果工程师想在 NSObject 中添加其他的实例变量也是无法做到的，因为在编译器生成的程序中，那些<strong>偏移位置是通过硬编码</strong>实现的。在引入运行时之后它使用<strong>间接寻址方式</strong>确定了变量的位置（把<strong>实例变量当做一种存储偏移量所用的特殊变量</strong>，交由<strong>类对象</strong>管理，偏移量会在运行时查找，如果类的定义变了，那么存储的偏移量也就变了。因此任何时候都能访问到实例变量正确的偏移量，甚至可以在运行时向类中新增实例变量,这就是<strong>稳固的 ABI</strong> 机制，通过这个机制我们可以在类扩展或实现文件中定义实例变量），从而解决了这个问题。</p>
 <h3 id="super"><a href="#super" class="headerlink" title="super"></a>super</h3><p>为了调用继承的方法在父类中的实现，需要使用 super 作为方法调用的目标。super 既不是参数也不是实例变量。<strong>当你向 super 发送消息时，实际上是在请求 Objective-C 向该类的超类发送消息。</strong> 如果超类中没有定义该消息，Objective-C 会和平常一样继续在继承链上一级中查找。<br><img src="http://oztca4xvs.bkt.clouddn.com/调用超类的方法-1.png" alt="调用超类的方法"></p>
 <h3 id="存取方法"><a href="#存取方法" class="headerlink" title="存取方法"></a>存取方法</h3><p>如果要对其他对象中的属性进行操作，应该尽量使用对象提供的存取方法，绝对不能直接改变对象里面的值，例如：<code>main()</code>函数不应该直接访问 Car 类的 engine 实例变量（通过<code>car-&gt;engine</code>的方法）来改变 engine 的属性，而应该使用 setter 方法进行更改。<br><strong>在 Objective-C 中所有对象间的交互都是通过指针实现的。</strong></p>
 <h2 id="Foundation"><a href="#Foundation" class="headerlink" title="Foundation"></a>Foundation</h2><p>为什么诸如 CGRect, CGPoint, CGSize 等数据类型是 C 的 struct 而不是对象呢？原因在于性能！GUI 程序通常会使用许多临时的坐标、大小和矩形区域来完成工作。但是所有的 Objective-C对象都是动态分配的，而动态分配是一个代价较大的操作，它会消耗大量的时间。</p>
@@ -1904,7 +1905,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
