@@ -874,11 +874,11 @@
       
         
           
-            <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Objective-C 语言将尽可能多的决定从编译期和链接期推迟到运行时。它尽可能的动态化。这就意味着这门语言不仅需要编译器还需要运行时系统来执行它编译好的代码。运行时系统对于 Objective-C 语言来说就像操作系统一样来使它运行起来。</p>
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Objective-C 语言将尽可能多的决定从编译期和链接期推迟到运行时。它尽可能的动态化。这就意味着这门语言不仅需要编译器还需要运行时系统来执行它编译好的代码。运行时系统对于 Objective-C 语言来说就像操作系统一样来使它运行起来。</p>
 <p>这篇文档着眼于<code>NSObject</code>类和 Objective-C 程序如何与运行时系统交互。重点探讨了在运行时动态加载新类的范例，将消息转发给其他对象。还有对在程序运行时如何查找对象的有关信息提供了相关资料。</p>
 <p>你可以通过阅读此文档来了解 Objective-C 运行时系统是如何工作的以及如何利用它。同时，你几乎不需要了解这篇文档就可以写 cocoa 应用了。</p>
-<h1 id="不同平台与版本的运行时系统"><a href="#不同平台与版本的运行时系统" class="headerlink" title="不同平台与版本的运行时系统"></a>不同平台与版本的运行时系统</h1><p>不同的平台上使用着不同版本的运行时系统。</p>
-<h2 id="遗留版本与现代版本"><a href="#遗留版本与现代版本" class="headerlink" title="遗留版本与现代版本"></a>遗留版本与现代版本</h2><p>现在同时存在着两个版本的运行时系统：“现代版本”和“遗留版本”，现代版本是与 Objective-C 2.0以及很多其他特性一起引入的。遗留版本的编程接口可以在 Objective-C 1 Runtime Reference 中查看。现代版本的编程接口可以在 <a href="https://developer.apple.com/documentation/objectivec/objective_c_runtime?language=objc" target="_blank" rel="external">Objective-C Runtime</a>这里查看。</p>
+<h2 id="不同平台与版本的运行时系统"><a href="#不同平台与版本的运行时系统" class="headerlink" title="不同平台与版本的运行时系统"></a>不同平台与版本的运行时系统</h2><p>不同的平台上使用着不同版本的运行时系统。</p>
+<h3 id="遗留版本与现代版本"><a href="#遗留版本与现代版本" class="headerlink" title="遗留版本与现代版本"></a>遗留版本与现代版本</h3><p>现在同时存在着两个版本的运行时系统：“现代版本”和“遗留版本”，现代版本是与 Objective-C 2.0以及很多其他特性一起引入的。遗留版本的编程接口可以在 Objective-C 1 Runtime Reference 中查看。现代版本的编程接口可以在 <a href="https://developer.apple.com/documentation/objectivec/objective_c_runtime?language=objc" target="_blank" rel="external">Objective-C Runtime</a>这里查看。</p>
 <p>现代版本的运行时系统最值得注意的地方在于实例变量是“稳固的”：</p>
 <ul>
 <li>在遗留版本的运行时系统中，如果你改变了一个类的实例变量的布局，你就得重新编译所有继承于此类的类。</li>
@@ -1527,7 +1527,7 @@
       
         
           
-            <p>注：这篇基本上是重新翻看《Objective-C 基础教程》时的一些阅读笔记，内容偏入门级。熟悉 Objc 的就不需要翻啦(ー`´ー)。</p>
+            <p>注：这篇基本上是重新翻看《Objective-C 基础教程》时的一些阅读笔记，内容偏入门级。熟悉 ObjC 的就不需要翻啦(ー`´ー)。</p>
 <h2 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h2><p>早在 20 世纪 80 年代初，Brad Cox 为了融合流行的、可移植的 C 语言和优雅的 Smalltalk 语言的优势，设计出了 Objective-C 语言，它是 C 语言的一个扩展集。1985年，Steve Jobs 创立了 NeXT 公司，他们使用 Objective-C 语言基于 Unix 开发了 NeXTSTEP 操作系统。而在 Apple 收购了 NeXT 之后，从 NeXTSTEP 和 OPENSTEP 编程环境演化出来了著名的 Cocoa 编程工具箱，从此 Cocoa 和 Objective-C 就成了 Apple 公司 OS X 和 iOS 操作系统的核心。</p>
 <h2 id="Objective-C-小知识点"><a href="#Objective-C-小知识点" class="headerlink" title="Objective-C 小知识点"></a>Objective-C 小知识点</h2><ul>
 <li>Xcode 通过 .m 扩展名来表示文件使用的时 Objective-C 代码，应由 Objective-C 编译器处理。而 C 编译器处理 .c 文件，C++ 编译器处理 .cpp 文件。所有这些编译工作默认由 LLVM 处理。（扩展名 .m 表示 message）</li>

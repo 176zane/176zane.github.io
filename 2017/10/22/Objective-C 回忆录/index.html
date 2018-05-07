@@ -79,23 +79,23 @@
 
 
 
-<meta name="description" content="注：这篇基本上是重新翻看《Objective-C 基础教程》时的一些阅读笔记，内容偏入门级。熟悉 Objc 的就不需要翻啦(ー`´ー)。 历史早在 20 世纪 80 年代初，Brad Cox 为了融合流行的、可移植的 C 语言和优雅的 Smalltalk 语言的优势，设计出了 Objective-C 语言，它是 C 语言的一个扩展集。1985年，Steve Jobs 创立了 NeXT 公司，他们使">
+<meta name="description" content="注：这篇基本上是重新翻看《Objective-C 基础教程》时的一些阅读笔记，内容偏入门级。熟悉 ObjC 的就不需要翻啦(ー`´ー)。 历史早在 20 世纪 80 年代初，Brad Cox 为了融合流行的、可移植的 C 语言和优雅的 Smalltalk 语言的优势，设计出了 Objective-C 语言，它是 C 语言的一个扩展集。1985年，Steve Jobs 创立了 NeXT 公司，他们使">
 <meta name="keywords" content="iOS,Objective-C">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Objective-C 回忆录">
 <meta property="og:url" content="http://yoursite.com/2017/10/22/Objective-C 回忆录/index.html">
 <meta property="og:site_name" content="Deep Thought">
-<meta property="og:description" content="注：这篇基本上是重新翻看《Objective-C 基础教程》时的一些阅读笔记，内容偏入门级。熟悉 Objc 的就不需要翻啦(ー`´ー)。 历史早在 20 世纪 80 年代初，Brad Cox 为了融合流行的、可移植的 C 语言和优雅的 Smalltalk 语言的优势，设计出了 Objective-C 语言，它是 C 语言的一个扩展集。1985年，Steve Jobs 创立了 NeXT 公司，他们使">
+<meta property="og:description" content="注：这篇基本上是重新翻看《Objective-C 基础教程》时的一些阅读笔记，内容偏入门级。熟悉 ObjC 的就不需要翻啦(ー`´ー)。 历史早在 20 世纪 80 年代初，Brad Cox 为了融合流行的、可移植的 C 语言和优雅的 Smalltalk 语言的优势，设计出了 Objective-C 语言，它是 C 语言的一个扩展集。1985年，Steve Jobs 创立了 NeXT 公司，他们使">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oztca4xvs.bkt.clouddn.com/SEL-Methods-IMP.png">
 <meta property="og:image" content="http://oztca4xvs.bkt.clouddn.com/Objective-C中的真值类型和数值.png">
 <meta property="og:image" content="http://oztca4xvs.bkt.clouddn.com/支持继承程序中的方法调度.png">
 <meta property="og:image" content="http://oztca4xvs.bkt.clouddn.com/对象中实例变量的布局.png">
 <meta property="og:image" content="http://oztca4xvs.bkt.clouddn.com/调用超类的方法-1.png">
-<meta property="og:updated_time" content="2018-04-25T06:58:17.571Z">
+<meta property="og:updated_time" content="2018-05-04T09:18:52.703Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Objective-C 回忆录">
-<meta name="twitter:description" content="注：这篇基本上是重新翻看《Objective-C 基础教程》时的一些阅读笔记，内容偏入门级。熟悉 Objc 的就不需要翻啦(ー`´ー)。 历史早在 20 世纪 80 年代初，Brad Cox 为了融合流行的、可移植的 C 语言和优雅的 Smalltalk 语言的优势，设计出了 Objective-C 语言，它是 C 语言的一个扩展集。1985年，Steve Jobs 创立了 NeXT 公司，他们使">
+<meta name="twitter:description" content="注：这篇基本上是重新翻看《Objective-C 基础教程》时的一些阅读笔记，内容偏入门级。熟悉 ObjC 的就不需要翻啦(ー`´ー)。 历史早在 20 世纪 80 年代初，Brad Cox 为了融合流行的、可移植的 C 语言和优雅的 Smalltalk 语言的优势，设计出了 Objective-C 语言，它是 C 语言的一个扩展集。1985年，Steve Jobs 创立了 NeXT 公司，他们使">
 <meta name="twitter:image" content="http://oztca4xvs.bkt.clouddn.com/SEL-Methods-IMP.png">
 
 
@@ -348,7 +348,7 @@
       
 
       
-        <p>注：这篇基本上是重新翻看《Objective-C 基础教程》时的一些阅读笔记，内容偏入门级。熟悉 Objc 的就不需要翻啦(ー`´ー)。</p>
+        <p>注：这篇基本上是重新翻看《Objective-C 基础教程》时的一些阅读笔记，内容偏入门级。熟悉 ObjC 的就不需要翻啦(ー`´ー)。</p>
 <h2 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h2><p>早在 20 世纪 80 年代初，Brad Cox 为了融合流行的、可移植的 C 语言和优雅的 Smalltalk 语言的优势，设计出了 Objective-C 语言，它是 C 语言的一个扩展集。1985年，Steve Jobs 创立了 NeXT 公司，他们使用 Objective-C 语言基于 Unix 开发了 NeXTSTEP 操作系统。而在 Apple 收购了 NeXT 之后，从 NeXTSTEP 和 OPENSTEP 编程环境演化出来了著名的 Cocoa 编程工具箱，从此 Cocoa 和 Objective-C 就成了 Apple 公司 OS X 和 iOS 操作系统的核心。</p>
 <h2 id="Objective-C-小知识点"><a href="#Objective-C-小知识点" class="headerlink" title="Objective-C 小知识点"></a>Objective-C 小知识点</h2><ul>
 <li>Xcode 通过 .m 扩展名来表示文件使用的时 Objective-C 代码，应由 Objective-C 编译器处理。而 C 编译器处理 .c 文件，C++ 编译器处理 .cpp 文件。所有这些编译工作默认由 LLVM 处理。（扩展名 .m 表示 message）</li>
