@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="简介Objective-C 语言将尽可能多的决定从编译期和链接期推迟到运行时。它尽可能的动态化。这就意味着这门语言不仅需要编译器还需要运行时系统来执行它编译好的代码。运行时系统对于 Objective-C 语言来说就像操作系统一样来使它运行起来。 这篇文档着眼于NSObject类和 Objective-C 程序如何与运行时系统交互。重点探讨了在运行时动态加载新类的范例，将消息转发给其他对象。还有对">
+<meta name="description" content="原文地址：Objective-C Runtime Programming Guide 简介Objective-C 语言将尽可能多的决定从编译期和链接期推迟到运行时。它尽可能的动态化。这就意味着这门语言不仅需要编译器还需要运行时系统来执行它编译好的代码。运行时系统对于 Objective-C 语言来说就像操作系统一样来使它运行起来。 这篇文档着眼于NSObject类和 Objective-C 程序如">
 <meta name="keywords" content="iOS,Objective-C,翻译">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【翻译】Objective-C Runtime Programming Guide">
 <meta property="og:url" content="http://yoursite.com/2017/11/03/【翻译】Objective-C Runtime Programming Guide/index.html">
 <meta property="og:site_name" content="Deep Thought">
-<meta property="og:description" content="简介Objective-C 语言将尽可能多的决定从编译期和链接期推迟到运行时。它尽可能的动态化。这就意味着这门语言不仅需要编译器还需要运行时系统来执行它编译好的代码。运行时系统对于 Objective-C 语言来说就像操作系统一样来使它运行起来。 这篇文档着眼于NSObject类和 Objective-C 程序如何与运行时系统交互。重点探讨了在运行时动态加载新类的范例，将消息转发给其他对象。还有对">
+<meta property="og:description" content="原文地址：Objective-C Runtime Programming Guide 简介Objective-C 语言将尽可能多的决定从编译期和链接期推迟到运行时。它尽可能的动态化。这就意味着这门语言不仅需要编译器还需要运行时系统来执行它编译好的代码。运行时系统对于 Objective-C 语言来说就像操作系统一样来使它运行起来。 这篇文档着眼于NSObject类和 Objective-C 程序如">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Art/messaging1.gif">
 <meta property="og:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Art/forwarding.gif">
-<meta property="og:updated_time" content="2018-06-21T09:37:01.738Z">
+<meta property="og:updated_time" content="2018-07-06T01:48:25.220Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【翻译】Objective-C Runtime Programming Guide">
-<meta name="twitter:description" content="简介Objective-C 语言将尽可能多的决定从编译期和链接期推迟到运行时。它尽可能的动态化。这就意味着这门语言不仅需要编译器还需要运行时系统来执行它编译好的代码。运行时系统对于 Objective-C 语言来说就像操作系统一样来使它运行起来。 这篇文档着眼于NSObject类和 Objective-C 程序如何与运行时系统交互。重点探讨了在运行时动态加载新类的范例，将消息转发给其他对象。还有对">
+<meta name="twitter:description" content="原文地址：Objective-C Runtime Programming Guide 简介Objective-C 语言将尽可能多的决定从编译期和链接期推迟到运行时。它尽可能的动态化。这就意味着这门语言不仅需要编译器还需要运行时系统来执行它编译好的代码。运行时系统对于 Objective-C 语言来说就像操作系统一样来使它运行起来。 这篇文档着眼于NSObject类和 Objective-C 程序如">
 <meta name="twitter:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Art/messaging1.gif">
 
 
@@ -345,7 +345,8 @@
       
 
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Objective-C 语言将尽可能多的决定从编译期和链接期推迟到运行时。它尽可能的动态化。这就意味着这门语言不仅需要编译器还需要运行时系统来执行它编译好的代码。运行时系统对于 Objective-C 语言来说就像操作系统一样来使它运行起来。</p>
+        <p>原文地址：<a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html" target="_blank" rel="external">Objective-C Runtime Programming Guide</a></p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Objective-C 语言将尽可能多的决定从编译期和链接期推迟到运行时。它尽可能的动态化。这就意味着这门语言不仅需要编译器还需要运行时系统来执行它编译好的代码。运行时系统对于 Objective-C 语言来说就像操作系统一样来使它运行起来。</p>
 <p>这篇文档着眼于<code>NSObject</code>类和 Objective-C 程序如何与运行时系统交互。重点探讨了在运行时动态加载新类的范例，将消息转发给其他对象。还有对在程序运行时如何查找对象的有关信息提供了相关资料。</p>
 <p>你可以通过阅读此文档来了解 Objective-C 运行时系统是如何工作的以及如何利用它。同时，你几乎不需要了解这篇文档就可以写 cocoa 应用了。</p>
 <h2 id="不同平台与版本的运行时系统"><a href="#不同平台与版本的运行时系统" class="headerlink" title="不同平台与版本的运行时系统"></a>不同平台与版本的运行时系统</h2><p>不同的平台上使用着不同版本的运行时系统。</p>
