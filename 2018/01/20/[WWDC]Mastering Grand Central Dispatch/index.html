@@ -96,7 +96,7 @@
 <meta property="og:image" content="http://oztca4xvs.bkt.clouddn.com/2018-07-12 10_40_14.gif">
 <meta property="og:image" content="http://oztca4xvs.bkt.clouddn.com/target queue hierarchy.png">
 <meta property="og:image" content="http://oztca4xvs.bkt.clouddn.com/jump the queue.png">
-<meta property="og:updated_time" content="2018-07-17T06:46:15.448Z">
+<meta property="og:updated_time" content="2018-07-17T06:47:01.036Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【WWDC】Mastering Grand Central Dispatch">
 <meta name="twitter:description" content="前言本文是对Mastering Grand Central Dispatch WWDC2011 - Session 210以及 GCD 其他内容的学习笔记。 GCD 按照我的理解就是一个系统级的并发模型，通过这个模型你不再需要直接接触底层的“线程”和“锁”去编写大量的对线程安全要求很高的代码，而是在模型中将“执行任务的 Block”添加进合适的“调度队列（dispatch queue）”中就可以轻">
@@ -452,7 +452,7 @@
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建一个 dispatch source 来监控底层系统事件，当事件发生时，将相应的 handler block 提交到指定 queue 中。第一个参数为监控的时间类型，第二个参数是与第一个参数有关的信号编号，地灿哥参数也是与第一个参数有关的特定时间标志，第四个参数为提交 handler block 的 queue。这个创建过程是异步执行的。</span></div><div class="line">dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, <span class="number">0</span>, <span class="number">0</span>, dispatch_get_main_queue());</div><div class="line"><span class="comment">//设置定时器，第三个参数为间隔时间，这里设置为 DISPATCH_TIME_FOREVER 表示不需要重复。第四个参数为允许系统延迟的时间。注意即使该值为0，系统也可能会延迟这个定时器的执行。</span></div><div class="line">dispatch_source_set_timer(timer, dispatch_time(DISPATCH_TIME_NOW, <span class="number">2</span> * <span class="built_in">NSEC_PER_SEC</span>), DISPATCH_TIME_FOREVER, <span class="number">1</span> * <span class="built_in">NSEC_PER_SEC</span>);</div><div class="line"><span class="comment">//定时器指定时间所需要提交到 queue 中执行的任务 block</span></div><div class="line">dispatch_source_set_event_handler(timer, ^&#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"timer fired!"</span>);</div><div class="line">    <span class="comment">//可以使用 dispatch_source_cancel 来取消一个 dispatch source </span></div><div class="line">    dispatch_source_cancel(timer);</div><div class="line">&#125;);</div><div class="line"><span class="comment">//设置取消 dispatch source 时的处理，这个函数是异步执行的，取消之后就不会再有更多的 event 事件被传递，但是已经加入 queue 中的处理可以继续执行。</span></div><div class="line">dispatch_source_set_cancel_handler(timer, ^&#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"timer canceled"</span>);</div><div class="line">&#125;);</div><div class="line"><span class="comment">//dispatch source 创建后是处于 suspend 状态的，在设置完 event handler 等属性之后需要调用 dispatch_resume 开启</span></div><div class="line">dispatch_resume(timer);</div></pre></td></tr></table></figure>
 <p>Dispatch source 是不可重入的，任何在 dispatch source 处于 suspend 状态或者 event handler 正在执行的时候接收的事件都会被合并，并在 dispatch source resume 之后或者 handler 返回后被提交。</p>
 <p>Dispatch Source 与 Dispatch Queue 不同的是它是可以取消的，而且可以设置取消时的 handler。</p>
-<p>需要留意的一点是 dispatch source 在 suspend 状态下，如果直接设置 source = nil 或者重新创建 source 都会造成崩溃。正确的方式是在 resume 状态下调用<code>dispatch_source_cancel</code>后再重新创建</p>
+<p>需要留意的一点是 dispatch source 在 suspend 状态下，如果直接设置 source = nil 或者重新创建 source 都会造成崩溃。正确的方式是在 resume 状态下调用<code>dispatch_source_cancel</code>后再重新创建。</p>
 <h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>本文主要讨论了一些常用的 API,着重描述了使用时的一些注意点，容易导致问题的地方。阅读完会对iOS中使用 GCD 进行多线程编程有一个大概的认识。还有在一些其他情况下，诸如读取大文件等等也可使用 Dispatch I/O及 Dispatch Data 等，可以用时再去研究。</p>
 <p>#参考：</p>
 <ul>
@@ -588,7 +588,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
