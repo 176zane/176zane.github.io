@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="iOS,Objective-C,源码," />
+  <meta name="keywords" content="iOS," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="How is SDWebImage better than X?开篇，我先翻译一下 SDWebImage 官方介绍中的这篇文章：How is SDWebImage better than X?  从 iOS5.0 开始 NSURLCache 会处理磁盘缓存，那么使用 SDWebImage 相比于单纯使用 NSURLRequest 强在哪里呢？  确实从iOS5.0开始，NSURLCache 会在内">
-<meta name="keywords" content="iOS,Objective-C,源码">
+<meta name="description" content="WebView相关JavaScriptCore全面解析 （下篇）H5 和移动端 WebView 缓存机制解析与实战iOS 8 WebKit框架概览（上）iOS中UIWebView与WKWebView、JavaScript与OC交互、Cookie管理看我就够（上） JSPatchJSPatch 实现原理详解 加密与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (基础) Runlo">
+<meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SDWebImage 源码分析">
-<meta property="og:url" content="http://yoursite.com/2017/11/28/SDWebImage 源码分析/index.html">
+<meta property="og:title" content="iOS 常读常新的文章索引（持续更新）">
+<meta property="og:url" content="http://yoursite.com/2018/01/12/iOS 常读常新的博客文章（持续更新）/index.html">
 <meta property="og:site_name" content="Deep Thought">
-<meta property="og:description" content="How is SDWebImage better than X?开篇，我先翻译一下 SDWebImage 官方介绍中的这篇文章：How is SDWebImage better than X?  从 iOS5.0 开始 NSURLCache 会处理磁盘缓存，那么使用 SDWebImage 相比于单纯使用 NSURLRequest 强在哪里呢？  确实从iOS5.0开始，NSURLCache 会在内">
+<meta property="og:description" content="WebView相关JavaScriptCore全面解析 （下篇）H5 和移动端 WebView 缓存机制解析与实战iOS 8 WebKit框架概览（上）iOS中UIWebView与WKWebView、JavaScript与OC交互、Cookie管理看我就够（上） JSPatchJSPatch 实现原理详解 加密与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (基础) Runlo">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-21T09:37:04.338Z">
+<meta property="og:updated_time" content="2018-12-21T03:43:24.402Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SDWebImage 源码分析">
-<meta name="twitter:description" content="How is SDWebImage better than X?开篇，我先翻译一下 SDWebImage 官方介绍中的这篇文章：How is SDWebImage better than X?  从 iOS5.0 开始 NSURLCache 会处理磁盘缓存，那么使用 SDWebImage 相比于单纯使用 NSURLRequest 强在哪里呢？  确实从iOS5.0开始，NSURLCache 会在内">
+<meta name="twitter:title" content="iOS 常读常新的文章索引（持续更新）">
+<meta name="twitter:description" content="WebView相关JavaScriptCore全面解析 （下篇）H5 和移动端 WebView 缓存机制解析与实战iOS 8 WebKit框架概览（上）iOS中UIWebView与WKWebView、JavaScript与OC交互、Cookie管理看我就够（上） JSPatchJSPatch 实现原理详解 加密与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (基础) Runlo">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/11/28/SDWebImage 源码分析/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/12/iOS 常读常新的博客文章（持续更新）/"/>
 
 
 
 
 
-  <title>SDWebImage 源码分析 | Deep Thought</title>
+  <title>iOS 常读常新的文章索引（持续更新） | Deep Thought</title>
   
 
 
@@ -253,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/28/SDWebImage 源码分析/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/12/iOS 常读常新的博客文章（持续更新）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="姚七六">
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">SDWebImage 源码分析</h1>
+          <h1 class="post-title" itemprop="name headline">iOS 常读常新的文章索引（持续更新）</h1>
         
 
         <div class="post-meta">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-28T09:42:15+08:00">
-                2017-11-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-12T20:03:13+08:00">
+                2018-01-12
               </time>
             
 
@@ -305,8 +305,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/源码分析/" itemprop="url" rel="index">
-                    <span itemprop="name">源码分析</span>
+                  <a href="/categories/iOS-笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS 笔记</span>
                   </a>
                 </span>
 
@@ -323,8 +323,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/11/28/SDWebImage 源码分析/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2017/11/28/SDWebImage 源码分析/" itemprop="commentsCount"></span>
+                <a href="/2018/01/12/iOS 常读常新的博客文章（持续更新）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/01/12/iOS 常读常新的博客文章（持续更新）/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -352,19 +352,10 @@
       
 
       
-        <h2 id="How-is-SDWebImage-better-than-X"><a href="#How-is-SDWebImage-better-than-X" class="headerlink" title="How is SDWebImage better than X?"></a>How is SDWebImage better than X?</h2><p>开篇，我先翻译一下 SDWebImage 官方介绍中的这篇文章：<a href="https://github.com/rs/SDWebImage/wiki/How-is-SDWebImage-better-than-X%3F" target="_blank" rel="external">How is SDWebImage better than X?</a></p>
-<ul>
-<li><p>从 iOS5.0 开始 NSURLCache 会处理磁盘缓存，那么使用 SDWebImage 相比于单纯使用 NSURLRequest 强在哪里呢？</p>
-<blockquote>
-<p>确实从iOS5.0开始，NSURLCache 会在内存及磁盘中缓存 HTTP 响应的原始数据。但是每次缓存命中，应用都需要数据解析（HTTP 原始数据是编码的）、内存拷贝等大量的操作将原生的缓存数据转换进UIImage对象中。<br>另一方面，SDWebImage 在内存中缓存了 UIImage 对象，并在磁盘中存储了图片文件的原始压缩数据（已解码）。UIImage 对象使用 NSCache 按原样存储在内存中，所以在使用时并不需要拷贝，而且可以在应用或系统需要时随时释放内存。<br>除此之外，SDWebImageDecoder 将 UIImageView 首次使用 UIImage 对象的解压缩工作放在了后台线程中而不是通常的主线程中，可以减少主线程堵塞。<br>最后，SDWebImage 完全绕过了复杂且易出错的 HTTP 缓存控制配置，从而极大的加速了缓存查找。</p>
-</blockquote>
-</li>
-<li><p>既然 AFNetworking 为 UIImageView 提供了相似的功能，SDWebImage 还有用嘛？</p>
-<blockquote>
-<p>大概没啥用，AFNetworking 也是利用了基于 Foundation 框架的 URL 加载系统缓存:NSURLCache，还为 UIImageView 和 UIButton 提供了默认使用 NSCached 的可配置内存缓存。缓存行为可以根据相应的 NSURLRequest 来配置。AFNetworking 还提供了图片数据的后台解压缩等 SDWebImage 的特性。<br>因此如果你已经使用了 AFNetworking，而且只想要简单的异步图片加载分类，内置的 UIKIT 框架也够用了。</p>
-</blockquote>
-</li>
-</ul>
+        <h1 id="WebView相关"><a href="#WebView相关" class="headerlink" title="WebView相关"></a>WebView相关</h1><p><a href="https://cloud.tencent.com/developer/article/1004876" target="_blank" rel="external">JavaScriptCore全面解析 （下篇）</a><br><a href="https://mp.weixin.qq.com/s/qHm_dJBhVbv0pJs8Crp77w" target="_blank" rel="external">H5 和移动端 WebView 缓存机制解析与实战</a><br><a href="http://www.cocoachina.com/ios/20150203/11089.html" target="_blank" rel="external">iOS 8 WebKit框架概览（上）</a><br><a href="https://www.jianshu.com/p/ac45d99cf912" target="_blank" rel="external">iOS中UIWebView与WKWebView、JavaScript与OC交互、Cookie管理看我就够（上）</a></p>
+<h1 id="JSPatch"><a href="#JSPatch" class="headerlink" title="JSPatch"></a>JSPatch</h1><p><a href="https://github.com/bang590/JSPatch/wiki/JSPatch-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E8%AF%A6%E8%A7%A3" target="_blank" rel="external">JSPatch 实现原理详解</a></p>
+<h1 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h1><p><a href="https://onevcat.com/2018/12/jose-1/" target="_blank" rel="external">与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (基础)</a></p>
+<h1 id="Runloop"><a href="#Runloop" class="headerlink" title="Runloop"></a>Runloop</h1><p><a href="http://mrpeak.cn/blog/ios-runloop/" target="_blank" rel="external">解密 Runloop</a><br><a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a></p>
 
       
     </div>
@@ -408,10 +399,6 @@
           
             <a href="/tags/iOS/" rel="tag"># iOS</a>
           
-            <a href="/tags/Objective-C/" rel="tag"># Objective-C</a>
-          
-            <a href="/tags/源码/" rel="tag"># 源码</a>
-          
         </div>
       
 
@@ -423,8 +410,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/03/【翻译】Objective-C Runtime Programming Guide/" rel="next" title="【翻译】Objective-C Runtime Programming Guide">
-                <i class="fa fa-chevron-left"></i> 【翻译】Objective-C Runtime Programming Guide
+              <a href="/2017/12/15/KVC-KVO 笔记/" rel="next" title="KVC/KVO 笔记">
+                <i class="fa fa-chevron-left"></i> KVC/KVO 笔记
               </a>
             
           </div>
@@ -433,8 +420,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/15/KVC-KVO 笔记/" rel="prev" title="KVC/KVO 笔记">
-                KVC/KVO 笔记 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/01/20/[WWDC]Mastering Grand Central Dispatch/" rel="prev" title="【WWDC】Mastering Grand Central Dispatch">
+                【WWDC】Mastering Grand Central Dispatch <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -612,7 +599,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#How-is-SDWebImage-better-than-X"><span class="nav-number">1.</span> <span class="nav-text">How is SDWebImage better than X?</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#WebView相关"><span class="nav-number">1.</span> <span class="nav-text">WebView相关</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JSPatch"><span class="nav-number">2.</span> <span class="nav-text">JSPatch</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#加密"><span class="nav-number">3.</span> <span class="nav-text">加密</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Runloop"><span class="nav-number">4.</span> <span class="nav-text">Runloop</span></a></li></ol></div>
             
 
           </div>
@@ -805,7 +792,7 @@
       <script type="text/javascript">
       function renderGitment(){
         var gitment = new Gitmint({
-            id: '1511833335000', 
+            id: '1515758593000', 
             owner: '176zane',
             repo: '176zane.github.io',
             
