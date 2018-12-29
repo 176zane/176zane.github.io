@@ -351,7 +351,7 @@
 <p>官方给出的解决途径是绑定自定义域名，然而这个域名是需要在公安网备案的，对我来说为使用图床还得搞个备案的域名未免太麻烦，索性先不用七牛云的图床了。当我尝试点击下载文件时：</p>
 <p><img src="/images/yun.png" alt="yun"></p>
 <p>网页的顶端给了我一个错误提示：</p>
-<p><img src="/images/bucket_error-1.png" alt="bucket_erro"></p>
+<p><img src="/images/bucket_error.png" alt="bucket_error"></p>
 <p>这就很尴尬了，域名被回收了直接下载都下载不了，怎么破呢？只好祭出 google 大法。</p>
 <h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>搜索后发现原来七牛云提供了<a href="https://developer.qiniu.com/kodo/tools/1300/qrsctl" target="_blank" rel="external">命令行辅助工具qrsctl</a>来对存储资源进行操作，下载下来通过命令<code>chmod +x qrsctl</code>为文件添加可执行权限。然后使用如下命令进行操作</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#登录</span></div><div class="line">./qrsctl login &lt;User&gt; &lt;Passwd&gt;</div><div class="line"><span class="comment">#登录成功后查看所有存放资源的空间（buckets）</span></div><div class="line">./qrsctl buckets</div><div class="line"><span class="comment">#列出bucket中以prefix开头的所有资源</span></div><div class="line">./qrsctl listprefix &lt;bucket&gt; &lt;prefix&gt;</div></pre></td></tr></table></figure>
