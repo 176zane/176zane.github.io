@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/icon-60.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon-40.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon-20.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="集合 DebugIOS应用闪退，日志定位到代码行  UICollectionViewUICollectionView自定义布局之风火轮如何创建一个翻书动画(Part 1)如何创建一个翻书动画(Part2) Core Data初识Core Data(1) 面试《招聘一个靠谱的iOS》面试题参考答案（下）《招聘一个靠谱的iOS》面试题参考答案（下） 2018 6月底面试经历简单回忆 来自网易大牛的 i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Deep Thought">
+<meta property="og:url" content="http://yoursite.com/2018/01/31/images/iOS 博客收藏-1/index.html">
+<meta property="og:site_name" content="Deep Thought">
+<meta property="og:description" content="集合 DebugIOS应用闪退，日志定位到代码行  UICollectionViewUICollectionView自定义布局之风火轮如何创建一个翻书动画(Part 1)如何创建一个翻书动画(Part2) Core Data初识Core Data(1) 面试《招聘一个靠谱的iOS》面试题参考答案（下）《招聘一个靠谱的iOS》面试题参考答案（下） 2018 6月底面试经历简单回忆 来自网易大牛的 i">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-17T01:31:26.328Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Deep Thought">
+<meta name="twitter:description" content="集合 DebugIOS应用闪退，日志定位到代码行  UICollectionViewUICollectionView自定义布局之风火轮如何创建一个翻书动画(Part 1)如何创建一个翻书动画(Part2) Core Data初识Core Data(1) 面试《招聘一个靠谱的iOS》面试题参考答案（下）《招聘一个靠谱的iOS》面试题参考答案（下） 2018 6月底面试经历简单回忆 来自网易大牛的 i">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/31/images/iOS 博客收藏-1/"/>
+
+
+
+
+
+  <title> | Deep Thought</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Deep Thought</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/31/images/iOS 博客收藏-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="姚七六">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/self.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Deep Thought">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline"></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-31T10:24:50+08:00">
+                2018-01-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/31/images/iOS 博客收藏-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/01/31/images/iOS 博客收藏-1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://www.jianshu.com/p/64a7c9f7f6b2" target="_blank" rel="external">集合</a></p>
+<h1 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h1><p><a href="http://www.cocoachina.com/bbs/read.php?tid-455781.html" target="_blank" rel="external">IOS应用闪退，日志定位到代码行 </a></p>
+<h1 id="UICollectionView"><a href="#UICollectionView" class="headerlink" title="UICollectionView"></a>UICollectionView</h1><p><a href="https://vongloo.me/2015/08/31/A-Spinning-Wheel-Layout/" target="_blank" rel="external">UICollectionView自定义布局之风火轮</a><br><a href="https://vongloo.me/2015/08/31/How-to-Create-an-iOS-Book-Open-Animation-part-one-translation/" target="_blank" rel="external">如何创建一个翻书动画(Part 1)</a><br><a href="https://vongloo.me/2015/09/01/How-to-Create-an-iOS-Book-Open-Animation-part-two-translation/" target="_blank" rel="external">如何创建一个翻书动画(Part2)</a></p>
+<h1 id="Core-Data"><a href="#Core-Data" class="headerlink" title="Core Data"></a>Core Data</h1><p><a href="http://yulingtianxia.com/blog/2014/05/01/chu-shi-core-data-1/" target="_blank" rel="external">初识Core Data(1)</a></p>
+<h1 id="面试"><a href="#面试" class="headerlink" title="面试"></a>面试</h1><p><a href="https://github.com/ChenYilong/iOSInterviewQuestions/blob/master/01%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88/%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88%EF%BC%88%E4%B8%8A%EF%BC%89.md" target="_blank" rel="external">《招聘一个靠谱的iOS》面试题参考答案（下）</a><br><a href="https://github.com/ChenYilong/iOSInterviewQuestions/blob/master/01%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88/%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88%EF%BC%88%E4%B8%8B%EF%BC%89.md" target="_blank" rel="external">《招聘一个靠谱的iOS》面试题参考答案（下）</a></p>
+<p><a href="https://www.jianshu.com/p/7b0eb24b567b" target="_blank" rel="external">2018 6月底面试经历简单回忆</a></p>
+<p><a href="https://mp.weixin.qq.com/s/pnJc1OIHDHr2JFHYWFoCVg" target="_blank" rel="external">来自网易大牛的 iOS 开发面试全攻略</a><br><a href="https://github.com/CyC2018/Interview-Notebook" target="_blank" rel="external">面试总结</a></p>
+<p><a href="https://www.jianshu.com/p/56e40ea56813" target="_blank" rel="external">2017年5月iOS招人心得（附面试题）</a></p>
+<p><a href="https://github.com/liberalisman/iOS-Interview-Question-Answer" target="_blank" rel="external">Interview-Question &amp; Answer</a></p>
+<h1 id="架构模式"><a href="#架构模式" class="headerlink" title="架构模式"></a>架构模式</h1><p><a href="https://blog.coding.net/blog/ios-architecture-patterns" target="_blank" rel="external">iOS 架构模式 - 简述 MVC, MVP, MVVM 和 VIPER (译)</a></p>
+<p><a href="https://draveness.me/mvx" target="_blank" rel="external">浅谈 MVC、MVP 和 MVVM 架构模式</a></p>
+<h1 id="逆向"><a href="#逆向" class="headerlink" title="逆向"></a>逆向</h1><p><a href="http://www.alonemonkey.com/2017/05/31/get-start-with-mac-reverse/" target="_blank" rel="external">一篇文章走进Mac逆向的世界</a><br><a href="https://mp.weixin.qq.com/s?__biz=MzA3NTYzODYzMg==&amp;mid=2653577384&amp;idx=1&amp;sn=b44a9c9651bf09c5bea7e0337031c53c&amp;scene=1&amp;srcid=0730OYrkabYWsw4AFBCJELvS&amp;from=groupmessage&amp;isappinstalled=0#wechat_redirect" target="_blank" rel="external">移动App入侵与逆向破解技术－iOS篇</a><br><a href="http://iosre.com/t/app/11340" target="_blank" rel="external">小蚁摄像机App加密探究</a></p>
+<h1 id="ARC及内存管理"><a href="#ARC及内存管理" class="headerlink" title="ARC及内存管理"></a>ARC及内存管理</h1><p><a href="https://medium.com/@jasonyuh/ios-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E7%A0%94%E7%A9%B6-9bf37fc209c6" target="_blank" rel="external">iOS 内存管理研究</a></p>
+<p><a href="https://www.jianshu.com/p/a5a25ce1dca1?utm_campaign=hugo&amp;utm_medium=reader_share&amp;utm_content=note&amp;utm_source=weixin-friends" target="_blank" rel="external">DEAD in iOS Memory</a></p>
+<p><a href="https://mp.weixin.qq.com/s/WQ7rrTJm-cn3Cb6e_zZ4cA" target="_blank" rel="external">iOS Memory Deep Dive</a></p>
+<p><a href="http://yulingtianxia.com/blog/2015/12/06/The-Principle-of-Refenrence-Counting/#isa-%E6%8C%87%E9%92%88%EF%BC%88NONPOINTER-ISA%EF%BC%89" target="_blank" rel="external">Objective-C 引用计数原理</a></p>
+<h1 id="Autorelease-Pool"><a href="#Autorelease-Pool" class="headerlink" title="Autorelease Pool"></a>Autorelease Pool</h1><p><a href="https://mp.weixin.qq.com/s/mo29ReQTVQM5dFfOv95HKQ" target="_blank" rel="external">深入理解Autorelease Pool</a><br><a href="http://blog.sunnyxx.com/2014/10/15/behind-autorelease/" target="_blank" rel="external">黑幕背后的Autorelease</a></p>
+<h1 id="Runtime"><a href="#Runtime" class="headerlink" title="Runtime"></a>Runtime</h1><p><a href="http://www.cocoachina.com/ios/20141224/10740.html" target="_blank" rel="external">刨根问底Objective－C Runtime</a></p>
+<h1 id="Block"><a href="#Block" class="headerlink" title="Block"></a>Block</h1><p><a href="https://mp.weixin.qq.com/s/NRdyuLoZ2yYJTiolYXeRfA" target="_blank" rel="external">漫谈Block</a><br><a href="https://tech.meituan.com/block-in-Meituan-iOS.html" target="_blank" rel="external">block在美团iOS的实践</a><br><a href="https://www.jianshu.com/p/404ff9d3cd42" target="_blank" rel="external">iOS中__block 关键字的底层实现原理</a><br><a href="http://yulingtianxia.com/blog/2018/06/24/Objective-C-Block-Mangle-Name/" target="_blank" rel="external">追踪 Objective-C Block 代码定义的位置</a><br><a href="http://yulingtianxia.com/blog/2018/03/31/Track-Block-Arguments-of-Objective-C-Method/" target="_blank" rel="external">追踪 Objective-C 方法中的 Block 参数对象</a></p>
+<h1 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h1><p><a href="">Performance on iOS and watchOS</a><br><a href="https://developer.apple.com/videos/play/wwdc2015/226/" target="_blank" rel="external">Advanced NSOperations–WWDC 2015 - Session 226</a><br><a href="https://developer.apple.com/videos/play/wwdc2011/210/" target="_blank" rel="external">Mastering Grand Central Dispatch–WWDC 2011 - Session 210</a><br><a href="https://mp.weixin.qq.com/s/cSZUNMuqk6DL3-nctyxzcw" target="_blank" rel="external">iOS关于时间的处理</a><br><a href="https://www.jianshu.com/p/3459ff04104d?utm_campaign=hugo&amp;utm_medium=reader_share&amp;utm_content=note&amp;utm_source=weixin-friends&amp;from=groupmessage&amp;isappinstalled=0" target="_blank" rel="external">iOS倒计时的探究与选择</a><br><a href="https://mp.weixin.qq.com/s/BoTmElK2KiWJkM_rct7kJg" target="_blank" rel="external">iOS NSTimer 最佳实践</a><br><a href="https://github.com/nixzhu/dev-blog/blob/master/2014-04-19-grand-central-dispatch-in-depth-part-1.md" target="_blank" rel="external">GCD 深入理解：第一部分</a></p>
+<p><a href="https://github.com/nixzhu/dev-blog/blob/master/2014-05-14-grand-central-dispatch-in-depth-part-2.md" target="_blank" rel="external">GCD 深入理解：第二部分</a></p>
+<p><a href="https://bestswifter.com/callstack/" target="_blank" rel="external">获取任意线程调用栈的那些事</a></p>
+<p><a href="https://mp.weixin.qq.com/s/Pz1XdrAYDLrLeq97niT15g" target="_blank" rel="external">iOS多线程到底不安全在哪里？</a></p>
+<h1 id="RunLoop"><a href="#RunLoop" class="headerlink" title="RunLoop"></a>RunLoop</h1><p><a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a><br><a href="https://devthinking.com/%E7%9C%8B-cfrunloop%E6%BA%90%E7%A0%81%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-runloop/?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io" target="_blank" rel="external">看 CFRunLoop源码深入理解 RunLoop</a><br><a href="https://mp.weixin.qq.com/s?__biz=MzAwNDY1ODY2OQ==&amp;mid=400417748&amp;idx=1&amp;sn=0c5f6747dd192c5a0eea32bb4650c160&amp;3rd=MzA3MDU4NTYzMw==&amp;scene=6#rd" target="_blank" rel="external">iOS 事件处理机制与图像渲染过程</a></p>
+<p><a href="https://mp.weixin.qq.com/s/-0k0CXn046_4549OcbH4JQ" target="_blank" rel="external">iOS 界面渲染流程分析</a></p>
+<h1 id="绘图及动画"><a href="#绘图及动画" class="headerlink" title="绘图及动画"></a>绘图及动画</h1><p><a href="https://mp.weixin.qq.com/s?__biz=MzA5NzMwODI0MA==&amp;mid=2647761918&amp;idx=1&amp;sn=ea14d69bd9f38d33e846a0b2d620ce2c&amp;chksm=8887d8c1bff051d7409ae66ab09355f4761278726253c7a4b15e371bb5b582aa2f042e00cfd8&amp;scene=21#wechat_redirect" target="_blank" rel="external">脑洞大开：为啥帧率达到 60 fps 就流畅？</a><br><a href="https://www.jianshu.com/p/7d8a82115060" target="_blank" rel="external">iOS性能优化——图片加载和处理</a><br><a href="https://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/" target="_blank" rel="external">iOS 保持界面流畅的技巧</a></p>
+<p><a href="https://lision.me/ios-rendering-process/" target="_blank" rel="external">深入理解 iOS Rendering Process</a></p>
+<p><a href="https://github.com/Lision/LSAnimator" target="_blank" rel="external">链式动画 github</a></p>
+<p><a href="https://objccn.io/issue-3-1/" target="_blank" rel="external">绘制像素到屏幕上</a><br><a href="http://foggry.com/blog/2015/05/06/chi-ping-xuan-ran-xue-xi-bi-ji/" target="_blank" rel="external">离屏渲染学习笔记</a><br><a href="http://www.imlifengfeng.com/blog/?p=593" target="_blank" rel="external">iOS的离屏渲染</a><br><a href="https://developer.apple.com/videos/play/wwdc2014/419/" target="_blank" rel="external">WWDC2014-Advanced Graphics and Animations for iOS Apps</a></p>
+<p><a href="https://draveness.me/asdk-rendering" target="_blank" rel="external">使用 ASDK 性能调优 - 提升 iOS 界面的渲染性能</a></p>
+<p><a href="http://bihongbo.com/2016/01/03/memoryGhostdrawRect/" target="_blank" rel="external">内存恶鬼drawRect</a></p>
+<p><a href="http://www.cocoachina.com/ios/20150803/12873.html" target="_blank" rel="external">小心别让圆角成了你列表的帧数杀手</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzA3NTYzODYzMg==&amp;mid=402348480&amp;idx=1&amp;sn=7f737a96b9a9e7baad12b48ebc6b1efe&amp;scene=0&amp;key=ac89cba618d2d9765dea8e02c0365bc4a490199938ebd108346b0361994543a6ae2a4655870436a42627968d2beac841&amp;ascene=0&amp;uin=MjAyNzY1NTU%3D&amp;devicetype=iMac+MacBookPro12%2C1+OSX+OSX+10.11.1+build(15B42" target="_blank" rel="external">iOS 视图，动画渲染机制探究</a>&amp;version=11020201&amp;pass_ticket=YYDGAMjGcYJJlj%2Bh72BXctaqS6yuDJlVNZ6LhIpUFMc%3D)</p>
+<p><a href="http://blog.leichunfeng.com/blog/2017/02/20/talking-about-the-decompression-of-the-image-in-ios/" target="_blank" rel="external">谈谈 iOS 中图片的解压缩</a><br><a href="https://juejin.im/post/5b2ddfa7e51d4553156be305" target="_blank" rel="external">iOS中的图片使用方式、内存对比和最佳实践</a><br><a href="https://stackoverflow.com/questions/23790837/what-is-byte-alignment-cache-line-alignment-for-core-animation-why-it-matters" target="_blank" rel="external">what is byte alignment (cache line alignment) for Core Animation? Why it matters?
+</a></p>
+<p><a href="https://www.jianshu.com/p/d39f7d22db6c" target="_blank" rel="external">轻松学习之二——iOS利用Runtime自定义控制器POP手势动画</a></p>
+<p><a href="https://niyaoyao.github.io/2018/05/23/learning_opengl(es" target="_blank" rel="external">Learning OpenGL(ES) —— OpenGL Model, Pipeline and Practices</a>_opengl_model_pipeline_and_practices/)</p>
+<p><a href="https://mp.weixin.qq.com/s/eoQcfuRYD3W5Kc6ZqnMXXw" target="_blank" rel="external">CALayer 新手指南</a></p>
+<h1 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h1><p><a href="http://blog.leichunfeng.com/blog/2015/03/16/talking-about-the-usage-of-mbprogresshud-combined-with-reveal/" target="_blank" rel="external">结合 Reveal 谈谈 MBProgressHUD 的用法</a></p>
+<p><a href="https://draveness.me/ios-yuan-dai-ma-fen-xi-mbprogresshud" target="_blank" rel="external">iOS 源代码分析 —- MBProgressHUD</a></p>
+<p><a href="https://draveness.me/ios-yuan-dai-ma-jie-xi-sdwebimage" target="_blank" rel="external">iOS 源代码分析—-SDWebImage</a></p>
+<h1 id="Objective-C"><a href="#Objective-C" class="headerlink" title="Objective-C"></a>Objective-C</h1><p><a href="http://blog.sunnyxx.com/2016/08/13/reunderstanding-runtime-0/" target="_blank" rel="external">重识 Objective-C Runtime - Smalltalk 与 C 的融合</a></p>
+<p><a href="http://blog.leichunfeng.com/blog/2015/05/18/objective-c-category-implementation-principle/" target="_blank" rel="external">Objective-C Category 的实现原理</a></p>
+<p><a href="http://quotation.github.io/objc/2015/05/21/objc-runtime-ivar-access.html" target="_blank" rel="external">Objective-C类成员变量深度剖析</a></p>
+<p><a href="http://www.cocoachina.com/ios/20141224/10740.html" target="_blank" rel="external">刨根问底Objective－C Runtime</a></p>
+<h1 id="KVO"><a href="#KVO" class="headerlink" title="KVO"></a>KVO</h1><p><a href="https://draveness.me/kvocontroller" target="_blank" rel="external">如何优雅地使用 KVO</a><br><a href="https://zhuanlan.zhihu.com/p/33662572?utm_medium=social&amp;utm_source=weibo&amp;from=1081293010&amp;wm=3333_2001&amp;weiboauthoruid=1738301812" target="_blank" rel="external">iOS KVO crash 自修复技术实现与原理解析</a></p>
+<h1 id="iOS-其他"><a href="#iOS-其他" class="headerlink" title="iOS 其他"></a>iOS 其他</h1><p><a href="http://www.cocoachina.com/industry/20140514/8418.html" target="_blank" rel="external">分析iOS Crash文件：符号化iOS Crash文件的3种方法</a><br><a href="http://saitjr.com/ios/symbolicatecrash-1.html" target="_blank" rel="external">Crash 符号化</a><br><a href="https://www.jianshu.com/p/48aff237e8ff" target="_blank" rel="external">iOS 开发中的『库』(一)</a></p>
+<p><a href="http://blog.sunnyxx.com/2014/08/30/objc-pre-main/" target="_blank" rel="external">iOS 程序 main 函数之前发生了什么</a></p>
+<p><a href="https://www.jianshu.com/p/d5cf01424e92" target="_blank" rel="external">点击 Run 之后发生了什么？</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/24875905" target="_blank" rel="external">dylib动态库加载过程分析</a></p>
+<h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><p><a href="https://mp.weixin.qq.com/s?__biz=MzAwNDY1ODY2OQ==&amp;mid=2649286361&amp;idx=1&amp;sn=78bbcda7f41a14291ad71289e4821f71&amp;scene=21#wechat_redirect" target="_blank" rel="external">微信iOS SQLite源码优化实践</a><br><a href="https://juejin.im/entry/58ff4c7544d9040069fb061e" target="_blank" rel="external">微信客户端 SQLite 数据库修复实践</a><br><a href="https://mp.weixin.qq.com/s/S51JaEOH98e2AzjejKn0kw" target="_blank" rel="external">在 iOS 的 SQLite 数据库中应用 FMDB 库</a><br><a href="https://mp.weixin.qq.com/s?__biz=MzI5MjEzNzA1MA==&amp;mid=2650264198&amp;idx=1&amp;sn=35c6d49a70294c80bc028ed4d4fddce4&amp;chksm=f40683b3c3710aa53a7c2f2e7185da72db59d1b66a1c3dd5aef4365ed02e0e990ae71d548f94&amp;scene=0#wechat_redirect" target="_blank" rel="external">iOS端数据库解决方案分析</a></p>
+<h1 id="Layout"><a href="#Layout" class="headerlink" title="Layout"></a>Layout</h1><p><a href="https://juejin.im/post/5bd5a546f265da0af033cee6" target="_blank" rel="external">深入理解 Autolayout 与列表性能 – 背锅的 Cassowary 和偷懒的 CPU</a><br><a href="https://github.com/ming1016/study/wiki/Masonry" target="_blank" rel="external">Masonry</a><br><a href="http://www.starming.com/2015/11/03/deeply-analyse-autolayout/" target="_blank" rel="external">深入剖析Auto Layout，分析iOS各版本新增特性</a><br><a href="https://mp.weixin.qq.com/s/211NL29R5fXH8O5a2CWsig" target="_blank" rel="external">高级ios开发工程师应该掌握的自动布局技术</a><br><a href="https://zhuanlan.zhihu.com/p/26026496?utm_medium=social&amp;utm_source=weibo" target="_blank" rel="external">布局编码的未来</a><br><a href="http://beelearning.cn/2017/11/ASDK/" target="_blank" rel="external">ASDK源码剖析</a><br><a href="https://zhuanlan.zhihu.com/p/25371361" target="_blank" rel="external">AsyncDisplayKit介绍（一）原理和思路</a></p>
+<h1 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h1><p><a href="https://mp.weixin.qq.com/s?__biz=MzA5NzMwODI0MA==&amp;mid=2647761791&amp;idx=1&amp;sn=3e4a8592b1cd48e9e6fb11ce4c849c0c&amp;chksm=8887d840bff0515654b687c5e66902c2b034fcefc986e6d8ebacd5ff287c78edea615a6145a5&amp;scene=21#wechat_redirect" target="_blank" rel="external">iOS 组件化 —— 路由设计思路分析</a><br><a href="https://segmentfault.com/a/1190000014484636" target="_blank" rel="external">iOS模块化探索实践</a><br><a href="https://blog.cnbang.net/tech/3080/" target="_blank" rel="external">iOS 组件化方案探索</a><br><a href="https://zhuanlan.zhihu.com/p/38652748" target="_blank" rel="external">美团外卖iOS多端复用的推动、支撑与思考</a></p>
+<h1 id="Reactive-Cocoa"><a href="#Reactive-Cocoa" class="headerlink" title="Reactive Cocoa"></a>Reactive Cocoa</h1><p><a href="https://tech.meituan.com/potential_memory_leak_in_reactivecocoa.html" target="_blank" rel="external">ReactiveCocoa中潜在的内存泄漏及解决方案(美团)</a><br><a href="http://yulingtianxia.com/blog/2015/05/21/ReactiveCocoa-and-MVVM-an-Introduction/" target="_blank" rel="external">ReactiveCocoa 和 MVVM 入门</a><br><a href="http://southpeak.github.io/2014/08/08/mvvm-tutorial-with-reactivecocoa-1/" target="_blank" rel="external">MVVM Tutorial with ReactiveCocoa: Part 1/2</a><br><a href="http://southpeak.github.io/2014/08/02/reactivecocoa-tutorial-the-definitive-introduction-1/" target="_blank" rel="external">ReactiveCocoa Tutorial – The Definitive Introduction: Part 1/2</a><br><a href="https://tech.meituan.com/ReactiveCocoaSignalFlow.html" target="_blank" rel="external">ReactiveCocoa核心元素与信号流</a><br><a href="http://nshipster.cn/reactivecocoa/" target="_blank" rel="external">Reactive​Cocoa</a></p>
+<p><a href="https://draveness.me/racsignal" target="_blank" rel="external">『状态』驱动的世界：ReactiveCocoa</a></p>
+<h1 id="RN"><a href="#RN" class="headerlink" title="RN"></a>RN</h1><p><a href="https://www.raywenderlich.com/485-react-native-tutorial-building-ios-apps-with-javascript" target="_blank" rel="external">React Native Tutorial: Building iOS Apps with JavaScript</a><br><a href="https://juejin.im/post/5bb2e1746fb9a05d353c8b05" target="_blank" rel="external">React JS和React-Native学习指南</a><br><a href="http://www.ruanyifeng.com/blog/2016/09/react-technology-stack.html" target="_blank" rel="external">React 技术栈系列教程</a><br><a href="https://mp.weixin.qq.com/s?__biz=MzUxMzcxMzE5Ng==&amp;mid=2247488100&amp;idx=1&amp;sn=d964f9afdcad122e6f3caa5069875c20&amp;source=41#wechat_redirect" target="_blank" rel="external">这里有25个React Native免费教程，请您查收~</a><br><a href="http://awhisper.github.io/2016/06/24/ReactNative%E6%B5%81%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" target="_blank" rel="external">ReactNative iOS源码解析</a></p>
+<h1 id="Timer"><a href="#Timer" class="headerlink" title="Timer"></a>Timer</h1><p><a href="https://mp.weixin.qq.com/s/BoTmElK2KiWJkM_rct7kJg" target="_blank" rel="external">iOS NSTimer 最佳实践</a></p>
+<h1 id="Webview"><a href="#Webview" class="headerlink" title="Webview"></a>Webview</h1><p><a href="http://awhisper.github.io/2018/01/02/hybrid-jscomunication/" target="_blank" rel="external">http://awhisper.github.io/2018/01/02/hybrid-jscomunication/</a></p>
+<p><a href="https://dequan1331.github.io/" target="_blank" rel="external">iOS新闻类App内容页技术探索</a><br><a href="https://tech.meituan.com/WebViewPerf.html" target="_blank" rel="external">WebView性能、体验分析与优化</a></p>
+<p><a href="https://75team.com/post/ios-webview-and-js?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io" target="_blank" rel="external">前端 WebView 指南之 iOS 交互篇</a><br><a href="https://mp.weixin.qq.com/s/qHm_dJBhVbv0pJs8Crp77w" target="_blank" rel="external">H5 和移动端 WebView 缓存机制解析与实战</a></p>
+<h1 id="进程间通信"><a href="#进程间通信" class="headerlink" title="进程间通信"></a>进程间通信</h1><p><a href="https://segmentfault.com/a/1190000002400329" target="_blank" rel="external">进程间通信 (OSX/iOS)</a></p>
+<h1 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h1><p><a href="https://www.jianshu.com/p/231b1cebf477" target="_blank" rel="external">iOS App从点击到启动</a></p>
+<h1 id="杂货"><a href="#杂货" class="headerlink" title="杂货"></a>杂货</h1><p><a href="https://mp.weixin.qq.com/s/oMCG5rSUHO68KxScK9ZzVQ" target="_blank" rel="external">源码推荐：TableviewGroup阴影加圆角 长按拖拽排序</a></p>
+<p><a href="https://www.jianshu.com/p/66f8410c6bbc" target="_blank" rel="external">Objective-C 数组遍历的性能及原理</a></p>
+<h1 id="音视频"><a href="#音视频" class="headerlink" title="音视频"></a>音视频</h1><ul>
+<li style="list-style: none"><input type="checkbox"> <a href="https://www.cnblogs.com/kenshincui/p/4186022.html" target="_blank" rel="external">iOS开发系列–音频播放、录音、视频播放、拍照、视频录制</a></li>
+</ul>
+<h1 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h1><p><a href="https://github.com/halfrost/Halfrost-Field/blob/master/contents/iOS/WebSocket/iOS_WebSocket.md" target="_blank" rel="external">微信,QQ这类IM app怎么做——谈谈Websocket</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 40%; height: 40%; text-align: center;">
+  <div>赏杯咖啡☕️吧！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="姚七六 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/20/[WWDC]Mastering Grand Central Dispatch/" rel="next" title="【WWDC】Mastering Grand Central Dispatch">
+                <i class="fa fa-chevron-left"></i> 【WWDC】Mastering Grand Central Dispatch
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/31/images/iOS 博客收藏/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/self.gif"
+                alt="姚七六" />
+            
+              <p class="site-author-name" itemprop="name">姚七六</p>
+              <p class="site-description motion-element" itemprop="description">Life is short. Live your dream and wear your passion.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/176zane" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:176zane@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/176zane" target="_blank" title="Twitter">
+                    
+                      <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://instagram.com/176zane" target="_blank" title="Instagram">
+                    
+                      <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/lovekobe0824" target="_blank" title="微博">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>微博</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Debug"><span class="nav-number">1.</span> <span class="nav-text">Debug</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UICollectionView"><span class="nav-number">2.</span> <span class="nav-text">UICollectionView</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Core-Data"><span class="nav-number">3.</span> <span class="nav-text">Core Data</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#面试"><span class="nav-number">4.</span> <span class="nav-text">面试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#架构模式"><span class="nav-number">5.</span> <span class="nav-text">架构模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#逆向"><span class="nav-number">6.</span> <span class="nav-text">逆向</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ARC及内存管理"><span class="nav-number">7.</span> <span class="nav-text">ARC及内存管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Autorelease-Pool"><span class="nav-number">8.</span> <span class="nav-text">Autorelease Pool</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Runtime"><span class="nav-number">9.</span> <span class="nav-text">Runtime</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Block"><span class="nav-number">10.</span> <span class="nav-text">Block</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多线程"><span class="nav-number">11.</span> <span class="nav-text">多线程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RunLoop"><span class="nav-number">12.</span> <span class="nav-text">RunLoop</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#绘图及动画"><span class="nav-number">13.</span> <span class="nav-text">绘图及动画</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#源码分析"><span class="nav-number">14.</span> <span class="nav-text">源码分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Objective-C"><span class="nav-number">15.</span> <span class="nav-text">Objective-C</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#KVO"><span class="nav-number">16.</span> <span class="nav-text">KVO</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#iOS-其他"><span class="nav-number">17.</span> <span class="nav-text">iOS 其他</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库"><span class="nav-number">18.</span> <span class="nav-text">数据库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Layout"><span class="nav-number">19.</span> <span class="nav-text">Layout</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模块化"><span class="nav-number">20.</span> <span class="nav-text">模块化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reactive-Cocoa"><span class="nav-number">21.</span> <span class="nav-text">Reactive Cocoa</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RN"><span class="nav-number">22.</span> <span class="nav-text">RN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Timer"><span class="nav-number">23.</span> <span class="nav-text">Timer</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Webview"><span class="nav-number">24.</span> <span class="nav-text">Webview</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程间通信"><span class="nav-number">25.</span> <span class="nav-text">进程间通信</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#启动"><span class="nav-number">26.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#杂货"><span class="nav-number">27.</span> <span class="nav-text">杂货</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#音视频"><span class="nav-number">28.</span> <span class="nav-text">音视频</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WebSocket"><span class="nav-number">29.</span> <span class="nav-text">WebSocket</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">姚七六</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: '1517365490000', 
+            owner: '176zane',
+            repo: '176zane.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '1c8f28d0024694b15c0e264fe3815757ca0790ab',
+            
+                client_id: '9f5ff7bf18bed3b555f3'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
