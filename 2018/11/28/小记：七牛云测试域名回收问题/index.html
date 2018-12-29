@@ -87,14 +87,14 @@
 <meta property="og:site_name" content="Deep Thought">
 <meta property="og:description" content="问题月初收到七牛云的邮件扫了一眼大概是关于测试域名回收的问题，由于我只是用到了七牛云存储来做博客图床也就没在意。今天一上博客发现有些图片已经刷不出来了，请求图片的链接返回: 1&amp;#123;error: &quot;no such domain&quot;&amp;#125; 这不就很蛋疼了嘛，上后台一看，果然是测试域名的问题：测试域名使用规范，图片上传后生成域名以 clouddn.com 结尾的 URL 在域名回收后自然不能">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/11/28/小记：七牛云测试域名回收问题/images/yun.png">
-<meta property="og:image" content="http://yoursite.com/2018/11/28/小记：七牛云测试域名回收问题/images/bucket_error-1.png">
-<meta property="og:image" content="http://yoursite.com/2018/11/28/小记：七牛云测试域名回收问题/images/terminal_buckets.png">
-<meta property="og:updated_time" content="2018-12-29T07:24:03.704Z">
+<meta property="og:image" content="http://yoursite.com/images/yun.png">
+<meta property="og:image" content="http://yoursite.com/images/bucket_error-1.png">
+<meta property="og:image" content="http://yoursite.com/images/terminal_buckets.png">
+<meta property="og:updated_time" content="2018-12-29T07:33:30.550Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="小记：七牛云测试域名回收问题">
 <meta name="twitter:description" content="问题月初收到七牛云的邮件扫了一眼大概是关于测试域名回收的问题，由于我只是用到了七牛云存储来做博客图床也就没在意。今天一上博客发现有些图片已经刷不出来了，请求图片的链接返回: 1&amp;#123;error: &quot;no such domain&quot;&amp;#125; 这不就很蛋疼了嘛，上后台一看，果然是测试域名的问题：测试域名使用规范，图片上传后生成域名以 clouddn.com 结尾的 URL 在域名回收后自然不能">
-<meta name="twitter:image" content="http://yoursite.com/2018/11/28/小记：七牛云测试域名回收问题/images/yun.png">
+<meta name="twitter:image" content="http://yoursite.com/images/yun.png">
 
 
 
@@ -360,14 +360,14 @@
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;error: "no such domain"&#125;</div></pre></td></tr></table></figure>
 <p>这不就很蛋疼了嘛，上后台一看，果然是测试域名的问题：<a href="https://developer.qiniu.com/fusion/kb/1319/test-domain-access-restriction-rules" target="_blank" rel="external">测试域名使用规范</a>，图片上传后生成域名以 clouddn.com 结尾的 URL 在域名回收后自然不能访问了。</p>
 <p>官方给出的解决途径是绑定自定义域名，然而这个域名是需要在公安网备案的，对我来说为使用图床还得搞个备案的域名未免太麻烦，索性先不用七牛云的图床了。当我尝试点击下载文件时：</p>
-<p><img src="images/yun.png" alt="yun"></p>
+<p><img src="/images/yun.png" alt="yun"></p>
 <p>网页的顶端给了我一个错误提示：</p>
-<p><img src="images/bucket_error-1.png" alt="bucket_erro"></p>
+<p><img src="/images/bucket_error-1.png" alt="bucket_erro"></p>
 <p>这就很尴尬了，域名被回收了直接下载都下载不了，怎么破呢？只好祭出 google 大法。</p>
 <h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>搜索后发现原来七牛云提供了<a href="https://developer.qiniu.com/kodo/tools/1300/qrsctl" target="_blank" rel="external">命令行辅助工具qrsctl</a>来对存储资源进行操作，下载下来通过命令<code>chmod +x qrsctl</code>为文件添加可执行权限。然后使用如下命令进行操作</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#登录</span></div><div class="line">./qrsctl login &lt;User&gt; &lt;Passwd&gt;</div><div class="line"><span class="comment">#登录成功后查看所有存放资源的空间（buckets）</span></div><div class="line">./qrsctl buckets</div><div class="line"><span class="comment">#列出bucket中以prefix开头的所有资源</span></div><div class="line">./qrsctl listprefix &lt;bucket&gt; &lt;prefix&gt;</div></pre></td></tr></table></figure>
 <p>因为我们要获取所有的图片资源，所以prefix参数使用了<code>&#39;&#39;</code>空字符串，所得结果如下图所示：</p>
-<p><img src="images/terminal_buckets.png" alt="terminal_buckets"></p>
+<p><img src="/images/terminal_buckets.png" alt="terminal_buckets"></p>
 <p>在获取到所有资源名称后，就可以调用<code>qrsctl</code>下载资源的接口了：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#key为资源文件的名称 destFile为下载的目标路径</span></div><div class="line">./qrsctl get &lt;Bucket&gt; &lt;Key&gt; &lt;DestFile&gt;</div></pre></td></tr></table></figure>
 <p>使用下面的脚本来完成下载任务更加方便：</p>
