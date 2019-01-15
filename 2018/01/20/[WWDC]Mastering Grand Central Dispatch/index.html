@@ -96,7 +96,7 @@
 <meta property="og:image" content="http://yoursite.com/images/2018-07-1210_40_14.gif">
 <meta property="og:image" content="http://yoursite.com/images/targetqueuehierarchy.png">
 <meta property="og:image" content="http://yoursite.com/images/jumpthequeue.png">
-<meta property="og:updated_time" content="2018-11-28T07:23:39.467Z">
+<meta property="og:updated_time" content="2019-01-11T03:31:54.592Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【WWDC】Mastering Grand Central Dispatch">
 <meta name="twitter:description" content="前言本文是对Mastering Grand Central Dispatch WWDC2011 - Session 210以及 GCD 其他内容的学习笔记。 GCD 按照我的理解就是一个系统级的并发模型，通过这个模型你不再需要直接接触底层的“线程”和“锁”去编写大量的对线程安全要求很高的代码，而是在模型中将“执行任务的 Block”添加进合适的“调度队列（dispatch queue）”中就可以轻">
@@ -464,8 +464,7 @@
 <p>Dispatch Source 与 Dispatch Queue 不同的是它是可以取消的，而且可以设置取消时的 handler。</p>
 <p>需要留意的一点是 dispatch source 在 suspend 状态下，如果直接设置 source = nil 或者重新创建 source 都会造成崩溃。正确的方式是在 resume 状态下调用<code>dispatch_source_cancel</code>后再重新创建。</p>
 <h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>本文主要讨论了一些常用的 API,着重描述了使用时的一些注意点，容易导致问题的地方。阅读完会对iOS中使用 GCD 进行多线程编程有一个大概的认识。还有在一些其他情况下，诸如读取大文件等等也可使用 Dispatch I/O及 Dispatch Data 等，可以用时再去研究。</p>
-<p>#参考：</p>
-<ul>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><ul>
 <li><a href="https://www.raywenderlich.com/148513/grand-central-dispatch-tutorial-swift-3-part-1" target="_blank" rel="external">Grand Central Dispatch Tutorial for Swift 3: Part 1/2</a></li>
 <li><a href="https://www.raywenderlich.com/148515/grand-central-dispatch-tutorial-swift-3-part-2" target="_blank" rel="external">Grand Central Dispatch Tutorial for Swift 3: Part 2/2</a></li>
 <li><a href="https://developer.apple.com/videos/play/wwdc2011/210/" target="_blank" rel="external">Mastering Grand Central Dispatch WWDC2011 - Session 210</a></li>
@@ -629,7 +628,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -640,7 +639,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -651,7 +650,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -718,7 +717,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本概念"><span class="nav-number">2.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#进程（Process）与线程（Thread）"><span class="nav-number">2.1.</span> <span class="nav-text">进程（Process）与线程（Thread）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并行（Parallelism）与并发（Concurrency）"><span class="nav-number">2.2.</span> <span class="nav-text">并行（Parallelism）与并发（Concurrency）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分发队列（Dispatch-Queue）"><span class="nav-number">2.3.</span> <span class="nav-text">分发队列（Dispatch Queue）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#串行队列（Serial-Queue）"><span class="nav-number">2.3.1.</span> <span class="nav-text">串行队列（Serial Queue）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并发队列（Concurrent-Queue）"><span class="nav-number">2.3.2.</span> <span class="nav-text">并发队列（Concurrent Queue）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用-API"><span class="nav-number">3.</span> <span class="nav-text">常用 API</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-get-main-queue-dispatch-get-global-queue"><span class="nav-number">3.1.</span> <span class="nav-text">dispatch_get_main_queue/dispatch_get_global_queue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-queue-create"><span class="nav-number">3.2.</span> <span class="nav-text">dispatch_queue_create</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-sync-dispatch-async"><span class="nav-number">3.3.</span> <span class="nav-text">dispatch_sync/dispatch_async</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-barrier-sync-dispatch-barrier-async"><span class="nav-number">3.4.</span> <span class="nav-text">dispatch_barrier_sync/dispatch_barrier_async</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-after"><span class="nav-number">3.5.</span> <span class="nav-text">dispatch_after</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-once"><span class="nav-number">3.6.</span> <span class="nav-text">dispatch_once</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调度组（Dispatch-Group）"><span class="nav-number">3.7.</span> <span class="nav-text">调度组（Dispatch Group）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-apply"><span class="nav-number">3.8.</span> <span class="nav-text">dispatch_apply</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-set-target-queue"><span class="nav-number">3.9.</span> <span class="nav-text">dispatch_set_target_queue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-queue-set-specific-dispatch-get-specific"><span class="nav-number">3.10.</span> <span class="nav-text">dispatch_queue_set_specific/dispatch_get_specific</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信号量（Dispatch-Semaphore）"><span class="nav-number">3.11.</span> <span class="nav-text">信号量（Dispatch Semaphore）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dispatch-Source"><span class="nav-number">3.12.</span> <span class="nav-text">Dispatch Source</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他"><span class="nav-number">4.</span> <span class="nav-text">其他</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本概念"><span class="nav-number">2.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#进程（Process）与线程（Thread）"><span class="nav-number">2.1.</span> <span class="nav-text">进程（Process）与线程（Thread）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并行（Parallelism）与并发（Concurrency）"><span class="nav-number">2.2.</span> <span class="nav-text">并行（Parallelism）与并发（Concurrency）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分发队列（Dispatch-Queue）"><span class="nav-number">2.3.</span> <span class="nav-text">分发队列（Dispatch Queue）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#串行队列（Serial-Queue）"><span class="nav-number">2.3.1.</span> <span class="nav-text">串行队列（Serial Queue）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并发队列（Concurrent-Queue）"><span class="nav-number">2.3.2.</span> <span class="nav-text">并发队列（Concurrent Queue）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用-API"><span class="nav-number">3.</span> <span class="nav-text">常用 API</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-get-main-queue-dispatch-get-global-queue"><span class="nav-number">3.1.</span> <span class="nav-text">dispatch_get_main_queue/dispatch_get_global_queue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-queue-create"><span class="nav-number">3.2.</span> <span class="nav-text">dispatch_queue_create</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-sync-dispatch-async"><span class="nav-number">3.3.</span> <span class="nav-text">dispatch_sync/dispatch_async</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-barrier-sync-dispatch-barrier-async"><span class="nav-number">3.4.</span> <span class="nav-text">dispatch_barrier_sync/dispatch_barrier_async</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-after"><span class="nav-number">3.5.</span> <span class="nav-text">dispatch_after</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-once"><span class="nav-number">3.6.</span> <span class="nav-text">dispatch_once</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调度组（Dispatch-Group）"><span class="nav-number">3.7.</span> <span class="nav-text">调度组（Dispatch Group）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-apply"><span class="nav-number">3.8.</span> <span class="nav-text">dispatch_apply</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-set-target-queue"><span class="nav-number">3.9.</span> <span class="nav-text">dispatch_set_target_queue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-queue-set-specific-dispatch-get-specific"><span class="nav-number">3.10.</span> <span class="nav-text">dispatch_queue_set_specific/dispatch_get_specific</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信号量（Dispatch-Semaphore）"><span class="nav-number">3.11.</span> <span class="nav-text">信号量（Dispatch Semaphore）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dispatch-Source"><span class="nav-number">3.12.</span> <span class="nav-text">Dispatch Source</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他"><span class="nav-number">4.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考："><span class="nav-number">5.</span> <span class="nav-text">参考：</span></a></li></ol></div>
             
 
           </div>
@@ -738,7 +737,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

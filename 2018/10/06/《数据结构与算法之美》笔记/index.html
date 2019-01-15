@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="iOS," />
+  <meta name="keywords" content="数据结构与算法," />
 
 
 
@@ -79,18 +79,23 @@
 
 
 
-<meta name="description" content="WebView相关JavaScriptCore全面解析 （下篇）H5 和移动端 WebView 缓存机制解析与实战iOS 8 WebKit框架概览（上）iOS中UIWebView与WKWebView、JavaScript与OC交互、Cookie管理看我就够（上） JSPatchJSPatch 实现原理详解 加密与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (基础) Runlo">
-<meta name="keywords" content="iOS">
+<meta name="description" content="注：该系列是本人学习《数据结构与算法之美》课程时，为加深理解和日后翻看所做的摘录及个人思考的记录，仅适用于查缺补漏。翻到这篇的朋友如果要补充这些基础知识的话，最好通过系统性学习《数据结构与算法分析》、《算法》等专业书。 复杂度分析事后统计法将代码跑一遍，测试得到算法的执行时间和占用内存的空间大小这种事后统计法虽然是正确的，但是又很大的局限性：  测试结果非常依赖测试环境 测试结果受数据规模影响很大">
+<meta name="keywords" content="数据结构与算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS 常读常新的文章索引（持续更新）">
-<meta property="og:url" content="http://yoursite.com/2018/01/12/iOS 常读常新的博客文章（持续更新）/index.html">
+<meta property="og:title" content="《数据结构与算法之美》笔记">
+<meta property="og:url" content="http://yoursite.com/2018/10/06/《数据结构与算法之美》笔记/index.html">
 <meta property="og:site_name" content="Deep Thought">
-<meta property="og:description" content="WebView相关JavaScriptCore全面解析 （下篇）H5 和移动端 WebView 缓存机制解析与实战iOS 8 WebKit框架概览（上）iOS中UIWebView与WKWebView、JavaScript与OC交互、Cookie管理看我就够（上） JSPatchJSPatch 实现原理详解 加密与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (基础) Runlo">
+<meta property="og:description" content="注：该系列是本人学习《数据结构与算法之美》课程时，为加深理解和日后翻看所做的摘录及个人思考的记录，仅适用于查缺补漏。翻到这篇的朋友如果要补充这些基础知识的话，最好通过系统性学习《数据结构与算法分析》、《算法》等专业书。 复杂度分析事后统计法将代码跑一遍，测试得到算法的执行时间和占用内存的空间大小这种事后统计法虽然是正确的，但是又很大的局限性：  测试结果非常依赖测试环境 测试结果受数据规模影响很大">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-28T07:56:04.993Z">
+<meta property="og:image" content="http://yoursite.com/images/%E5%A4%8D%E6%9D%82%E5%BA%A6.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E7%BA%BF%E6%80%A7%E8%A1%A8.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A1%A8.jpg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%95%B0%E7%BB%84a.jpg">
+<meta property="og:updated_time" content="2019-01-15T02:16:25.173Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS 常读常新的文章索引（持续更新）">
-<meta name="twitter:description" content="WebView相关JavaScriptCore全面解析 （下篇）H5 和移动端 WebView 缓存机制解析与实战iOS 8 WebKit框架概览（上）iOS中UIWebView与WKWebView、JavaScript与OC交互、Cookie管理看我就够（上） JSPatchJSPatch 实现原理详解 加密与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (基础) Runlo">
+<meta name="twitter:title" content="《数据结构与算法之美》笔记">
+<meta name="twitter:description" content="注：该系列是本人学习《数据结构与算法之美》课程时，为加深理解和日后翻看所做的摘录及个人思考的记录，仅适用于查缺补漏。翻到这篇的朋友如果要补充这些基础知识的话，最好通过系统性学习《数据结构与算法分析》、《算法》等专业书。 复杂度分析事后统计法将代码跑一遍，测试得到算法的执行时间和占用内存的空间大小这种事后统计法虽然是正确的，但是又很大的局限性：  测试结果非常依赖测试环境 测试结果受数据规模影响很大">
+<meta name="twitter:image" content="http://yoursite.com/images/%E5%A4%8D%E6%9D%82%E5%BA%A6.jpg">
 
 
 
@@ -120,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/01/12/iOS 常读常新的博客文章（持续更新）/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/10/06/《数据结构与算法之美》笔记/"/>
 
 
 
 
 
-  <title>iOS 常读常新的文章索引（持续更新） | Deep Thought</title>
+  <title>《数据结构与算法之美》笔记 | Deep Thought</title>
   
 
 
@@ -253,7 +258,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/12/iOS 常读常新的博客文章（持续更新）/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/06/《数据结构与算法之美》笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="姚七六">
@@ -270,7 +275,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">iOS 常读常新的文章索引（持续更新）</h1>
+          <h1 class="post-title" itemprop="name headline">《数据结构与算法之美》笔记</h1>
         
 
         <div class="post-meta">
@@ -282,8 +287,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-12T20:03:13+08:00">
-                2018-01-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-06T17:50:02+08:00">
+                2018-10-06
               </time>
             
 
@@ -305,8 +310,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS-笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS 笔记</span>
+                  <a href="/categories/程序员的自我修养/" itemprop="url" rel="index">
+                    <span itemprop="name">程序员的自我修养</span>
                   </a>
                 </span>
 
@@ -323,8 +328,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/01/12/iOS 常读常新的博客文章（持续更新）/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/01/12/iOS 常读常新的博客文章（持续更新）/" itemprop="commentsCount"></span>
+                <a href="/2018/10/06/《数据结构与算法之美》笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/10/06/《数据结构与算法之美》笔记/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -352,12 +357,37 @@
       
 
       
-        <h1 id="WebView相关"><a href="#WebView相关" class="headerlink" title="WebView相关"></a>WebView相关</h1><p><a href="https://cloud.tencent.com/developer/article/1004876" target="_blank" rel="external">JavaScriptCore全面解析 （下篇）</a><br><a href="https://mp.weixin.qq.com/s/qHm_dJBhVbv0pJs8Crp77w" target="_blank" rel="external">H5 和移动端 WebView 缓存机制解析与实战</a><br><a href="http://www.cocoachina.com/ios/20150203/11089.html" target="_blank" rel="external">iOS 8 WebKit框架概览（上）</a><br><a href="https://www.jianshu.com/p/ac45d99cf912" target="_blank" rel="external">iOS中UIWebView与WKWebView、JavaScript与OC交互、Cookie管理看我就够（上）</a></p>
-<h1 id="JSPatch"><a href="#JSPatch" class="headerlink" title="JSPatch"></a>JSPatch</h1><p><a href="https://github.com/bang590/JSPatch/wiki/JSPatch-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E8%AF%A6%E8%A7%A3" target="_blank" rel="external">JSPatch 实现原理详解</a></p>
-<h1 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h1><p><a href="https://onevcat.com/2018/12/jose-1/" target="_blank" rel="external">与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (基础)</a></p>
-<h1 id="Runloop"><a href="#Runloop" class="headerlink" title="Runloop"></a>Runloop</h1><p><a href="http://mrpeak.cn/blog/ios-runloop/" target="_blank" rel="external">解密 Runloop</a><br><a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a></p>
-<h1 id="图片加载"><a href="#图片加载" class="headerlink" title="图片加载"></a>图片加载</h1><p><a href="http://blog.cnbang.net/tech/2578/" target="_blank" rel="external">iOS图片加载速度极限优化—FastImageCache解析</a></p>
-<h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><p><a href="https://zhuanlan.zhihu.com/p/36820191?utm_source=weibo&amp;utm_medium=social&amp;utm_oi=37937647452160&amp;from=1084393010&amp;wm=3333_2001&amp;weiboauthoruid=1438670852" target="_blank" rel="external">移动端IM开发者必读(二)：史上最全移动弱网络优化方法总结</a></p>
+        <p>注：该系列是本人学习《数据结构与算法之美》课程时，为加深理解和日后翻看所做的摘录及个人思考的记录，仅适用于查缺补漏。翻到这篇的朋友如果要补充这些基础知识的话，最好通过系统性学习《数据结构与算法分析》、《算法》等专业书。</p>
+<h1 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h1><h2 id="事后统计法"><a href="#事后统计法" class="headerlink" title="事后统计法"></a>事后统计法</h2><p>将代码跑一遍，测试得到算法的执行时间和占用内存的空间大小这种事后统计法虽然是正确的，但是又很大的局限性：</p>
+<ol>
+<li>测试结果非常依赖测试环境</li>
+<li>测试结果受数据规模影响很大</li>
+</ol>
+<h2 id="大O复杂度表示法"><a href="#大O复杂度表示法" class="headerlink" title="大O复杂度表示法"></a>大O复杂度表示法</h2><h3 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">T(n) = O(f(n))</div></pre></td></tr></table></figure>
+<p>T(n) 表示代码的执行时间，n 表示数据规模的大小，f(n) 表示每行代码执行的次数总和，上面的公式就表示<strong>所有代码的执行时间与每行代码的执行次数成正比</strong>。</p>
+<p><strong>大 O 时间复杂度实际上并不具体表示代码真正的执行时间，而是代表代码执行时间随数据规模增长的变化趋势，所以也叫渐进时间复杂度</strong>。 当 n 很大时，f(n)中的低阶，常量，系数并不左右增长趋势，所以可以忽略，只记录一个最大量级就可以了。例如：<code>T(n)=O(n²)</code>，<code>T(n)=O(logn)</code>这样。常见的时间复杂度有如下几种：</p>
+<p><img src="/images/%E5%A4%8D%E6%9D%82%E5%BA%A6.jpg" alt="复杂度"></p>
+<ul>
+<li>最好/最坏情况时间复杂度：是指在最理想/最糟糕的情况下，执行这段代码的时间复杂度。</li>
+<li>平均时间复杂度：最好/最坏时间复杂度对应的都是极端情况下的复杂度，平均复杂度将各种情况发生的概率考虑进去，是所有情况下代码执行次数的加权平均值。</li>
+<li>均摊时间复杂度：均摊时间复杂度其实是一种特殊的平均时间复杂度，一般是指对一个数据结构进行一组连续操作中，大部分情况下时间复杂度都很低，只有个别情况下时间复杂度较高，而且这些操作之间存在前后连贯的时序关系，此时，我们将这一组操作放在一起分析，看能否将较高时间复杂度的那次操作的耗时均摊到其他时间复杂度比较低的操作上。</li>
+</ul>
+<h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3><p>表示算法的存储空间与数据规模增长的变化趋势，也叫渐进空间复杂度。</p>
+<h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><p>数组（Array）是一种<strong>线性表数据结构</strong>。它用一组<strong>连续的内存空间</strong>，来存储一组具有<strong>相同类型的数据。</strong></p>
+<ul>
+<li>线性表是一种数据排成一条线一样的结构，每个线性表上的数据最多只有前和后两个方向。数组、链表、队列、栈都是线性表结构。</li>
+</ul>
+<p><img src="/images/%E7%BA%BF%E6%80%A7%E8%A1%A8.jpg" alt="线性表"></p>
+<p>在非线性表中，数据之间并不是简单的前后关系。<br><img src="/images/%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A1%A8.jpg" alt="非线性表"></p>
+<ul>
+<li>连续的内存空间和相同类型的数据使得数组支持<strong>根据下标随机访问</strong>的特性。</li>
+</ul>
+<p><img src="/images/%E6%95%B0%E7%BB%84a.jpg" alt="数组a"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//按下标随机访问数组中某个元素时，通过如下寻址公式，计算出该元素的内存地址</div><div class="line">a[i]_address = base_address + i * data_type_size</div></pre></td></tr></table></figure>
+<ul>
+<li>插入操作：将一个数据插入到长度为 n 的数组的第 k 个位置，需要先将 k~n 的这部分元素顺序向后挪一位，再插入新元素。其最好、最坏及平均时间复杂度为 O(1)、O(n)、O(n)。但是当数组中的数据没有任何规律，只是被当做存储数据的集合时，可以直接将第 k 位数据搬到数组的最后，将新元素直接放到第 k 位，将时间复杂度减为 O(1)。</li>
+<li>删除操作：与插入操作类似，为保证内存连续性，也需要搬移数据。最好、最坏及平均时间复杂度也为 O(1)、O(n)、O(n)。但是在某些特殊情况下，我们不追求数据的连续性时，可以采取标记元素已经被删除，并不真正搬移数据，只有在数组没有更多的存储空间时才执行一次真正的删除操作，这样大大减少了操作导致的数据搬移。</li>
+</ul>
 
       
     </div>
@@ -399,7 +429,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/iOS/" rel="tag"># iOS</a>
+            <a href="/tags/数据结构与算法/" rel="tag"># 数据结构与算法</a>
           
         </div>
       
@@ -412,8 +442,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/15/KVC-KVO 笔记/" rel="next" title="KVC/KVO 笔记">
-                <i class="fa fa-chevron-left"></i> KVC/KVO 笔记
+              <a href="/2018/06/05/AV Foundation笔记-音视频基础入门/" rel="next" title="AV Foundation笔记-音视频基础入门">
+                <i class="fa fa-chevron-left"></i> AV Foundation笔记-音视频基础入门
               </a>
             
           </div>
@@ -422,8 +452,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/01/20/[WWDC]Mastering Grand Central Dispatch/" rel="prev" title="【WWDC】Mastering Grand Central Dispatch">
-                【WWDC】Mastering Grand Central Dispatch <i class="fa fa-chevron-right"></i>
+              <a href="/2018/11/02/【翻译】Understanding JavaScript Bind ()/" rel="prev" title="【翻译】Understanding JavaScript Bind ()">
+                【翻译】Understanding JavaScript Bind () <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -601,7 +631,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#WebView相关"><span class="nav-number">1.</span> <span class="nav-text">WebView相关</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JSPatch"><span class="nav-number">2.</span> <span class="nav-text">JSPatch</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#加密"><span class="nav-number">3.</span> <span class="nav-text">加密</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Runloop"><span class="nav-number">4.</span> <span class="nav-text">Runloop</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图片加载"><span class="nav-number">5.</span> <span class="nav-text">图片加载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络"><span class="nav-number">6.</span> <span class="nav-text">网络</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#复杂度分析"><span class="nav-number">1.</span> <span class="nav-text">复杂度分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#事后统计法"><span class="nav-number">1.1.</span> <span class="nav-text">事后统计法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大O复杂度表示法"><span class="nav-number">1.2.</span> <span class="nav-text">大O复杂度表示法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#时间复杂度"><span class="nav-number">1.2.1.</span> <span class="nav-text">时间复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#空间复杂度"><span class="nav-number">1.2.2.</span> <span class="nav-text">空间复杂度</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数组"><span class="nav-number">2.</span> <span class="nav-text">数组</span></a></li></ol></div>
             
 
           </div>
@@ -794,7 +824,7 @@
       <script type="text/javascript">
       function renderGitment(){
         var gitment = new Gitmint({
-            id: '1515758593000', 
+            id: '1538819402000', 
             owner: '176zane',
             repo: '176zane.github.io',
             

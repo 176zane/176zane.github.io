@@ -90,7 +90,7 @@
 <meta property="og:image" content="http://yoursite.com/images/yun.png">
 <meta property="og:image" content="http://yoursite.com/images/bucket_error.png">
 <meta property="og:image" content="http://yoursite.com/images/terminal_buckets.png">
-<meta property="og:updated_time" content="2018-12-29T07:34:58.703Z">
+<meta property="og:updated_time" content="2019-01-07T02:26:50.416Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="小记：七牛云测试域名回收问题">
 <meta name="twitter:description" content="问题月初收到七牛云的邮件扫了一眼大概是关于测试域名回收的问题，由于我只是用到了七牛云存储来做博客图床也就没在意。今天一上博客发现有些图片已经刷不出来了，请求图片的链接返回: 1&amp;#123;error: &quot;no such domain&quot;&amp;#125; 这不就很蛋疼了嘛，上后台一看，果然是测试域名的问题：测试域名使用规范，图片上传后生成域名以 clouddn.com 结尾的 URL 在域名回收后自然不能">
@@ -374,7 +374,7 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"><span class="comment">#``反引号是命令替换，可以先执行其中的命令并暂时保存在变量 imgs 中,``的替换操作也可使用$()操作</span></div><div class="line">imgs=`./qrsctl listprefix 176zane <span class="string">''</span>`</div><div class="line">i=0 </div><div class="line"><span class="comment">#打印$imgs执行结果 然后使用管道符合 | 将结果传给 tr 命令将空格转化为换行符,再将结果逐行读取到 line 变量</span></div><div class="line"><span class="built_in">echo</span> <span class="variable">$imgs</span> | tr <span class="string">" "</span> <span class="string">"\n"</span> | <span class="keyword">while</span> <span class="built_in">read</span> line</div><div class="line"><span class="keyword">do</span></div><div class="line"><span class="comment">#(())用于算数运算比较，此处的判断用于将上面结果中第一行的 ‘marker:‘这个非资源名的信息打印过滤掉</span></div><div class="line">    <span class="keyword">if</span>((<span class="variable">$i</span>&gt;0))</div><div class="line">    <span class="keyword">then</span></div><div class="line">        <span class="built_in">echo</span> <span class="variable">$line</span></div><div class="line">        ./qrsctl get 176zane <span class="variable">$line</span> ./<span class="variable">$line</span></div><div class="line">    <span class="keyword">fi</span></div><div class="line">    i=$((<span class="variable">$i</span>+1))</div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure>
 <p>虽然对<code>shell</code>脚本不是太熟悉，但是上面的逻辑还是挺简单的，尝试一下很简单就把图片资源下载下来了，但是检查了一下就发现并没有下载完所有的资源，其实这里面还有一个坑：<code>tr &quot; &quot; &quot;\n&quot;</code>命令将之前处理结果分成一行一行的字符串时也将文件名中带有空格的如上图中用绿框框起来的文件名给破坏了，在后台中删除了该文件命名中的空格后重新运行脚本就搞定了。当然这是简单的做法，当你有很多资源名中含有空格时，可以在获取资源名后，在后续的命令中对文件名加上引号来下载：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./qrsctl get 176zane <span class="string">'2018-07-12 10_40_14.gif'</span> ./<span class="string">'2018-07-12 10_40_14.gif'</span></div></pre></td></tr></table></figure>
-<p>这样就拿回了所有保存在七牛云上的图片资源，鉴于暂时没找到合适的图床，索性就直接用 github 来保存吧，虽然加载速度会慢点，但还是比较可靠的。全局替换图床链接<code>http://oztca4xvs.bkt.clouddn.com/</code>为本地地址<code>images/</code>后，将图片复制到<code>source/images/</code>目录下，重新部署即可。</p>
+<p>这样就拿回了所有保存在七牛云上的图片资源，鉴于暂时没找到合适的图床，索性就直接用 github 来保存吧，虽然加载速度会慢点，但还是比较可靠的。全局替换图床链接<code>http://oztca4xvs.bkt.clouddn.com/</code>为本地地址<code>/images/</code>后，将图片复制到<code>source/images/</code>目录下，重新部署即可。</p>
 
       
     </div>
@@ -429,8 +429,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/05/AV Foundation笔记-音视频基础/" rel="next" title="AV Foundation笔记-音视频基础">
-                <i class="fa fa-chevron-left"></i> AV Foundation笔记-音视频基础
+              <a href="/2018/11/02/【翻译】Understanding JavaScript Bind ()/" rel="next" title="【翻译】Understanding JavaScript Bind ()">
+                <i class="fa fa-chevron-left"></i> 【翻译】Understanding JavaScript Bind ()
               </a>
             
           </div>
@@ -525,7 +525,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -536,7 +536,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -547,7 +547,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -634,7 +634,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
