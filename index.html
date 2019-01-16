@@ -412,7 +412,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/02/【翻译】Understanding JavaScript Bind ()/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/06/《数据结构与算法之美》笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="姚七六">
@@ -431,7 +431,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/02/【翻译】Understanding JavaScript Bind ()/" itemprop="url">【翻译】Understanding JavaScript Bind ()</a></h1>
+                <a class="post-title-link" href="/2018/10/06/《数据结构与算法之美》笔记/" itemprop="url">《数据结构与算法之美》笔记</a></h1>
         
 
         <div class="post-meta">
@@ -443,8 +443,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-02T10:53:02+08:00">
-                2018-11-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-06T17:50:02+08:00">
+                2018-10-06
               </time>
             
 
@@ -466,8 +466,180 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Web-笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">Web 笔记</span>
+                  <a href="/categories/程序员的自我修养/" itemprop="url" rel="index">
+                    <span itemprop="name">程序员的自我修养</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>注：该系列是本人学习《数据结构与算法之美》课程时，为加深理解和日后翻看所做的摘录及个人思考的记录，仅适用于查缺补漏。翻到这篇的朋友如果要补充这些基础知识的话，最好通过系统性学习《数据结构与算法分析》、《算法》等专业书。</p>
+<h1 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h1><h2 id="事后统计法"><a href="#事后统计法" class="headerlink" title="事后统计法"></a>事后统计法</h2><p>将代码跑一遍，测试得到算法的执行时间和占用内存的空间大小这种事后统计法虽然是正确的，但是又很大的局限性：</p>
+<ol>
+<li>测试结果非常依赖测试环境</li>
+<li>测试结果受数据规模影响很大</li>
+</ol>
+<h2 id="大O复杂度表示法"><a href="#大O复杂度表示法" class="headerlink" title="大O复杂度表示法"></a>大O复杂度表示法</h2><h3 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">T(n) = O(f(n))</div></pre></td></tr></table></figure>
+<p>T(n) 表示代码的执行时间，n 表示数据规模的大小，f(n) 表示每行代码执行的次数总和，上面的公式就表示<strong>所有代码的执行时间与每行代码的执行次数成正比</strong>。</p>
+<p><strong>大 O 时间复杂度实际上并不具体表示代码真正的执行时间，而是代表代码执行时间随数据规模增长的变化趋势，所以也叫渐进时间复杂度</strong>。 当 n 很大时，f(n)中的低阶，常量，系数并不左右增长趋势，所以可以忽略，只记录一个最大量级就可以了。例如：<code>T(n)=O(n²)</code>，<code>T(n)=O(logn)</code>这样。常见的时间复杂度有如下几种：</p>
+<p><img src="./images/%E5%A4%8D%E6%9D%82%E5%BA%A6.jpg" alt="复杂度"></p>
+<ul>
+<li>最好/最坏情况时间复杂度：是指在最理想/最糟糕的情况下，执行这段代码的时间复杂度。</li>
+<li>平均时间复杂度：最好/最坏时间复杂度对应的都是极端情况下的复杂度，平均复杂度将各种情况发生的概率考虑进去，是所有情况下代码执行次数的加权平均值。</li>
+<li>均摊时间复杂度：均摊时间复杂度其实是一种特殊的平均时间复杂度，一般是指对一个数据结构进行一组连续操作中，大部分情况下时间复杂度都很低，只有个别情况下时间复杂度较高，而且这些操作之间存在前后连贯的时序关系，此时，我们将这一组操作放在一起分析，看能否将较高时间复杂度的那次操作的耗时均摊到其他时间复杂度比较低的操作上。</li>
+</ul>
+<h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3><p>表示算法的存储空间与数据规模增长的变化趋势，也叫渐进空间复杂度。</p>
+<h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><p>数组（Array）是一种<strong>线性表数据结构</strong>。它用一组<strong>连续的内存空间</strong>，来存储一组具有<strong>相同类型的数据。</strong></p>
+<ul>
+<li>线性表是一种数据排成一条线一样的结构，每个线性表上的数据最多只有前和后两个方向。数组、链表、队列、栈都是线性表结构。</li>
+</ul>
+<p><img src="/images/%E7%BA%BF%E6%80%A7%E8%A1%A8.jpg" alt="线性表"></p>
+<p>在非线性表中，数据之间并不是简单的前后关系。<br><img src="/images/%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A1%A8.jpg" alt="非线性表"></p>
+<ul>
+<li>连续的内存空间和相同类型的数据使得数组支持<strong>根据下标随机访问</strong>的特性。</li>
+</ul>
+<p><img src="/images/%E6%95%B0%E7%BB%84a.jpg" alt="数组a"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//按下标随机访问数组中某个元素时，通过如下寻址公式，计算出该元素的内存地址</div><div class="line">a[i]_address = base_address + i * data_type_size</div></pre></td></tr></table></figure>
+<ul>
+<li>插入操作：将一个数据插入到长度为 n 的数组的第 k 个位置，需要先将 k~n 的这部分元素顺序向后挪一位，再插入新元素。其最好、最坏及平均时间复杂度为 O(1)、O(n)、O(n)。但是当数组中的数据没有任何规律，只是被当做存储数据的集合时，可以直接将第 k 位数据搬到数组的最后，将新元素直接放到第 k 位，将时间复杂度减为 O(1)。</li>
+<li>删除操作：与插入操作类似，为保证内存连续性，也需要搬移数据。最好、最坏及平均时间复杂度也为 O(1)、O(n)、O(n)。但是在某些特殊情况下，我们不追求数据的连续性时，可以采取标记元素已经被删除，并不真正搬移数据，只有在数组没有更多的存储空间时才执行一次真正的删除操作，这样大大减少了操作导致的数据搬移。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/07/【翻译】Understanding JavaScript Bind ()/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="姚七六">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/self.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Deep Thought">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/07/【翻译】Understanding JavaScript Bind ()/" itemprop="url">【翻译】Understanding JavaScript Bind ()</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-07T10:53:02+08:00">
+                2018-09-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">前端笔记</span>
                   </a>
                 </span>
 
@@ -591,178 +763,6 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> unboundForEach = <span class="built_in">Array</span>.prototype.forEach,</div><div class="line">    forEach = <span class="built_in">Function</span>.prototype.call.bind(unboundForEach);</div><div class="line"></div><div class="line">forEach(<span class="built_in">document</span>.querySelectorAll(<span class="string">'.klasses'</span>), <span class="function"><span class="keyword">function</span> (<span class="params">el</span>) </span>&#123;</div><div class="line">    el.addEventListener(<span class="string">'click'</span>, someFunction);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <p>现在我们有一个整齐的方法来循环我们的 DOM 节点了。</p>
 <h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>如你所见，JS 的<code>bind()</code>函数可以巧妙的用于各种用途或者代码的整理。期望你能在需要时将<code>.bind()</code>添加进你的代码中来驾驭<code>this</code>值转换的能力。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/06/《数据结构与算法之美》笔记/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="姚七六">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/self.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Deep Thought">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/06/《数据结构与算法之美》笔记/" itemprop="url">《数据结构与算法之美》笔记</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-06T17:50:02+08:00">
-                2018-10-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/程序员的自我修养/" itemprop="url" rel="index">
-                    <span itemprop="name">程序员的自我修养</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>注：该系列是本人学习《数据结构与算法之美》课程时，为加深理解和日后翻看所做的摘录及个人思考的记录，仅适用于查缺补漏。翻到这篇的朋友如果要补充这些基础知识的话，最好通过系统性学习《数据结构与算法分析》、《算法》等专业书。</p>
-<h1 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h1><h2 id="事后统计法"><a href="#事后统计法" class="headerlink" title="事后统计法"></a>事后统计法</h2><p>将代码跑一遍，测试得到算法的执行时间和占用内存的空间大小这种事后统计法虽然是正确的，但是又很大的局限性：</p>
-<ol>
-<li>测试结果非常依赖测试环境</li>
-<li>测试结果受数据规模影响很大</li>
-</ol>
-<h2 id="大O复杂度表示法"><a href="#大O复杂度表示法" class="headerlink" title="大O复杂度表示法"></a>大O复杂度表示法</h2><h3 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">T(n) = O(f(n))</div></pre></td></tr></table></figure>
-<p>T(n) 表示代码的执行时间，n 表示数据规模的大小，f(n) 表示每行代码执行的次数总和，上面的公式就表示<strong>所有代码的执行时间与每行代码的执行次数成正比</strong>。</p>
-<p><strong>大 O 时间复杂度实际上并不具体表示代码真正的执行时间，而是代表代码执行时间随数据规模增长的变化趋势，所以也叫渐进时间复杂度</strong>。 当 n 很大时，f(n)中的低阶，常量，系数并不左右增长趋势，所以可以忽略，只记录一个最大量级就可以了。例如：<code>T(n)=O(n²)</code>，<code>T(n)=O(logn)</code>这样。常见的时间复杂度有如下几种：</p>
-<p><img src="/images/%E5%A4%8D%E6%9D%82%E5%BA%A6.jpg" alt="复杂度"></p>
-<ul>
-<li>最好/最坏情况时间复杂度：是指在最理想/最糟糕的情况下，执行这段代码的时间复杂度。</li>
-<li>平均时间复杂度：最好/最坏时间复杂度对应的都是极端情况下的复杂度，平均复杂度将各种情况发生的概率考虑进去，是所有情况下代码执行次数的加权平均值。</li>
-<li>均摊时间复杂度：均摊时间复杂度其实是一种特殊的平均时间复杂度，一般是指对一个数据结构进行一组连续操作中，大部分情况下时间复杂度都很低，只有个别情况下时间复杂度较高，而且这些操作之间存在前后连贯的时序关系，此时，我们将这一组操作放在一起分析，看能否将较高时间复杂度的那次操作的耗时均摊到其他时间复杂度比较低的操作上。</li>
-</ul>
-<h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3><p>表示算法的存储空间与数据规模增长的变化趋势，也叫渐进空间复杂度。</p>
-<h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><p>数组（Array）是一种<strong>线性表数据结构</strong>。它用一组<strong>连续的内存空间</strong>，来存储一组具有<strong>相同类型的数据。</strong></p>
-<ul>
-<li>线性表是一种数据排成一条线一样的结构，每个线性表上的数据最多只有前和后两个方向。数组、链表、队列、栈都是线性表结构。</li>
-</ul>
-<p><img src="/images/%E7%BA%BF%E6%80%A7%E8%A1%A8.jpg" alt="线性表"></p>
-<p>在非线性表中，数据之间并不是简单的前后关系。<br><img src="/images/%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A1%A8.jpg" alt="非线性表"></p>
-<ul>
-<li>连续的内存空间和相同类型的数据使得数组支持<strong>根据下标随机访问</strong>的特性。</li>
-</ul>
-<p><img src="/images/%E6%95%B0%E7%BB%84a.jpg" alt="数组a"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//按下标随机访问数组中某个元素时，通过如下寻址公式，计算出该元素的内存地址</div><div class="line">a[i]_address = base_address + i * data_type_size</div></pre></td></tr></table></figure>
-<ul>
-<li>插入操作：将一个数据插入到长度为 n 的数组的第 k 个位置，需要先将 k~n 的这部分元素顺序向后挪一位，再插入新元素。其最好、最坏及平均时间复杂度为 O(1)、O(n)、O(n)。但是当数组中的数据没有任何规律，只是被当做存储数据的集合时，可以直接将第 k 位数据搬到数组的最后，将新元素直接放到第 k 位，将时间复杂度减为 O(1)。</li>
-<li>删除操作：与插入操作类似，为保证内存连续性，也需要搬移数据。最好、最坏及平均时间复杂度也为 O(1)、O(n)、O(n)。但是在某些特殊情况下，我们不追求数据的连续性时，可以采取标记元素已经被删除，并不真正搬移数据，只有在数组没有更多的存储空间时才执行一次真正的删除操作，这样大大减少了操作导致的数据搬移。</li>
-</ul>
 
           
         
@@ -2466,7 +2466,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
