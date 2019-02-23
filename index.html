@@ -514,7 +514,7 @@
 <h2 id="大O复杂度表示法"><a href="#大O复杂度表示法" class="headerlink" title="大O复杂度表示法"></a>大O复杂度表示法</h2><h3 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">T(n) = O(f(n))</div></pre></td></tr></table></figure>
 <p>T(n) 表示代码的执行时间，n 表示数据规模的大小，f(n) 表示每行代码执行的次数总和，上面的公式就表示<strong>所有代码的执行时间与每行代码的执行次数成正比</strong>。</p>
 <p><strong>大 O 时间复杂度实际上并不具体表示代码真正的执行时间，而是代表代码执行时间随数据规模增长的变化趋势，所以也叫渐进时间复杂度</strong>。 当 n 很大时，f(n)中的低阶，常量，系数并不左右增长趋势，所以可以忽略，只记录一个最大量级就可以了。例如：<code>T(n)=O(n²)</code>，<code>T(n)=O(logn)</code>这样。常见的时间复杂度有如下几种：</p>
-<p><img src="./images/%E5%A4%8D%E6%9D%82%E5%BA%A6.jpg" alt="复杂度"></p>
+<p><img src="/images/%E5%A4%8D%E6%9D%82%E5%BA%A6.jpg" alt="复杂度"></p>
 <ul>
 <li>最好/最坏情况时间复杂度：是指在最理想/最糟糕的情况下，执行这段代码的时间复杂度。</li>
 <li>平均时间复杂度：最好/最坏时间复杂度对应的都是极端情况下的复杂度，平均复杂度将各种情况发生的概率考虑进去，是所有情况下代码执行次数的加权平均值。</li>
@@ -2143,10 +2143,11 @@
           
             <h1 id="WebView相关"><a href="#WebView相关" class="headerlink" title="WebView相关"></a>WebView相关</h1><p><a href="https://cloud.tencent.com/developer/article/1004876" target="_blank" rel="external">JavaScriptCore全面解析 （下篇）</a><br><a href="https://mp.weixin.qq.com/s/qHm_dJBhVbv0pJs8Crp77w" target="_blank" rel="external">H5 和移动端 WebView 缓存机制解析与实战</a><br><a href="http://www.cocoachina.com/ios/20150203/11089.html" target="_blank" rel="external">iOS 8 WebKit框架概览（上）</a><br><a href="https://www.jianshu.com/p/ac45d99cf912" target="_blank" rel="external">iOS中UIWebView与WKWebView、JavaScript与OC交互、Cookie管理看我就够（上）</a></p>
 <h1 id="JSPatch"><a href="#JSPatch" class="headerlink" title="JSPatch"></a>JSPatch</h1><p><a href="https://github.com/bang590/JSPatch/wiki/JSPatch-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E8%AF%A6%E8%A7%A3" target="_blank" rel="external">JSPatch 实现原理详解</a></p>
-<h1 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h1><p><a href="https://onevcat.com/2018/12/jose-1/" target="_blank" rel="external">与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (基础)</a></p>
-<h1 id="Runloop"><a href="#Runloop" class="headerlink" title="Runloop"></a>Runloop</h1><p><a href="http://mrpeak.cn/blog/ios-runloop/" target="_blank" rel="external">解密 Runloop</a><br><a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a></p>
+<h1 id="加密与签名"><a href="#加密与签名" class="headerlink" title="加密与签名"></a>加密与签名</h1><p><a href="https://onevcat.com/2018/12/jose-1/" target="_blank" rel="external">与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (基础)</a><br><a href="http://xelz.info/blog/2019/01/11/ios-code-signature/" target="_blank" rel="external">深度长文：细说iOS代码签名</a><br><a href="http://wereadteam.github.io/2017/03/13/Signature/" target="_blank" rel="external">iOS App 签名的原理</a><br><a href="https://mp.weixin.qq.com/s/LqE1Qf_ripM2h2S87Tlbmw" target="_blank" rel="external">RSA 原理探究</a></p>
+<h1 id="Runloop"><a href="#Runloop" class="headerlink" title="Runloop"></a>Runloop</h1><p><a href="http://mrpeak.cn/blog/ios-runloop/" target="_blank" rel="external">解密 Runloop</a><br><a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a><br><a href="https://www.jianshu.com/p/c294d1bd963d" target="_blank" rel="external">iOS触摸事件全家桶</a></p>
 <h1 id="图片加载"><a href="#图片加载" class="headerlink" title="图片加载"></a>图片加载</h1><p><a href="http://blog.cnbang.net/tech/2578/" target="_blank" rel="external">iOS图片加载速度极限优化—FastImageCache解析</a></p>
 <h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><p><a href="https://zhuanlan.zhihu.com/p/36820191?utm_source=weibo&amp;utm_medium=social&amp;utm_oi=37937647452160&amp;from=1084393010&amp;wm=3333_2001&amp;weiboauthoruid=1438670852" target="_blank" rel="external">移动端IM开发者必读(二)：史上最全移动弱网络优化方法总结</a></p>
+<h1 id="组件化"><a href="#组件化" class="headerlink" title="组件化"></a>组件化</h1><p><a href="https://mp.weixin.qq.com/s?__biz=MzA5NzMwODI0MA==&amp;mid=2647761791&amp;idx=1&amp;sn=3e4a8592b1cd48e9e6fb11ce4c849c0c&amp;chksm=8887d840bff0515654b687c5e66902c2b034fcefc986e6d8ebacd5ff287c78edea615a6145a5&amp;scene=21#wechat_redirect" target="_blank" rel="external">iOS 组件化 —— 路由设计思路分析</a></p>
 
           
         

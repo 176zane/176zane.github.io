@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="WebView相关JavaScriptCore全面解析 （下篇）H5 和移动端 WebView 缓存机制解析与实战iOS 8 WebKit框架概览（上）iOS中UIWebView与WKWebView、JavaScript与OC交互、Cookie管理看我就够（上） JSPatchJSPatch 实现原理详解 加密与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (基础) Runlo">
+<meta name="description" content="WebView相关JavaScriptCore全面解析 （下篇）H5 和移动端 WebView 缓存机制解析与实战iOS 8 WebKit框架概览（上）iOS中UIWebView与WKWebView、JavaScript与OC交互、Cookie管理看我就够（上） JSPatchJSPatch 实现原理详解 加密与签名与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (基础)深度长">
 <meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS 常读常新的文章索引（持续更新）">
 <meta property="og:url" content="http://yoursite.com/2018/01/12/iOS 常读常新的博客文章（持续更新）/index.html">
 <meta property="og:site_name" content="Deep Thought">
-<meta property="og:description" content="WebView相关JavaScriptCore全面解析 （下篇）H5 和移动端 WebView 缓存机制解析与实战iOS 8 WebKit框架概览（上）iOS中UIWebView与WKWebView、JavaScript与OC交互、Cookie管理看我就够（上） JSPatchJSPatch 实现原理详解 加密与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (基础) Runlo">
+<meta property="og:description" content="WebView相关JavaScriptCore全面解析 （下篇）H5 和移动端 WebView 缓存机制解析与实战iOS 8 WebKit框架概览（上）iOS中UIWebView与WKWebView、JavaScript与OC交互、Cookie管理看我就够（上） JSPatchJSPatch 实现原理详解 加密与签名与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (基础)深度长">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-28T07:56:04.993Z">
+<meta property="og:updated_time" content="2019-02-21T02:46:21.787Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 常读常新的文章索引（持续更新）">
-<meta name="twitter:description" content="WebView相关JavaScriptCore全面解析 （下篇）H5 和移动端 WebView 缓存机制解析与实战iOS 8 WebKit框架概览（上）iOS中UIWebView与WKWebView、JavaScript与OC交互、Cookie管理看我就够（上） JSPatchJSPatch 实现原理详解 加密与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (基础) Runlo">
+<meta name="twitter:description" content="WebView相关JavaScriptCore全面解析 （下篇）H5 和移动端 WebView 缓存机制解析与实战iOS 8 WebKit框架概览（上）iOS中UIWebView与WKWebView、JavaScript与OC交互、Cookie管理看我就够（上） JSPatchJSPatch 实现原理详解 加密与签名与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (基础)深度长">
 
 
 
@@ -354,10 +354,11 @@
       
         <h1 id="WebView相关"><a href="#WebView相关" class="headerlink" title="WebView相关"></a>WebView相关</h1><p><a href="https://cloud.tencent.com/developer/article/1004876" target="_blank" rel="external">JavaScriptCore全面解析 （下篇）</a><br><a href="https://mp.weixin.qq.com/s/qHm_dJBhVbv0pJs8Crp77w" target="_blank" rel="external">H5 和移动端 WebView 缓存机制解析与实战</a><br><a href="http://www.cocoachina.com/ios/20150203/11089.html" target="_blank" rel="external">iOS 8 WebKit框架概览（上）</a><br><a href="https://www.jianshu.com/p/ac45d99cf912" target="_blank" rel="external">iOS中UIWebView与WKWebView、JavaScript与OC交互、Cookie管理看我就够（上）</a></p>
 <h1 id="JSPatch"><a href="#JSPatch" class="headerlink" title="JSPatch"></a>JSPatch</h1><p><a href="https://github.com/bang590/JSPatch/wiki/JSPatch-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E8%AF%A6%E8%A7%A3" target="_blank" rel="external">JSPatch 实现原理详解</a></p>
-<h1 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h1><p><a href="https://onevcat.com/2018/12/jose-1/" target="_blank" rel="external">与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (基础)</a></p>
-<h1 id="Runloop"><a href="#Runloop" class="headerlink" title="Runloop"></a>Runloop</h1><p><a href="http://mrpeak.cn/blog/ios-runloop/" target="_blank" rel="external">解密 Runloop</a><br><a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a></p>
+<h1 id="加密与签名"><a href="#加密与签名" class="headerlink" title="加密与签名"></a>加密与签名</h1><p><a href="https://onevcat.com/2018/12/jose-1/" target="_blank" rel="external">与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (基础)</a><br><a href="http://xelz.info/blog/2019/01/11/ios-code-signature/" target="_blank" rel="external">深度长文：细说iOS代码签名</a><br><a href="http://wereadteam.github.io/2017/03/13/Signature/" target="_blank" rel="external">iOS App 签名的原理</a><br><a href="https://mp.weixin.qq.com/s/LqE1Qf_ripM2h2S87Tlbmw" target="_blank" rel="external">RSA 原理探究</a></p>
+<h1 id="Runloop"><a href="#Runloop" class="headerlink" title="Runloop"></a>Runloop</h1><p><a href="http://mrpeak.cn/blog/ios-runloop/" target="_blank" rel="external">解密 Runloop</a><br><a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a><br><a href="https://www.jianshu.com/p/c294d1bd963d" target="_blank" rel="external">iOS触摸事件全家桶</a></p>
 <h1 id="图片加载"><a href="#图片加载" class="headerlink" title="图片加载"></a>图片加载</h1><p><a href="http://blog.cnbang.net/tech/2578/" target="_blank" rel="external">iOS图片加载速度极限优化—FastImageCache解析</a></p>
 <h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><p><a href="https://zhuanlan.zhihu.com/p/36820191?utm_source=weibo&amp;utm_medium=social&amp;utm_oi=37937647452160&amp;from=1084393010&amp;wm=3333_2001&amp;weiboauthoruid=1438670852" target="_blank" rel="external">移动端IM开发者必读(二)：史上最全移动弱网络优化方法总结</a></p>
+<h1 id="组件化"><a href="#组件化" class="headerlink" title="组件化"></a>组件化</h1><p><a href="https://mp.weixin.qq.com/s?__biz=MzA5NzMwODI0MA==&amp;mid=2647761791&amp;idx=1&amp;sn=3e4a8592b1cd48e9e6fb11ce4c849c0c&amp;chksm=8887d840bff0515654b687c5e66902c2b034fcefc986e6d8ebacd5ff287c78edea615a6145a5&amp;scene=21#wechat_redirect" target="_blank" rel="external">iOS 组件化 —— 路由设计思路分析</a></p>
 
       
     </div>
@@ -601,7 +602,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#WebView相关"><span class="nav-number">1.</span> <span class="nav-text">WebView相关</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JSPatch"><span class="nav-number">2.</span> <span class="nav-text">JSPatch</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#加密"><span class="nav-number">3.</span> <span class="nav-text">加密</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Runloop"><span class="nav-number">4.</span> <span class="nav-text">Runloop</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图片加载"><span class="nav-number">5.</span> <span class="nav-text">图片加载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络"><span class="nav-number">6.</span> <span class="nav-text">网络</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#WebView相关"><span class="nav-number">1.</span> <span class="nav-text">WebView相关</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JSPatch"><span class="nav-number">2.</span> <span class="nav-text">JSPatch</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#加密与签名"><span class="nav-number">3.</span> <span class="nav-text">加密与签名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Runloop"><span class="nav-number">4.</span> <span class="nav-text">Runloop</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图片加载"><span class="nav-number">5.</span> <span class="nav-text">图片加载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络"><span class="nav-number">6.</span> <span class="nav-text">网络</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#组件化"><span class="nav-number">7.</span> <span class="nav-text">组件化</span></a></li></ol></div>
             
 
           </div>
