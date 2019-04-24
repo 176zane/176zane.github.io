@@ -97,7 +97,7 @@
 <meta property="og:image" content="http://yoursite.com/images/Barn-yuv.png">
 <meta property="og:image" content="http://yoursite.com/images/Jab.png">
 <meta property="og:image" content="http://yoursite.com/images/GOP.png">
-<meta property="og:updated_time" content="2018-12-31T09:43:34.267Z">
+<meta property="og:updated_time" content="2019-02-28T09:13:56.317Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AV Foundation笔记-音视频基础入门">
 <meta name="twitter:description" content="我们所看见的和听见的都是通过眼睛和耳朵的构造将这些信息转化为大脑能够解析的电信号，通过模拟信号传递给我们的。模拟信号利用对象的一些物理属性来表达、传递信息，例如声音、光、温度、位移、压强，这些物理量可以使用传感器测量。模拟信号中，不同的时间点位置的信号值是连续变化的。而数字世界中的信号是离散的，由 1 和 0 两个状态表示，要将模拟信号转换成能够在计算机中存储并传输的数字信号，需要经过模拟-数字转">
@@ -376,7 +376,7 @@
 <h2 id="图像采样"><a href="#图像采样" class="headerlink" title="图像采样"></a>图像采样</h2><p>对于图像，我们一般使用扫描或者拍照技术对其信息进行采集。在数字化过程中，与音频基于时间的采样不同，图像是基于空间采样的（对于视频这种既有空间属性也有时间属性的信号，这两种方式都会使用）。空间采样包含对一副图片在一定分辨率下捕捉其亮度和色度，进而创建由该图片的像素点数据所构成的数字化结果。</p>
 <p>在采样时，将二维空间中连续的图片在水平和垂直方向上等距的分割为矩形网状结构，形成一个个微小的方格称为<a href="https://zh.wikipedia.org/wiki/%E5%83%8F%E7%B4%A0" target="_blank" rel="external">像素</a>。像素没有固定的尺寸大小，它只是对一个最小完整采样的抽象。这样一副图片就被采样成有限个像素点构成的集合。然后通过量化将各像素的灰度值从模拟量转化为离散量。其中有如下主要参数：</p>
 <ul>
-<li><p>采样点数：对一幅图像采样时，若每行像素为M个，每列像素为N个，则图像尺寸为M <em> N个像素。像素数量对图片质量有显著影响。一般来说图像采样点数越多，图像质量越好，但数据量越大。例如下图为采样点数从 256 </em> 256 逐步减少到到 8 * 8 对图像质量的影响。<br><img src="/images/像素点数.png" alt="像素点数"></p>
+<li><p>采样点数：对一幅图像采样时，若每行像素为M个，每列像素为N个，则图像尺寸为M <em>  N个像素。像素数量对图片质量有显著影响。一般来说图像采样点数越多，图像质量越好，但数据量越大。例如下图为采样点数从 256  </em> 256 逐步减少到到 8 * 8 对图像质量的影响。<br><img src="/images/像素点数.png" alt="像素点数"></p>
 </li>
 <li><p>量化级数：对于<a href="https://zh.wikipedia.org/wiki/%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F" target="_blank" rel="external">灰度图像</a>我们需要将各像素的灰度值量化，一般使用 8 位 256 个量化级数来表示 0~255 的灰度值。量化级数越多，图像质量越好。下图表示采样点数一定时，量化级数从 256 递减至 2 时对图像质量的影响。<br><img src="/images/灰度.png" alt="灰度"></p>
 </li>
@@ -385,7 +385,7 @@
 <blockquote>
 <p>扩展阅读：<a href="https://objccn.io/issue-21-1/" target="_blank" rel="external">相机工作原理</a>。</p>
 </blockquote>
-<h1 id="编码压缩"><a href="#编码压缩" class="headerlink" title="编码压缩"></a>编码压缩</h1><p>对于音视频数字信号，如果不加压缩的存储和传输虽然能够保留原始的呈现效果，但是会占用大量的存储空间与带宽。例如对于一个双声道，44.1kHz，16位LPCM音频文件的码率为：2 <em> 44.1kHz </em> 16bit=1.346Mbit/s，也就是每分钟要占用 10MB的空间。对于一个帧率为 30FPS，1280 <em> 720分辨率的每个像素采用 24 位的RGB色彩空间的视频文件其码率为：30 </em> 1280 <em> 720 </em> 24bit = 634Mbit/s,也就是每分钟要占用 4.6GB的空间。这样的码率显然在当前（虽然现在都8012年了）的设备存储及网络传输中显得难以接受，因此我们需要对这些音视频文件进行编码压缩。</p>
+<h1 id="编码压缩"><a href="#编码压缩" class="headerlink" title="编码压缩"></a>编码压缩</h1><p>对于音视频数字信号，如果不加压缩的存储和传输虽然能够保留原始的呈现效果，但是会占用大量的存储空间与带宽。例如对于一个双声道，44.1kHz，16位LPCM音频文件的码率为：2 <em> 44.1kHz </em> 16bit=1.346Mbit/s，也就是每分钟要占用 10MB的空间。对于一个帧率为 30FPS，1280 <em> 720分辨率的每个像素采用 24 位的RGB色彩空间的视频文件其码率为：30 </em> 1280 <em> 720 </em> 24bit = 634Mbit/s,也就是每分钟要占用 4.6GB的空间。这样的码率显然在当前（虽然现在都8102年了）的设备存储及网络传输中显得难以接受，因此我们需要对这些音视频文件进行编码压缩。</p>
 <blockquote>
 <p>扩展阅读：<a href="https://blog.csdn.net/leixiaohua1020/article/details/28114081" target="_blank" rel="external">频压缩编码和音频压缩编码的基本原理</a>。 注：本文中音视频编码原理部分内容摘录自该博客。</p>
 </blockquote>
@@ -397,6 +397,7 @@
 <p><img src="/images/时域掩蔽效应.jpeg" alt="时域掩蔽效应"></p>
 <p>前掩蔽是指人耳在听到强信号之前的短暂时间内，已经存在的弱信号会被掩蔽而听不到。同时掩蔽是指当强信号与弱信号同时存在时，弱信号会被强信号所掩蔽而听不到。后掩蔽是指当强信号消失后，需经过较长的一段时间才能重新听见弱信号，称为后掩蔽。这些被掩蔽的弱信号即可视为冗余信号。</p>
 <h3 id="主要音频编解码方案"><a href="#主要音频编解码方案" class="headerlink" title="主要音频编解码方案"></a>主要音频编解码方案</h3><ul>
+<li><a href="https://zh.wikipedia.org/zh/WAV" target="_blank" rel="external">WAV</a>:WAV 编码的一种实现是在 PCM 数据格式的前面加上 44 字节，分别用来描述 PCM 的采样率，声道数及数据格式等信息，WAV 文件与无损文件是不同的，它只不过是不去对原始文件做压缩。音质很好，大量软件及平台都支持。</li>
 <li><a href="https://zh.wikipedia.org/wiki/Windows_Media_Audio" target="_blank" rel="external">WMA</a>:微软推出的数字音频编码方案，一般情况下会比同样音质的MP3文件体积小。与MP3一样，需要购买版权支持。</li>
 <li><a href="https://zh.wikipedia.org/wiki/MP3" target="_blank" rel="external">MP3</a>:当前较为流行的一种有损压缩的数字音频编码方案之一。iOS的AVFoundation框架只提供对MP3数据的解码，并不支持对其编码。</li>
 <li><a href="https://zh.wikipedia.org/wiki/%E9%80%B2%E9%9A%8E%E9%9F%B3%E8%A8%8A%E7%B7%A8%E7%A2%BC" target="_blank" rel="external">AAC</a>:与H.264标准对应的音频编码方案，相比MP3格式有显著的提升，且没有专利问题，也是一种有损压缩方案。AAC是iPhone等多种设备的默认音频编码格式。它的扩展名主要有：.aac，.mp4，m4a。</li>

@@ -505,8 +505,8 @@
       
         
           
-            <p>注：该系列是本人学习《数据结构与算法之美》课程时，为加深理解和日后翻看所做的摘录及个人思考的记录，仅适用于查缺补漏。翻到这篇的朋友如果要补充这些基础知识的话，最好通过系统性学习《数据结构与算法分析》、《算法》等专业书。</p>
-<h1 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h1><h2 id="事后统计法"><a href="#事后统计法" class="headerlink" title="事后统计法"></a>事后统计法</h2><p>将代码跑一遍，测试得到算法的执行时间和占用内存的空间大小这种事后统计法虽然是正确的，但是又很大的局限性：</p>
+            <p>注：该系列是我在学习<a href="https://time.geekbang.org/column/article/39922" target="_blank" rel="external">《数据结构与算法之美》</a>课程时，为加深理解和日后翻看所做的摘录及个人思考的记录，仅适用于查缺补漏。翻到这篇的朋友如果要补充这些基础知识的话，最好通过系统性学习《数据结构与算法分析》、《算法》等专业书。</p>
+<h1 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h1><h2 id="事后统计法"><a href="#事后统计法" class="headerlink" title="事后统计法"></a>事后统计法</h2><p>将代码跑一遍，测试得到算法的执行时间和占用内存的空间大小这种事后统计法虽然是正确的，但是有很大的局限性：</p>
 <ol>
 <li>测试结果非常依赖测试环境</li>
 <li>测试结果受数据规模影响很大</li>
@@ -536,6 +536,16 @@
 <li>插入操作：将一个数据插入到长度为 n 的数组的第 k 个位置，需要先将 k~n 的这部分元素顺序向后挪一位，再插入新元素。其最好、最坏及平均时间复杂度为 O(1)、O(n)、O(n)。但是当数组中的数据没有任何规律，只是被当做存储数据的集合时，可以直接将第 k 位数据搬到数组的最后，将新元素直接放到第 k 位，将时间复杂度减为 O(1)。</li>
 <li>删除操作：与插入操作类似，为保证内存连续性，也需要搬移数据。最好、最坏及平均时间复杂度也为 O(1)、O(n)、O(n)。但是在某些特殊情况下，我们不追求数据的连续性时，可以采取标记元素已经被删除，并不真正搬移数据，只有在数组没有更多的存储空间时才执行一次真正的删除操作，这样大大减少了操作导致的数据搬移。</li>
 </ul>
+<h2 id="数组越界问题"><a href="#数组越界问题" class="headerlink" title="数组越界问题"></a>数组越界问题</h2><p>在 C 语言中，只要不是访问受限的内存，所有的内存空间都是可以自由访问的。数组越界在 C 语言中是一种未决行为，并没有规定数组访问越界是时编译器应该如何处理。因为访问数组的本质就是访问一段内存地址，只要数组通过偏移计算得到的内存地址是可用的，那么程序就不会报错。</p>
+<h1 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h1><p>与数组不同，链表并不需要一块连续的内存，它通过“指针”将一组零散的内存块串联起来使用。<br><img src="/images/%E6%95%B0%E7%BB%84%E9%93%BE%E8%A1%A8%E5%86%85%E5%AD%98%E5%88%86%E5%B8%83.jpg" alt="数组链表内存分布"></p>
+<h2 id="单链表"><a href="#单链表" class="headerlink" title="单链表"></a>单链表</h2><p><img src="/images/%E5%8D%95%E9%93%BE%E8%A1%A8.jpg" alt="单链表"><br>链表的插入删除操作只需要考虑相邻结点的指针改变，因此时间复杂度为 O(1)，但是想要随机访问第 K 个元素就需要顺着指针依次遍历了，时间复杂度为 O(n)。</p>
+<h2 id="循环链表"><a href="#循环链表" class="headerlink" title="循环链表"></a>循环链表</h2><p><img src="/images/%E5%BE%AA%E7%8E%AF%E9%93%BE%E8%A1%A8.jpg" alt="循环链表"></p>
+<h2 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h2><p><img src="/images/%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8.jpg" alt="双向链表"></p>
+<h2 id="如何基于链表实现-LRU-缓存淘汰算法"><a href="#如何基于链表实现-LRU-缓存淘汰算法" class="headerlink" title="如何基于链表实现 LRU 缓存淘汰算法"></a>如何基于链表实现 LRU 缓存淘汰算法</h2><p>我们维护一个有序单链表，越靠近链表尾部的结点是越早之前访问的。当有一个新的数据被访问时，我们从链表头开始顺序遍历链表：</p>
+<ol>
+<li>如果该数据已经被缓存在链表中了，我们遍历得到这个数据对应的结点，并将其从原来的位置删除，然后再插入到链表的头部。</li>
+<li>如果此数据没有缓存到链表中，若此时缓存未满则将此结点直接插入到链表的头部，若此时链表已满则删除链表尾结点，将新的数据结点插入到链表头部。</li>
+</ol>
 
           
         
@@ -917,7 +927,7 @@
 <h2 id="图像采样"><a href="#图像采样" class="headerlink" title="图像采样"></a>图像采样</h2><p>对于图像，我们一般使用扫描或者拍照技术对其信息进行采集。在数字化过程中，与音频基于时间的采样不同，图像是基于空间采样的（对于视频这种既有空间属性也有时间属性的信号，这两种方式都会使用）。空间采样包含对一副图片在一定分辨率下捕捉其亮度和色度，进而创建由该图片的像素点数据所构成的数字化结果。</p>
 <p>在采样时，将二维空间中连续的图片在水平和垂直方向上等距的分割为矩形网状结构，形成一个个微小的方格称为<a href="https://zh.wikipedia.org/wiki/%E5%83%8F%E7%B4%A0" target="_blank" rel="external">像素</a>。像素没有固定的尺寸大小，它只是对一个最小完整采样的抽象。这样一副图片就被采样成有限个像素点构成的集合。然后通过量化将各像素的灰度值从模拟量转化为离散量。其中有如下主要参数：</p>
 <ul>
-<li><p>采样点数：对一幅图像采样时，若每行像素为M个，每列像素为N个，则图像尺寸为M <em> N个像素。像素数量对图片质量有显著影响。一般来说图像采样点数越多，图像质量越好，但数据量越大。例如下图为采样点数从 256 </em> 256 逐步减少到到 8 * 8 对图像质量的影响。<br><img src="/images/像素点数.png" alt="像素点数"></p>
+<li><p>采样点数：对一幅图像采样时，若每行像素为M个，每列像素为N个，则图像尺寸为M <em>  N个像素。像素数量对图片质量有显著影响。一般来说图像采样点数越多，图像质量越好，但数据量越大。例如下图为采样点数从 256  </em> 256 逐步减少到到 8 * 8 对图像质量的影响。<br><img src="/images/像素点数.png" alt="像素点数"></p>
 </li>
 <li><p>量化级数：对于<a href="https://zh.wikipedia.org/wiki/%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F" target="_blank" rel="external">灰度图像</a>我们需要将各像素的灰度值量化，一般使用 8 位 256 个量化级数来表示 0~255 的灰度值。量化级数越多，图像质量越好。下图表示采样点数一定时，量化级数从 256 递减至 2 时对图像质量的影响。<br><img src="/images/灰度.png" alt="灰度"></p>
 </li>
@@ -926,7 +936,7 @@
 <blockquote>
 <p>扩展阅读：<a href="https://objccn.io/issue-21-1/" target="_blank" rel="external">相机工作原理</a>。</p>
 </blockquote>
-<h1 id="编码压缩"><a href="#编码压缩" class="headerlink" title="编码压缩"></a>编码压缩</h1><p>对于音视频数字信号，如果不加压缩的存储和传输虽然能够保留原始的呈现效果，但是会占用大量的存储空间与带宽。例如对于一个双声道，44.1kHz，16位LPCM音频文件的码率为：2 <em> 44.1kHz </em> 16bit=1.346Mbit/s，也就是每分钟要占用 10MB的空间。对于一个帧率为 30FPS，1280 <em> 720分辨率的每个像素采用 24 位的RGB色彩空间的视频文件其码率为：30 </em> 1280 <em> 720 </em> 24bit = 634Mbit/s,也就是每分钟要占用 4.6GB的空间。这样的码率显然在当前（虽然现在都8012年了）的设备存储及网络传输中显得难以接受，因此我们需要对这些音视频文件进行编码压缩。</p>
+<h1 id="编码压缩"><a href="#编码压缩" class="headerlink" title="编码压缩"></a>编码压缩</h1><p>对于音视频数字信号，如果不加压缩的存储和传输虽然能够保留原始的呈现效果，但是会占用大量的存储空间与带宽。例如对于一个双声道，44.1kHz，16位LPCM音频文件的码率为：2 <em> 44.1kHz </em> 16bit=1.346Mbit/s，也就是每分钟要占用 10MB的空间。对于一个帧率为 30FPS，1280 <em> 720分辨率的每个像素采用 24 位的RGB色彩空间的视频文件其码率为：30 </em> 1280 <em> 720 </em> 24bit = 634Mbit/s,也就是每分钟要占用 4.6GB的空间。这样的码率显然在当前（虽然现在都8102年了）的设备存储及网络传输中显得难以接受，因此我们需要对这些音视频文件进行编码压缩。</p>
 <blockquote>
 <p>扩展阅读：<a href="https://blog.csdn.net/leixiaohua1020/article/details/28114081" target="_blank" rel="external">频压缩编码和音频压缩编码的基本原理</a>。 注：本文中音视频编码原理部分内容摘录自该博客。</p>
 </blockquote>
@@ -938,6 +948,7 @@
 <p><img src="/images/时域掩蔽效应.jpeg" alt="时域掩蔽效应"></p>
 <p>前掩蔽是指人耳在听到强信号之前的短暂时间内，已经存在的弱信号会被掩蔽而听不到。同时掩蔽是指当强信号与弱信号同时存在时，弱信号会被强信号所掩蔽而听不到。后掩蔽是指当强信号消失后，需经过较长的一段时间才能重新听见弱信号，称为后掩蔽。这些被掩蔽的弱信号即可视为冗余信号。</p>
 <h3 id="主要音频编解码方案"><a href="#主要音频编解码方案" class="headerlink" title="主要音频编解码方案"></a>主要音频编解码方案</h3><ul>
+<li><a href="https://zh.wikipedia.org/zh/WAV" target="_blank" rel="external">WAV</a>:WAV 编码的一种实现是在 PCM 数据格式的前面加上 44 字节，分别用来描述 PCM 的采样率，声道数及数据格式等信息，WAV 文件与无损文件是不同的，它只不过是不去对原始文件做压缩。音质很好，大量软件及平台都支持。</li>
 <li><a href="https://zh.wikipedia.org/wiki/Windows_Media_Audio" target="_blank" rel="external">WMA</a>:微软推出的数字音频编码方案，一般情况下会比同样音质的MP3文件体积小。与MP3一样，需要购买版权支持。</li>
 <li><a href="https://zh.wikipedia.org/wiki/MP3" target="_blank" rel="external">MP3</a>:当前较为流行的一种有损压缩的数字音频编码方案之一。iOS的AVFoundation框架只提供对MP3数据的解码，并不支持对其编码。</li>
 <li><a href="https://zh.wikipedia.org/wiki/%E9%80%B2%E9%9A%8E%E9%9F%B3%E8%A8%8A%E7%B7%A8%E7%A2%BC" target="_blank" rel="external">AAC</a>:与H.264标准对应的音频编码方案，相比MP3格式有显著的提升，且没有专利问题，也是一种有损压缩方案。AAC是iPhone等多种设备的默认音频编码格式。它的扩展名主要有：.aac，.mp4，m4a。</li>
@@ -2141,9 +2152,9 @@
       
         
           
-            <h1 id="WebView相关"><a href="#WebView相关" class="headerlink" title="WebView相关"></a>WebView相关</h1><p><a href="https://cloud.tencent.com/developer/article/1004876" target="_blank" rel="external">JavaScriptCore全面解析 （下篇）</a><br><a href="https://mp.weixin.qq.com/s/qHm_dJBhVbv0pJs8Crp77w" target="_blank" rel="external">H5 和移动端 WebView 缓存机制解析与实战</a><br><a href="http://www.cocoachina.com/ios/20150203/11089.html" target="_blank" rel="external">iOS 8 WebKit框架概览（上）</a><br><a href="https://www.jianshu.com/p/ac45d99cf912" target="_blank" rel="external">iOS中UIWebView与WKWebView、JavaScript与OC交互、Cookie管理看我就够（上）</a></p>
+            <h1 id="WebView相关"><a href="#WebView相关" class="headerlink" title="WebView相关"></a>WebView相关</h1><p><a href="https://cloud.tencent.com/developer/article/1004876" target="_blank" rel="external">JavaScriptCore全面解析 （下篇）</a><br><a href="https://mp.weixin.qq.com/s/qHm_dJBhVbv0pJs8Crp77w" target="_blank" rel="external">H5 和移动端 WebView 缓存机制解析与实战</a><br><a href="http://www.cocoachina.com/ios/20150203/11089.html" target="_blank" rel="external">iOS 8 WebKit框架概览（上）</a><br><a href="https://www.jianshu.com/p/ac45d99cf912" target="_blank" rel="external">iOS中UIWebView与WKWebView、JavaScript与OC交互、Cookie管理看我就够（上）</a><br><a href="https://mp.weixin.qq.com/s/Wxe0vYgBG96-ijSsGvuMnw" target="_blank" rel="external">分析一次有意思的需求——HTML代码注入</a><br><a href="https://mp.weixin.qq.com/s/OlZ78ldlpdQeuV7r_4b_yQ" target="_blank" rel="external">从webview到flutter：详解iOS中的Web开发</a></p>
 <h1 id="JSPatch"><a href="#JSPatch" class="headerlink" title="JSPatch"></a>JSPatch</h1><p><a href="https://github.com/bang590/JSPatch/wiki/JSPatch-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E8%AF%A6%E8%A7%A3" target="_blank" rel="external">JSPatch 实现原理详解</a></p>
-<h1 id="加密与签名"><a href="#加密与签名" class="headerlink" title="加密与签名"></a>加密与签名</h1><p><a href="https://onevcat.com/2018/12/jose-1/" target="_blank" rel="external">与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (基础)</a><br><a href="http://xelz.info/blog/2019/01/11/ios-code-signature/" target="_blank" rel="external">深度长文：细说iOS代码签名</a><br><a href="http://wereadteam.github.io/2017/03/13/Signature/" target="_blank" rel="external">iOS App 签名的原理</a><br><a href="https://mp.weixin.qq.com/s/LqE1Qf_ripM2h2S87Tlbmw" target="_blank" rel="external">RSA 原理探究</a></p>
+<h1 id="加密与签名"><a href="#加密与签名" class="headerlink" title="加密与签名"></a>加密与签名</h1><p><a href="https://onevcat.com/2018/12/jose-1/" target="_blank" rel="external">与 JOSE 战斗的日子 - 写给 iOS 开发者的密码学入门手册 (基础)</a><br><a href="http://xelz.info/blog/2019/01/11/ios-code-signature/" target="_blank" rel="external">深度长文：细说iOS代码签名</a><br><a href="http://wereadteam.github.io/2017/03/13/Signature/" target="_blank" rel="external">iOS App 签名的原理</a><br><a href="https://mp.weixin.qq.com/s/LqE1Qf_ripM2h2S87Tlbmw" target="_blank" rel="external">RSA 原理探究</a><br><a href="https://www.jianshu.com/p/4a920586a01f" target="_blank" rel="external">iOS逆向(1)-密码学（RSA</a></p>
 <h1 id="Runloop"><a href="#Runloop" class="headerlink" title="Runloop"></a>Runloop</h1><p><a href="http://mrpeak.cn/blog/ios-runloop/" target="_blank" rel="external">解密 Runloop</a><br><a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a><br><a href="https://www.jianshu.com/p/c294d1bd963d" target="_blank" rel="external">iOS触摸事件全家桶</a></p>
 <h1 id="图片加载"><a href="#图片加载" class="headerlink" title="图片加载"></a>图片加载</h1><p><a href="http://blog.cnbang.net/tech/2578/" target="_blank" rel="external">iOS图片加载速度极限优化—FastImageCache解析</a></p>
 <h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><p><a href="https://zhuanlan.zhihu.com/p/36820191?utm_source=weibo&amp;utm_medium=social&amp;utm_oi=37937647452160&amp;from=1084393010&amp;wm=3333_2001&amp;weiboauthoruid=1438670852" target="_blank" rel="external">移动端IM开发者必读(二)：史上最全移动弱网络优化方法总结</a></p>
