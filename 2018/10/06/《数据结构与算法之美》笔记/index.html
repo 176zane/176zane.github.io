@@ -95,7 +95,8 @@
 <meta property="og:image" content="http://yoursite.com/images/%E5%8D%95%E9%93%BE%E8%A1%A8.jpg">
 <meta property="og:image" content="http://yoursite.com/images/%E5%BE%AA%E7%8E%AF%E9%93%BE%E8%A1%A8.jpg">
 <meta property="og:image" content="http://yoursite.com/images/%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8.jpg">
-<meta property="og:updated_time" content="2019-03-27T12:23:31.318Z">
+<meta property="og:image" content="http://yoursite.com/images/%E5%B8%A6%E5%A4%B4%E9%93%BE%E8%A1%A8.jpg">
+<meta property="og:updated_time" content="2019-05-13T06:09:46.104Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《数据结构与算法之美》笔记">
 <meta name="twitter:description" content="注：该系列是我在学习《数据结构与算法之美》课程时，为加深理解和日后翻看所做的摘录及个人思考的记录，仅适用于查缺补漏。翻到这篇的朋友如果要补充这些基础知识的话，最好通过系统性学习《数据结构与算法分析》、《算法》等专业书。 复杂度分析事后统计法将代码跑一遍，测试得到算法的执行时间和占用内存的空间大小这种事后统计法虽然是正确的，但是有很大的局限性：  测试结果非常依赖测试环境 测试结果受数据规模影响很大">
@@ -402,6 +403,15 @@
 <li>如果该数据已经被缓存在链表中了，我们遍历得到这个数据对应的结点，并将其从原来的位置删除，然后再插入到链表的头部。</li>
 <li>如果此数据没有缓存到链表中，若此时缓存未满则将此结点直接插入到链表的头部，若此时链表已满则删除链表尾结点，将新的数据结点插入到链表头部。</li>
 </ol>
+<h2 id="写好链表代码的技巧"><a href="#写好链表代码的技巧" class="headerlink" title="写好链表代码的技巧"></a>写好链表代码的技巧</h2><ul>
+<li>将某个变量赋值给指针，实际上就是将这个变量的地址赋值给指针，或者反过来说，指针中存储了这个变量的内存地址，指向了这个变量，通过指针就能找到这个变量。</li>
+<li>对于非自动内存管理的语言来说，删除链表结点时，也一定要记得手动释放内存。</li>
+<li>为简化编程逻辑，可以引入哨兵结点，这样不管链表是不是空，head 指针都会一直指向这个哨兵结点，这种有哨兵结点的链表叫带头链表。</li>
+</ul>
+<p><img src="/images/%E5%B8%A6%E5%A4%B4%E9%93%BE%E8%A1%A8.jpg" alt="带头链表"></p>
+<ul>
+<li>重点留意边界情况，如链表为空时，链表只有一个结点时，链表头结点跟尾结点的操作等等。</li>
+</ul>
 
       
     </div>
@@ -556,7 +566,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -645,7 +655,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#复杂度分析"><span class="nav-number">1.</span> <span class="nav-text">复杂度分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#事后统计法"><span class="nav-number">1.1.</span> <span class="nav-text">事后统计法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大O复杂度表示法"><span class="nav-number">1.2.</span> <span class="nav-text">大O复杂度表示法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#时间复杂度"><span class="nav-number">1.2.1.</span> <span class="nav-text">时间复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#空间复杂度"><span class="nav-number">1.2.2.</span> <span class="nav-text">空间复杂度</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数组"><span class="nav-number">2.</span> <span class="nav-text">数组</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数组越界问题"><span class="nav-number">2.1.</span> <span class="nav-text">数组越界问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#链表"><span class="nav-number">3.</span> <span class="nav-text">链表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单链表"><span class="nav-number">3.1.</span> <span class="nav-text">单链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环链表"><span class="nav-number">3.2.</span> <span class="nav-text">循环链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#双向链表"><span class="nav-number">3.3.</span> <span class="nav-text">双向链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何基于链表实现-LRU-缓存淘汰算法"><span class="nav-number">3.4.</span> <span class="nav-text">如何基于链表实现 LRU 缓存淘汰算法</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#复杂度分析"><span class="nav-number">1.</span> <span class="nav-text">复杂度分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#事后统计法"><span class="nav-number">1.1.</span> <span class="nav-text">事后统计法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大O复杂度表示法"><span class="nav-number">1.2.</span> <span class="nav-text">大O复杂度表示法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#时间复杂度"><span class="nav-number">1.2.1.</span> <span class="nav-text">时间复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#空间复杂度"><span class="nav-number">1.2.2.</span> <span class="nav-text">空间复杂度</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数组"><span class="nav-number">2.</span> <span class="nav-text">数组</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数组越界问题"><span class="nav-number">2.1.</span> <span class="nav-text">数组越界问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#链表"><span class="nav-number">3.</span> <span class="nav-text">链表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单链表"><span class="nav-number">3.1.</span> <span class="nav-text">单链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环链表"><span class="nav-number">3.2.</span> <span class="nav-text">循环链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#双向链表"><span class="nav-number">3.3.</span> <span class="nav-text">双向链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何基于链表实现-LRU-缓存淘汰算法"><span class="nav-number">3.4.</span> <span class="nav-text">如何基于链表实现 LRU 缓存淘汰算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写好链表代码的技巧"><span class="nav-number">3.5.</span> <span class="nav-text">写好链表代码的技巧</span></a></li></ol></li></ol></div>
             
 
           </div>
