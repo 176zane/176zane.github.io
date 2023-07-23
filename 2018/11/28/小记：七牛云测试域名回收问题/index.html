@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="问题月初收到七牛云的邮件扫了一眼大概是关于测试域名回收的问题，由于我只是用到了七牛云存储来做博客图床也就没在意。今天一上博客发现有些图片已经刷不出来了，请求图片的链接返回: 1&amp;#123;error: &quot;no such domain&quot;&amp;#125; 这不就很蛋疼了嘛，上后台一看，果然是测试域名的问题：测试域名使用规范，图片上传后生成域名以 clouddn.com 结尾的 URL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小记：七牛云测试域名回收问题">
+<meta property="og:url" content="http://yoursite.com/2018/11/28/%E5%B0%8F%E8%AE%B0%EF%BC%9A%E4%B8%83%E7%89%9B%E4%BA%91%E6%B5%8B%E8%AF%95%E5%9F%9F%E5%90%8D%E5%9B%9E%E6%94%B6%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="Deep Thought">
+<meta property="og:description" content="问题月初收到七牛云的邮件扫了一眼大概是关于测试域名回收的问题，由于我只是用到了七牛云存储来做博客图床也就没在意。今天一上博客发现有些图片已经刷不出来了，请求图片的链接返回: 1&amp;#123;error: &quot;no such domain&quot;&amp;#125; 这不就很蛋疼了嘛，上后台一看，果然是测试域名的问题：测试域名使用规范，图片上传后生成域名以 clouddn.com 结尾的 URL">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/images/yun.png">
+<meta property="og:image" content="http://yoursite.com/images/bucket_error.png">
+<meta property="og:image" content="http://yoursite.com/images/terminal_buckets.png">
+<meta property="article:published_time" content="2018-11-28T09:08:30.000Z">
+<meta property="article:modified_time" content="2019-01-07T02:26:50.416Z">
+<meta property="article:author" content="姚七六">
+<meta property="article:tag" content="小记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/yun.png">
+
+<link rel="canonical" href="http://yoursite.com/2018/11/28/%E5%B0%8F%E8%AE%B0%EF%BC%9A%E4%B8%83%E7%89%9B%E4%BA%91%E6%B5%8B%E8%AF%95%E5%9F%9F%E5%90%8D%E5%9B%9E%E6%94%B6%E9%97%AE%E9%A2%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>小记：七牛云测试域名回收问题 | Deep Thought</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Deep Thought</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/28/%E5%B0%8F%E8%AE%B0%EF%BC%9A%E4%B8%83%E7%89%9B%E4%BA%91%E6%B5%8B%E8%AF%95%E5%9F%9F%E5%90%8D%E5%9B%9E%E6%94%B6%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/self.gif">
+      <meta itemprop="name" content="姚七六">
+      <meta itemprop="description" content="Life is short. Live your dream and wear your passion.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Deep Thought">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          小记：七牛云测试域名回收问题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-11-28 17:08:30" itemprop="dateCreated datePublished" datetime="2018-11-28T17:08:30+08:00">2018-11-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-01-07 10:26:50" itemprop="dateModified" datetime="2019-01-07T10:26:50+08:00">2019-01-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/" itemprop="url" rel="index"><span itemprop="name">程序员的自我修养</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>月初收到七牛云的邮件扫了一眼大概是关于测试域名回收的问题，由于我只是用到了七牛云存储来做博客图床也就没在意。今天一上博客发现有些图片已经刷不出来了，请求图片的链接返回:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span>error<span class="punctuation">:</span> <span class="string">&quot;no such domain&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>这不就很蛋疼了嘛，上后台一看，果然是测试域名的问题：<a target="_blank" rel="noopener" href="https://developer.qiniu.com/fusion/kb/1319/test-domain-access-restriction-rules">测试域名使用规范</a>，图片上传后生成域名以 clouddn.com 结尾的 URL 在域名回收后自然不能访问了。</p>
+<p>官方给出的解决途径是绑定自定义域名，然而这个域名是需要在公安网备案的，对我来说为使用图床还得搞个备案的域名未免太麻烦，索性先不用七牛云的图床了。当我尝试点击下载文件时：</p>
+<p><img src="/images/yun.png" alt="yun"></p>
+<p>网页的顶端给了我一个错误提示：</p>
+<p><img src="/images/bucket_error.png" alt="bucket_error"></p>
+<p>这就很尴尬了，域名被回收了直接下载都下载不了，怎么破呢？只好祭出 google 大法。</p>
+<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>搜索后发现原来七牛云提供了<a target="_blank" rel="noopener" href="https://developer.qiniu.com/kodo/tools/1300/qrsctl">命令行辅助工具qrsctl</a>来对存储资源进行操作，下载下来通过命令<code>chmod +x qrsctl</code>为文件添加可执行权限。然后使用如下命令进行操作</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#登录</span></span><br><span class="line">./qrsctl login &lt;User&gt; &lt;Passwd&gt;</span><br><span class="line"><span class="comment">#登录成功后查看所有存放资源的空间（buckets）</span></span><br><span class="line">./qrsctl buckets</span><br><span class="line"><span class="comment">#列出bucket中以prefix开头的所有资源</span></span><br><span class="line">./qrsctl listprefix &lt;bucket&gt; &lt;prefix&gt;                </span><br></pre></td></tr></table></figure>
+<p>因为我们要获取所有的图片资源，所以prefix参数使用了<code>&#39;&#39;</code>空字符串，所得结果如下图所示：</p>
+<p><img src="/images/terminal_buckets.png" alt="terminal_buckets"></p>
+<p>在获取到所有资源名称后，就可以调用<code>qrsctl</code>下载资源的接口了：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#key为资源文件的名称 destFile为下载的目标路径</span></span><br><span class="line">./qrsctl get &lt;Bucket&gt; &lt;Key&gt; &lt;DestFile&gt;</span><br></pre></td></tr></table></figure>
+<p>使用下面的脚本来完成下载任务更加方便：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment">#``反引号是命令替换，可以先执行其中的命令并暂时保存在变量 imgs 中,``的替换操作也可使用$()操作</span></span><br><span class="line">imgs=`./qrsctl listprefix 176zane <span class="string">&#x27;&#x27;</span>`</span><br><span class="line">i=0 </span><br><span class="line"><span class="comment">#打印$imgs执行结果 然后使用管道符合 | 将结果传给 tr 命令将空格转化为换行符,再将结果逐行读取到 line 变量</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$imgs</span> | <span class="built_in">tr</span> <span class="string">&quot; &quot;</span> <span class="string">&quot;\n&quot;</span> | <span class="keyword">while</span> <span class="built_in">read</span> line</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="comment">#(())用于算数运算比较，此处的判断用于将上面结果中第一行的 ‘marker:‘这个非资源名的信息打印过滤掉</span></span><br><span class="line">    <span class="keyword">if</span>((<span class="variable">$i</span>&gt;<span class="number">0</span>))</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="variable">$line</span></span><br><span class="line">        ./qrsctl get 176zane <span class="variable">$line</span> ./<span class="variable">$line</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    i=$((<span class="variable">$i</span>+<span class="number">1</span>))</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<p>虽然对<code>shell</code>脚本不是太熟悉，但是上面的逻辑还是挺简单的，尝试一下很简单就把图片资源下载下来了，但是检查了一下就发现并没有下载完所有的资源，其实这里面还有一个坑：<code>tr &quot; &quot; &quot;\n&quot;</code>命令将之前处理结果分成一行一行的字符串时也将文件名中带有空格的如上图中用绿框框起来的文件名给破坏了，在后台中删除了该文件命名中的空格后重新运行脚本就搞定了。当然这是简单的做法，当你有很多资源名中含有空格时，可以在获取资源名后，在后续的命令中对文件名加上引号来下载：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./qrsctl get 176zane <span class="string">&#x27;2018-07-12 10_40_14.gif&#x27;</span> ./<span class="string">&#x27;2018-07-12 10_40_14.gif&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>这样就拿回了所有保存在七牛云上的图片资源，鉴于暂时没找到合适的图床，索性就直接用 github 来保存吧，虽然加载速度会慢点，但还是比较可靠的。全局替换图床链接<code>http://oztca4xvs.bkt.clouddn.com/</code>为本地地址<code>/images/</code>后，将图片复制到<code>source/images/</code>目录下，重新部署即可。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B0%8F%E8%AE%B0/" rel="tag"># 小记</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/10/21/%E9%BB%91%E5%AE%A2%E4%B8%8E%E7%94%BB%E5%AE%B6/" rel="prev" title="黑客与画家">
+      <i class="fa fa-chevron-left"></i> 黑客与画家
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/03/19/SDWebImage%20%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" rel="next" title="SDWebImage 源码分析">
+      SDWebImage 源码分析 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">解决办法</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="姚七六"
+      src="/images/self.gif">
+  <p class="site-author-name" itemprop="name">姚七六</p>
+  <div class="site-description" itemprop="description">Life is short. Live your dream and wear your passion.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/176zane" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;176zane" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:176zane@gmail.com" title="E-Mail → mailto:176zane@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/176zane" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;176zane" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/lovekobe0824" title="微博 → https:&#x2F;&#x2F;weibo.com&#x2F;lovekobe0824" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>微博</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">姚七六</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
