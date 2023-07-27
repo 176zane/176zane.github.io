@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon-64.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon-32.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="算法LeetCode-Swift【图解数据结构】 目录（持续更新）swift-algorithm-clubswift-algorithm-club翻译 TCP&#x2F;IP及网络相关TCP 协议简介协议森林TCP 的那些事儿 上TCP 的那些事儿 下 面试官，不要再问我三次握手和四次挥手IP，TCP 和 HTTP微信,QQ这类IM app怎么做——谈谈Websocket为什么这么设计系列文章不为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="博客收藏">
+<meta property="og:url" content="http://yoursite.com/2020/03/09/%E5%8D%9A%E5%AE%A2%E6%94%B6%E8%97%8F/index.html">
+<meta property="og:site_name" content="Deep Thought">
+<meta property="og:description" content="算法LeetCode-Swift【图解数据结构】 目录（持续更新）swift-algorithm-clubswift-algorithm-club翻译 TCP&#x2F;IP及网络相关TCP 协议简介协议森林TCP 的那些事儿 上TCP 的那些事儿 下 面试官，不要再问我三次握手和四次挥手IP，TCP 和 HTTP微信,QQ这类IM app怎么做——谈谈Websocket为什么这么设计系列文章不为">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-09T06:56:19.000Z">
+<meta property="article:modified_time" content="2023-07-27T13:36:51.456Z">
+<meta property="article:author" content="姚七六">
+<meta property="article:tag" content="计算机基础">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/03/09/%E5%8D%9A%E5%AE%A2%E6%94%B6%E8%97%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>博客收藏 | Deep Thought</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Deep Thought</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/09/%E5%8D%9A%E5%AE%A2%E6%94%B6%E8%97%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/self.gif">
+      <meta itemprop="name" content="姚七六">
+      <meta itemprop="description" content="Life is short. Live your dream and wear your passion.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Deep Thought">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          博客收藏
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-09 14:56:19" itemprop="dateCreated datePublished" datetime="2020-03-09T14:56:19+08:00">2020-03-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-07-27 21:36:51" itemprop="dateModified" datetime="2023-07-27T21:36:51+08:00">2023-07-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/" itemprop="url" rel="index"><span itemprop="name">程序员的自我修养</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><p><a target="_blank" rel="noopener" href="https://github.com/soapyigu/LeetCode-Swift">LeetCode-Swift</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/QnAT-gnsx-3Yok4js5G_3A">【图解数据结构】 目录（持续更新）</a><br><a target="_blank" rel="noopener" href="https://github.com/raywenderlich/swift-algorithm-club">swift-algorithm-club</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/u/efce1a2a95ab">swift-algorithm-club翻译</a></p>
+<h1 id="TCP-IP及网络相关"><a href="#TCP-IP及网络相关" class="headerlink" title="TCP&#x2F;IP及网络相关"></a>TCP&#x2F;IP及网络相关</h1><p><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2017/06/tcp-protocol.html">TCP 协议简介</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/vamei/archive/2012/12/05/2802811.html">协议森林</a><br><a target="_blank" rel="noopener" href="https://coolshell.cn/articles/11564.html">TCP 的那些事儿 上</a><br><a target="_blank" rel="noopener" href="https://coolshell.cn/articles/11609.html">TCP 的那些事儿 下</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5d9c284b518825095879e7a5">面试官，不要再问我三次握手和四次挥手</a><br><a target="_blank" rel="noopener" href="https://objccn.io/issue-10-6/">IP，TCP 和 HTTP</a><br><a target="_blank" rel="noopener" href="https://github.com/halfrost/Halfrost-Field/blob/master/contents/iOS/WebSocket/iOS_WebSocket.md">微信,QQ这类IM app怎么做——谈谈Websocket</a><br><a target="_blank" rel="noopener" href="https://draven.co/whys-the-design/">为什么这么设计系列文章</a><br><a target="_blank" rel="noopener" href="http://www.52im.net/thread-1003-1-1.html">不为人知的网络编程(一)：浅析TCP协议中的疑难杂症(上篇)</a><br><a target="_blank" rel="noopener" href="http://blog.p2hp.com/archives/4950">TCP&#x2F;IP指南</a><br><a target="_blank" rel="noopener" href="https://coolshell.cn/articles/19395.html">HTTP API 认证授权术</a><br><a target="_blank" rel="noopener" href="https://coolshell.cn/articles/21708.html">网络数字身份认证术</a><br><a target="_blank" rel="noopener" href="https://github.com/creeperyang/blog/issues/23">HTTP2简介和基于HTTP2的Web优化</a></p>
+<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><p><a target="_blank" rel="noopener" href="http://awhisper.github.io/2017/02/26/%E6%89%AF%E6%B7%A1%EF%BC%9A%E5%A4%A7%E7%99%BD%E8%AF%9D%E8%81%8A%E8%81%8A%E7%BC%96%E8%AF%91%E9%82%A3%E7%82%B9%E4%BA%8B%E5%84%BF/">扯淡：大白话聊聊编译那点事儿</a><br><a target="_blank" rel="noopener" href="https://github.com/bestswifter/blog/blob/master/articles/compile-and-language.md">大前端开发者需要了解的基础编译原理和语言知识</a><br><a target="_blank" rel="noopener" href="https://tech.meituan.com/linker.html">高级语言的编译：链接及装载过程介绍</a><br><a target="_blank" rel="noopener" href="https://juejin.im/post/5c22eaf1f265da611b5863b2">深入浅出iOS编译</a><br><a target="_blank" rel="noopener" href="https://objccn.io/issue-6-2/">编译器</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/maQr_hNvi4XRiqmQL-54LA">LLVM 初探</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/-wgBhE11xEXDS7Hqgq3FjA">iOS 微信编译速度优化分享</a><br><a target="_blank" rel="noopener" href="https://ming1016.github.io/2017/03/01/deeply-analyse-llvm/">深入剖析 iOS 编译 Clang &#x2F; LLVM</a><br><a target="_blank" rel="noopener" href="https://ming1016.github.io/2017/04/01/slides-of-deeply-analyse-llvm/">深入剖析 iOS 编译 Clang &#x2F; LLVM 直播的 Slides</a></p>
+<h1 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h1><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/By3fNvSF175a6rg9ke_QoQ">iOS 开发者应该掌握些 C++ 知识</a></p>
+<h1 id="C-1"><a href="#C-1" class="headerlink" title="C"></a>C</h1><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/tppYsCNS57i00RpQKAU5Yw">C 语言中的指针与数组</a></p>
+<h1 id="Unicode"><a href="#Unicode" class="headerlink" title="Unicode"></a>Unicode</h1><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/i8hB_g8rJPl6QDi8Hf9y_w">8D85-8D8A-6280-672F ？</a><br><a target="_blank" rel="noopener" href="https://objccn.io/issue-9-1/">NSString 与 Unicode</a></p>
+<h1 id="OPENGL"><a href="#OPENGL" class="headerlink" title="OPENGL"></a>OPENGL</h1><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/B4GxcNz9bybC6aUcnclVLw">20分钟让你了解OpenGL ——OpenGL全流程详细解读</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/kRGfCQH91FGgD6AB9JMEkg">从零讲解 iOS 中 OpenGL ES 的纹理渲染</a><br><a target="_blank" rel="noopener" href="https://niyaoyao.github.io/2018/05/23/learning_opengl(es)_opengl_model_pipeline_and_practices/">Learning OpenGL(ES) —— OpenGL Model, Pipeline and Practices</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/nb/2135411">OpenGL ES落影合集</a></p>
+<h1 id="计算机程序的构造与解释"><a href="#计算机程序的构造与解释" class="headerlink" title="计算机程序的构造与解释"></a>计算机程序的构造与解释</h1><p><a target="_blank" rel="noopener" href="https://github.com/DeathKing/Learning-SICP">Learning-SICP</a></p>
+<h1 id="科学上网"><a href="#科学上网" class="headerlink" title="科学上网"></a>科学上网</h1><p><a target="_blank" rel="noopener" href="https://vc2tea.com/whats-shadowsocks/">写给非专业人士看的 Shadowsocks 简介</a><br><a target="_blank" rel="noopener" href="https://github.com/haoel/haoel.github.io">科学上网</a><br><a target="_blank" rel="noopener" href="https://manual.nssurge.com/book/understanding-surge/cn/">Surge 官方中文指引：理解 Surge 原理</a></p>
+<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><p><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2015/08/git-use-process.html">Git 使用规范流程</a><br><a target="_blank" rel="noopener" href="https://github.com/geeeeeeeeek/git-recipes">🥡Git 菜单</a></p>
+<h1 id="Shell"><a href="#Shell" class="headerlink" title="Shell"></a>Shell</h1><p><a target="_blank" rel="noopener" href="http://billie66.github.io/TLCL/book/">The Linux Commond Line</a></p>
+<h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><p><a target="_blank" rel="noopener" href="https://github.com/ziishaned/learn-regex/blob/master/translations/README-cn.md">learn-regex</a><br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions">正则表达式</a><br><a target="_blank" rel="noopener" href="http://deerchao.net/tutorials/regex/regex.htm">正则表达式30分钟入门教程</a><br><a target="_blank" rel="noopener" href="https://academy.realm.io/posts/nspredicate-cheatsheet/">NSPredicate Cheatsheet</a></p>
+<h1 id="机器学习入门"><a href="#机器学习入门" class="headerlink" title="机器学习入门"></a>机器学习入门</h1><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/24339995">机器学习原来这么有趣！第一章：全世界最简单的机器学习入门指南</a><br><a target="_blank" rel="noopener" href="https://microsoft.github.io/ML-For-Beginners">https://microsoft.github.io/ML-For-Beginners</a></p>
+<h1 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h1><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ihg_WjwkDRr-UppiFkFTzw">6k 字总结 flexbox 布局 ，收藏就行</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/xIhkfOMiis6YWeQBv_i3Og">JavaScript权威面试指南</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" rel="tag"># 计算机基础</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/10/22/Objective-C%20%E5%9B%9E%E5%BF%86%E5%BD%95/" rel="prev" title="Objective-C 回忆录">
+      <i class="fa fa-chevron-left"></i> Objective-C 回忆录
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/22/iOS%20%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" rel="next" title="iOS 中的字符编码">
+      iOS 中的字符编码 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TCP-IP%E5%8F%8A%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3"><span class="nav-number">2.</span> <span class="nav-text">TCP&#x2F;IP及网络相关</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E8%AF%91"><span class="nav-number">3.</span> <span class="nav-text">编译</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C"><span class="nav-number">4.</span> <span class="nav-text">C++</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C-1"><span class="nav-number">5.</span> <span class="nav-text">C</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Unicode"><span class="nav-number">6.</span> <span class="nav-text">Unicode</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OPENGL"><span class="nav-number">7.</span> <span class="nav-text">OPENGL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%9E%84%E9%80%A0%E4%B8%8E%E8%A7%A3%E9%87%8A"><span class="nav-number">8.</span> <span class="nav-text">计算机程序的构造与解释</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91"><span class="nav-number">9.</span> <span class="nav-text">科学上网</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Git"><span class="nav-number">10.</span> <span class="nav-text">Git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Shell"><span class="nav-number">11.</span> <span class="nav-text">Shell</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">12.</span> <span class="nav-text">正则表达式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8"><span class="nav-number">13.</span> <span class="nav-text">机器学习入门</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF"><span class="nav-number">14.</span> <span class="nav-text">前端</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="姚七六"
+      src="/images/self.gif">
+  <p class="site-author-name" itemprop="name">姚七六</p>
+  <div class="site-description" itemprop="description">Life is short. Live your dream and wear your passion.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/176zane" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;176zane" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:176zane@gmail.com" title="E-Mail → mailto:176zane@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/176zane" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;176zane" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/lovekobe0824" title="微博 → https:&#x2F;&#x2F;weibo.com&#x2F;lovekobe0824" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>微博</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">姚七六</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
