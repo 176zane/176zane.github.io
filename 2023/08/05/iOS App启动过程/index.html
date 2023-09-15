@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon-64.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon-32.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="背景知识进程进程是操作系统中最重要的抽象，它是程序（指令和数据）运行的真正实例。它给每个应用提供了两个非常关键的抽象：一是逻辑控制流，二是私有地址空间。逻辑控制流通过称为上下文切换(context switching)的内核机制让每个程序都感觉自己在独占处理器。私有地址空间则是通过称为虚拟内存(virtual memory)的机制让每个程序都感觉自己在独占内存。这样的抽象使得具体的进程不需要操心处">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS App启动过程">
+<meta property="og:url" content="http://yoursite.com/2023/08/05/iOS%20App%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Deep Thought">
+<meta property="og:description" content="背景知识进程进程是操作系统中最重要的抽象，它是程序（指令和数据）运行的真正实例。它给每个应用提供了两个非常关键的抽象：一是逻辑控制流，二是私有地址空间。逻辑控制流通过称为上下文切换(context switching)的内核机制让每个程序都感觉自己在独占处理器。私有地址空间则是通过称为虚拟内存(virtual memory)的机制让每个程序都感觉自己在独占内存。这样的抽象使得具体的进程不需要操心处">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/images/Core%20OS.png">
+<meta property="og:image" content="http://yoursite.com/images/XNU.png">
+<meta property="og:image" content="http://yoursite.com/images/Mach-O%20File%20type.png">
+<meta property="og:image" content="http://yoursite.com/images/Mach-O%20segment.png">
+<meta property="og:image" content="http://yoursite.com/images/load%20mach-o.png">
+<meta property="og:image" content="http://yoursite.com/images/load%20dylibs.png">
+<meta property="og:image" content="http://yoursite.com/images/rebasing.png">
+<meta property="og:image" content="http://yoursite.com/images/binding.png">
+<meta property="og:image" content="http://yoursite.com/images/notify%20objc%20runtime.png">
+<meta property="og:image" content="http://yoursite.com/images/initializers.png">
+<meta property="article:published_time" content="2023-08-05T04:28:40.000Z">
+<meta property="article:modified_time" content="2023-09-15T06:39:12.473Z">
+<meta property="article:author" content="姚七六">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/Core%20OS.png">
+
+<link rel="canonical" href="http://yoursite.com/2023/08/05/iOS%20App%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>iOS App启动过程 | Deep Thought</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Deep Thought</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2023/08/05/iOS%20App%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/self.gif">
+      <meta itemprop="name" content="姚七六">
+      <meta itemprop="description" content="Life is short. Live your dream and wear your passion.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Deep Thought">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS App启动过程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-05 12:28:40" itemprop="dateCreated datePublished" datetime="2023-08-05T12:28:40+08:00">2023-08-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-09-15 14:39:12" itemprop="dateModified" datetime="2023-09-15T14:39:12+08:00">2023-09-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS-%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">iOS 笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h1><h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>进程是操作系统中最重要的抽象，它是程序（指令和数据）运行的真正实例。它给每个应用提供了两个非常关键的抽象：一是逻辑控制流，二是私有地址空间。逻辑控制流通过称为上下文切换(context switching)的内核机制让每个程序都感觉自己在独占处理器。私有地址空间则是通过称为虚拟内存(virtual memory)的机制让每个程序都感觉自己在独占内存。这样的抽象使得具体的进程不需要操心处理器和内存的相关适宜，也保证了在不同情况下运行同样的程序能得到相同的结果。</p>
+<h2 id="XNU-X-is-Not-Unix"><a href="#XNU-X-is-Not-Unix" class="headerlink" title="XNU(X is Not Unix)"></a>XNU(X is Not Unix)</h2><p><img src="/images/Core%20OS.png" alt="Core OS"></p>
+<p>iOS 系统架构分大致为四层，每个层级提供不同的服务。这里我们重点关注处于 Core OS 层的 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Darwin_(%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F)">Darwin</a> 操作系统，它是 macOS 和 iOS 操作环境的操作系统部分，是类 Unix 操作系统。Darwin 的内核是 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/XNU">XNU</a>，XNU 采用的是微内核 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Mach">Mach</a> 和 宏内核 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/BSD">BSD</a> 的混合内核，具备微内核和宏内核的优点。<br><img src="/images/XNU.png" alt="XNU"></p>
+<p>Mach 是为解决早期 Unix 中“一切皆文件”的抽象机制的不足（不方便进行进程间通信（IPC））而出现的替代。它负责操作系统最基本的工作，包括进程和线程抽象、处理器调度、进程间通信、消息机制、虚拟内存管理、内存保护等。但是因为内核态&#x2F;用户态的上下文切换会额外消耗时间，同时内核与服务进程之间的消息传递也会降低运行效率，苹果深度定制了 BSD 宏内核，使其和 Mach 混合使用。BSD 是对 Mach 封装，提供了 POSIX 应用程序接口（Portable Operating System Interface of UNIX）及进程管理、安全、网络、驱动、内存、文件系统（HFS+）、网络文件系统（NFS）、虚拟文件系统（VFS）等功能。</p>
+<p>进程对应到 Mach 是 Mach Task，Mach Task 可以看做是线程执行环境的抽象，包含虚拟地址空间、IPC 空间、处理器资源、调度控制、线程容器。进程在 BSD 里是由 BSD Process 处理，BSD Process 扩展了 Mach Task，增加了进程 ID、信号信息等。</p>
+<p>线程对应到 Mach 是 Mach Thread，是 Mach 里的最小执行单位。Mach Thread 有自己的状态，包括机器状态、线程栈、调度优先级（有 128 个，数字越大表示优先级越高）、调度策略、内核 Port、异常 Port。线程对应到 BSD 中为POSIX 兼容的线程模型 pthread。</p>
+<p>Mach 的模块包括进程和线程都是对象，对象之间不能直接调用，只能通过 Mach Msg 进行通信，也就是 mach_msg() 函数。在用户态可以通过 mach_msg_trap() 函数触发陷阱来处理异常消息切换到内核态，BSD 在异常消息机制的基础上建立了信号处理机制，用户态产生的信号会先被 Mach 转换成异常，BSD 将异常再转换成信号。</p>
+<h2 id="Mach-O"><a href="#Mach-O" class="headerlink" title="Mach-O"></a>Mach-O</h2><p>Mach-O is a bunch of file types.iOS 的可执行文件及动态库、静态库等都是 Mach-O 格式的。<br><img src="/images/Mach-O%20File%20type.png" alt="Mach-O File type"><br>Mach-O 文件的内部被划分成用大写字母表示的 Segment,每个 Segment 的空间大小为页的整数倍（为了方便虚拟内存的实现）。页的大小跟硬件有关，在 arm64 架构一页是 16KB，其余为 4KB。Segment 内部又被划分成小写字母表示的 Section，Section 的空间大小并不一定为页的整数倍，多个 Section 之间不会重叠。<br><img src="/images/Mach-O%20segment.png" alt="Mach-O segment"><br>在 __TEXT segment 中包含了 Mach header，header 中存储了文件类型、适用的 CPU 架构及加载指令数量等基本信息：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">mach_header_64</span> &#123;</span></span><br><span class="line">    <span class="type">uint32_t</span>        magic;      <span class="comment">// 64位还是32位</span></span><br><span class="line">    <span class="type">cpu_type_t</span>      cputype;    <span class="comment">// CPU 类型，比如 arm 或 X86</span></span><br><span class="line">    <span class="type">cpu_subtype_t</span>   cpusubtype; <span class="comment">// CPU 子类型，比如 armv7</span></span><br><span class="line">    <span class="type">uint32_t</span>        filetype;   <span class="comment">// 文件类型</span></span><br><span class="line">    <span class="type">uint32_t</span>        ncmds;      <span class="comment">// load commands 的数量</span></span><br><span class="line">    <span class="type">uint32_t</span>        sizeofcmds; <span class="comment">// load commands 大小</span></span><br><span class="line">    <span class="type">uint32_t</span>        flags;      <span class="comment">// 标签</span></span><br><span class="line">    <span class="type">uint32_t</span>        reserved;   <span class="comment">// 保留字段</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>紧跟在 header 之后的是多条 Load Command,其中提供了内核与 dyld 加载 Mach-O 文件时所需要的辅助信息。<br>在 __LINKEDIT segment 中存储了诸如函数名称和全局变量的名称及地址等信息的元数据，还保存了每个页的 hash 用于载入时确保文件不被篡改。</p>
+<h1 id="XNU-加载主程序（内核态）"><a href="#XNU-加载主程序（内核态）" class="headerlink" title="XNU 加载主程序（内核态）"></a>XNU 加载主程序（内核态）</h1><p>在传统的 Unix 系统中，<code>fork()</code> 是唯一用来创建新进程的方法，该方法将复刻一个当前进程的完整结构，包括二进制代码。所以负责启动其他 App 的进程为了能跑其他人的程序，还需要配合 <code>exec()</code> 方法，把 fork 出来的进程的 image 覆盖成新 App 的。<br>XNU 加载主程序时，会<code>fork()</code>进程，并对进程进行一些基本设置，比如为进程分配虚拟内存、为进程创建主线程、将 Mach-O 可执行文件映射（map 而不是 read）进内存等。相关的代码我们可以看苹果的开源文件：<a target="_blank" rel="noopener" href="https://github.com/apple/darwin-xnu/blob/master/bsd/kern/kern_exec.c">kern_exec</a>.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> __mac_execve(<span class="type">proc_t</span> p, <span class="keyword">struct</span> __mac_execve_args *uap, <span class="type">int32_t</span> *retval)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 为简化描述，省略部分代码。</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">uthread</span>  *<span class="title">uthread</span>;</span> <span class="comment">// 线程</span></span><br><span class="line">    <span class="type">task_t</span> new_task = <span class="literal">NULL</span>;   <span class="comment">// Mach Task</span></span><br><span class="line">    ...</span><br><span class="line">    context.vc_thread = current_thread();</span><br><span class="line">    context.vc_ucred = kauth_cred_proc_ref(p);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 分配大块内存，不用堆栈是因为 Mach-O 结构很大。</span></span><br><span class="line">    MALLOC(bufp, <span class="type">char</span> *, (<span class="keyword">sizeof</span>(*imgp) + <span class="keyword">sizeof</span>(*vap) + <span class="keyword">sizeof</span>(*origvap)), M_TEMP, M_WAITOK | M_ZERO);</span><br><span class="line">    imgp = (<span class="keyword">struct</span> image_params *) bufp;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 初始化开辟的 imgp 结构里的公共数据</span></span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    uthread = get_bsdthread_info(current_thread());</span><br><span class="line">    <span class="keyword">if</span> (uthread-&gt;uu_flag &amp; UT_VFORK) &#123;</span><br><span class="line">        imgp-&gt;ip_flags |= IMGPF_VFORK_EXEC;</span><br><span class="line">        in_vfexec = TRUE;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;<span class="comment">// 程序如果是启动态，就需要创建新的 mach task 和 thread。这些指针将会在 image active 之后指向新的进程。</span></span><br><span class="line">        imgp-&gt;ip_flags |= IMGPF_EXEC;</span><br><span class="line">        <span class="comment">// fork 进程</span></span><br><span class="line">        imgp-&gt;ip_new_thread = fork_create_child(current_task(),</span><br><span class="line">                    <span class="literal">NULL</span>, p, FALSE, p-&gt;p_flag &amp; P_LP64, TRUE);</span><br><span class="line">        <span class="comment">// 异常处理</span></span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line">        new_task = get_threadtask(imgp-&gt;ip_new_thread);</span><br><span class="line">        context.vc_thread = imgp-&gt;ip_new_thread;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 这个函数主要是分配内存，检查权限，然后调用 load_machfile()，在从0x000000起始位置开始留出至少4G（64位）不可读写的空间用于捕捉NULL指针引用，根据 ASLR 随机一个地址开始加载 Mach-O 文件，读取 Mach-O header，根据解析后得到的 load command 信息，通过映射方式加载到内存中。还会使用 activate_exec_state() 函数处理解析加载 Mach-O 后的结构信息，设置执行 App 的入口点。</span></span><br><span class="line">    error = exec_activate_image(imgp);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (imgp-&gt;ip_new_thread != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        new_task = get_threadtask(imgp-&gt;ip_new_thread);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">   </span><br><span class="line">    kauth_cred_unref(&amp;context.vc_ucred);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (!error) &#123;</span><br><span class="line">        task_bank_init(get_threadtask(imgp-&gt;ip_new_thread));</span><br><span class="line">        proc_transend(p, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        thread_affinity_exec(current_thread());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 继承进程处理</span></span><br><span class="line">        <span class="keyword">if</span> (!in_vfexec) &#123;</span><br><span class="line">            proc_inherit_task_role(get_threadtask(imgp-&gt;ip_new_thread), current_task());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置进程的主线程</span></span><br><span class="line">        <span class="type">thread_t</span> main_thread = imgp-&gt;ip_new_thread;</span><br><span class="line">        task_set_main_thread_qos(new_task, main_thread);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>设置完入口点后会通过<code>load_dylinker()</code>函数来解析加载 dyld，然后将入口点地址改成 dyld 的入口地址。这一步完后，内核部分就完成了 Mach-O 文件的加载。剩下的就是用户态层 dyld 加载 App 了。<br><img src="/images/load%20mach-o.png" alt="load mach-o"></p>
+<h1 id="Dyld-加载动态库（用户态）"><a href="#Dyld-加载动态库（用户态）" class="headerlink" title="Dyld 加载动态库（用户态）"></a>Dyld 加载动态库（用户态）</h1><p>Dyld 也是开源的，在<a target="_blank" rel="noopener" href="https://github.com/opensource-apple/dyld/blob/master/src/dyldStartup.s">dyldStartup.s</a>中 Dyld 的入口函数<code>__dyld_start</code>中，设置好一些寄存器参数后，调用<code>dyldbootstrap::start()</code>方法，其中调用了<code>dyld::_main()</code>，该方法会加载相关的动态库，完成后返回 APP<code>main()</code>函数地址，然后调用<code>main()</code>函数就进入我们熟悉的程序入口了。</p>
+<h2 id="Load-dylibs"><a href="#Load-dylibs" class="headerlink" title="Load dylibs"></a>Load dylibs</h2><p><code>dyldbootstrap::start()</code>方法会根 ASLR(Address Space Layout Randomization)计算主执行文件偏移后的地址与 Mach-O header 指针，将其作为参数传递给<code>dyld::_main()</code>函数，接下来：</p>
+<ol>
+<li><code>setContext()</code>,使用 Mach-O header 中的信息检查并运行环境，创建链接上下文。</li>
+<li>验证主执行文件与系统架构的兼容性成功后，实例化主执行文件的 ImageLoader。解析主执行文件的 header，获取需要加载的依赖库的列表。</li>
+<li>找到每个 dylib 对其实例化一个 ImageLoader，打开文件读取开头部分，确保它是 Mach-O 文件。然后找到代码签名让内核校验签名。成功后对文件的每个 segment 调用<code>mmap()</code>。由于 dylib 可能会依赖其他 dylib，所以这个加载过程是递归的。一般应用会加载 100-400 个 dylib，但是大多数是系统库，这些库大部分已经被缓存在内存中了，所以加载速度很快。</li>
+</ol>
+<p><img src="/images/load%20dylibs.png" alt="load dylibs"></p>
+<h2 id="Fix-ups"><a href="#Fix-ups" class="headerlink" title="Fix-ups"></a>Fix-ups</h2><p>加载完所有的 dylibs 后，还处于各自独立的状态，需要通过 Fix-ups 将它们绑定在一起。由于代码签名的存在，我们不能直接修改指令，那么如何在一个 dylib 中调用另一个 dylib 的方法呢？这里采用了叫做 dynamic PIC(Position independent Code)的技术，它会在 __DATA segment 中创建一个指针，指向要调用的方法或变量。所以 Fix-ups 都是在修正 __DATA segment 中的指针和数据，将符号绑定在地址上。留意保存在 __DATA segment 中的 __la_symbol_ptr section 中的符号并不是在启动时绑定的，而是在程序运行时首次访问时才绑定的。</p>
+<h3 id="Rebasing-and-Binding"><a href="#Rebasing-and-Binding" class="headerlink" title="Rebasing and Binding"></a>Rebasing and Binding</h3><p>Fix-ups 分为两种类型：</p>
+<ul>
+<li><p>Rebasing:在 dylib 内部调整指针，由于 ASLR 的使用，dylib 会被整体偏移到某个地址，所以需要遍历所有的指针并添加一个偏移值。这里可能会导致 page fault 和 COW，从而会导致I&#x2F;O问题，但是好在是序列化的，内核会预先读取，减少I&#x2F;O 消耗。<br><img src="/images/rebasing.png" alt="rebasing"></p>
+</li>
+<li><p>Binding:设置指向该 dylib 之外的指针，本质上是通过符号名称绑定的，这些符号信息保存在 __LINKEDIT segment 中，表示这个数据指针要指向某个符号。dyld 需要去符号表中找到该符号对应的实现，然后将指针值存储到 __DATA segment 中的指针中。<br><img src="/images/binding.png" alt="binding"></p>
+</li>
+</ul>
+<h3 id="Notify-Objc-Runtime"><a href="#Notify-Objc-Runtime" class="headerlink" title="Notify Objc Runtime"></a>Notify Objc Runtime</h3><p>这部分内容我在之前的博客:<a target="_blank" rel="noopener" href="https://176zane.github.io/2018/02/07/Runtime%20%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%AF%B9%E8%B1%A1%E4%B8%8E%E7%B1%BB/">Runtime 源码笔记：对象与类</a> 中类的加载过程一节中有描述到，在 Runtime 的入口函数<code>_objc_init</code>中有注册 dyld 相关事件的回调函数：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_dyld_objc_notify_register(&amp;map_images, load_images, unmap_image);</span><br></pre></td></tr></table></figure>
+<p>OC 基于 Runtime 机制可以用类的名字来实例化一个类的对象，Runtime 维护了一张映射类名与类的全局表，当 ImageLoader 加载完 dylib 后，dyld 会调用回调函数<code>map_images</code>对其进行解析和处理，将可执行文件中和动态库所有的符号（Class，Protocol，Selector，IMP，…）都按格式 fix-up 后成功加载到内存中。<br><img src="/images/notify%20objc%20runtime.png" alt="notify objc runtime"></p>
+<h2 id="Initializer"><a href="#Initializer" class="headerlink" title="Initializer"></a>Initializer</h2><p>在完成所有的数据 fix-ups 后，就可以对需要初始化的数据进行初始化操作了。OC 的<code>+load</code>以及 C++ 的<code>constructor</code>方法都会在这个阶段执行。<br><img src="/images/initializers.png" alt="initializers"></p>
+<p>完成上面这些工作后，dyld 会调用<code>main()</code>函数。其中调用<code>UIApplicationMain()</code>，我们的 App 就这样启动了。</p>
+<p>注：本文中的 dyld 加载动态库的过程是基于 dyld2 描述的，iOS13 系统中已经升级为 dyld3，加载过程略有不同。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/videos/play/wwdc2016/406/">WWDC2016-406</a></li>
+<li><a target="_blank" rel="noopener" href="https://justinyan.me/post/4057">macOS 内核之一个 App 如何运行起来</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/231b1cebf477">iOS App从点击到启动</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.sunnyxx.com/2014/08/30/objc-pre-main/">iOS 程序 main 函数之前发生了什么</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/07/20/%E3%80%8A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E4%B9%8B%E7%BE%8E%E3%80%8B%E7%AC%94%E8%AE%B0%E4%BA%8C/" rel="prev" title="《数据结构与算法之美》笔记-排序">
+      <i class="fa fa-chevron-left"></i> 《数据结构与算法之美》笔记-排序
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">背景知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XNU-X-is-Not-Unix"><span class="nav-number">1.2.</span> <span class="nav-text">XNU(X is Not Unix)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mach-O"><span class="nav-number">1.3.</span> <span class="nav-text">Mach-O</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#XNU-%E5%8A%A0%E8%BD%BD%E4%B8%BB%E7%A8%8B%E5%BA%8F%EF%BC%88%E5%86%85%E6%A0%B8%E6%80%81%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">XNU 加载主程序（内核态）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dyld-%E5%8A%A0%E8%BD%BD%E5%8A%A8%E6%80%81%E5%BA%93%EF%BC%88%E7%94%A8%E6%88%B7%E6%80%81%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">Dyld 加载动态库（用户态）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Load-dylibs"><span class="nav-number">3.1.</span> <span class="nav-text">Load dylibs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fix-ups"><span class="nav-number">3.2.</span> <span class="nav-text">Fix-ups</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Rebasing-and-Binding"><span class="nav-number">3.2.1.</span> <span class="nav-text">Rebasing and Binding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Notify-Objc-Runtime"><span class="nav-number">3.2.2.</span> <span class="nav-text">Notify Objc Runtime</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Initializer"><span class="nav-number">3.3.</span> <span class="nav-text">Initializer</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="姚七六"
+      src="/images/self.gif">
+  <p class="site-author-name" itemprop="name">姚七六</p>
+  <div class="site-description" itemprop="description">Life is short. Live your dream and wear your passion.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/176zane" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;176zane" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:176zane@gmail.com" title="E-Mail → mailto:176zane@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/176zane" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;176zane" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/lovekobe0824" title="微博 → https:&#x2F;&#x2F;weibo.com&#x2F;lovekobe0824" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>微博</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">姚七六</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

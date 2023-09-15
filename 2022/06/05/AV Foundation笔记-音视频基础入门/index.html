@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon-64.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon-32.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="我们所看见的和听见的都是通过眼睛和耳朵的构造将这些信息转化为大脑能够解析的电信号，通过模拟信号传递给我们的。模拟信号利用对象的一些物理属性来表达、传递信息，例如声音、光、温度、位移、压强，这些物理量可以使用传感器测量。模拟信号中，不同的时间点位置的信号值是连续变化的。而数字世界中的信号是离散的，由 1 和 0 两个状态表示，要将模拟信号转换成能够在计算机中存储并传输的数字信号，需要经过模拟-数字转">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AV Foundation笔记-音视频基础入门">
+<meta property="og:url" content="http://yoursite.com/2022/06/05/AV%20Foundation%E7%AC%94%E8%AE%B0-%E9%9F%B3%E8%A7%86%E9%A2%91%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="Deep Thought">
+<meta property="og:description" content="我们所看见的和听见的都是通过眼睛和耳朵的构造将这些信息转化为大脑能够解析的电信号，通过模拟信号传递给我们的。模拟信号利用对象的一些物理属性来表达、传递信息，例如声音、光、温度、位移、压强，这些物理量可以使用传感器测量。模拟信号中，不同的时间点位置的信号值是连续变化的。而数字世界中的信号是离散的，由 1 和 0 两个状态表示，要将模拟信号转换成能够在计算机中存储并传输的数字信号，需要经过模拟-数字转">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/images/%E5%A3%B0%E9%9F%B3%E4%BF%A1%E5%8F%B7.png">
+<meta property="og:image" content="http://yoursite.com/images/%E9%87%87%E6%A0%B7%E7%8E%87.png">
+<meta property="og:image" content="http://yoursite.com/images/%E5%83%8F%E7%B4%A0%E7%82%B9%E6%95%B0.png">
+<meta property="og:image" content="http://yoursite.com/images/%E7%81%B0%E5%BA%A6.png">
+<meta property="og:image" content="http://yoursite.com/images/%E9%A2%91%E5%9F%9F%E6%8E%A9%E8%94%BD%E6%95%88%E5%BA%94.jpeg">
+<meta property="og:image" content="http://yoursite.com/images/%E6%97%B6%E5%9F%9F%E6%8E%A9%E8%94%BD%E6%95%88%E5%BA%94.jpeg">
+<meta property="og:image" content="http://yoursite.com/images/IMG_8077.jpg">
+<meta property="og:image" content="http://yoursite.com/images/Barn-yuv.png">
+<meta property="og:image" content="http://yoursite.com/images/Jab.png">
+<meta property="og:image" content="http://yoursite.com/images/GOP.png">
+<meta property="article:published_time" content="2022-06-05T01:12:13.000Z">
+<meta property="article:modified_time" content="2023-09-15T06:41:08.096Z">
+<meta property="article:author" content="姚七六">
+<meta property="article:tag" content="音视频开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/%E5%A3%B0%E9%9F%B3%E4%BF%A1%E5%8F%B7.png">
+
+<link rel="canonical" href="http://yoursite.com/2022/06/05/AV%20Foundation%E7%AC%94%E8%AE%B0-%E9%9F%B3%E8%A7%86%E9%A2%91%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>AV Foundation笔记-音视频基础入门 | Deep Thought</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Deep Thought</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/06/05/AV%20Foundation%E7%AC%94%E8%AE%B0-%E9%9F%B3%E8%A7%86%E9%A2%91%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/self.gif">
+      <meta itemprop="name" content="姚七六">
+      <meta itemprop="description" content="Life is short. Live your dream and wear your passion.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Deep Thought">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AV Foundation笔记-音视频基础入门
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-05 09:12:13" itemprop="dateCreated datePublished" datetime="2022-06-05T09:12:13+08:00">2022-06-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-09-15 14:41:08" itemprop="dateModified" datetime="2023-09-15T14:41:08+08:00">2023-09-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS-%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">iOS 笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>我们所看见的和听见的都是通过眼睛和耳朵的构造将这些信息转化为大脑能够解析的电信号，通过<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%A8%A1%E6%93%AC%E4%BF%A1%E8%99%9F">模拟信号</a>传递给我们的。模拟信号利用对象的一些物理属性来表达、传递信息，例如声音、光、温度、位移、压强，这些物理量可以使用传感器测量。模拟信号中，不同的时间点位置的信号值是连续变化的。而数字世界中的信号是离散的，由 1 和 0 两个状态表示，要将模拟信号转换成能够在计算机中存储并传输的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%97%E4%BF%A1%E5%8F%B7">数字信号</a>，需要经过模拟-数字转换过程，这个过程称为<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%8F%96%E6%A8%A3">采样</a>。</p>
+<h1 id="采样"><a href="#采样" class="headerlink" title="采样"></a>采样</h1><p>通常采样与<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%87%8F%E5%8C%96_(%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86)">量化</a>联合进行，例如对于音频信号来说，模拟信号先由采样器按照一定时间间隔采样获得时间上离散的信号，再经模数转换器在数值上也进行离散化，从而得到数值和时间上都离散的数字信号。大多情况下所说的“采样”就是指这种采样与量化结合的过程。</p>
+<h2 id="音频采样"><a href="#音频采样" class="headerlink" title="音频采样"></a>音频采样</h2><p>我们一般使用麦克风来记录声音，它可以将机械能量转换成电能量。当我们发出声音时，会带动周围的空气产生特定频率和振幅的震动，这样麦克风中那层薄薄的膜片也会根据其感受到的声波进行震动，带动线圈震动，由此产生与输入信号相同频率和振幅的电流信号，这个信号中的频率与振幅分别代表了声音的音调与音量（对于复杂波形来说，音调对应的是波的基频）。<br><img src="/images/%E5%A3%B0%E9%9F%B3%E4%BF%A1%E5%8F%B7.png" alt="声音信号"></p>
+<p>麦克风所产生的电压信号类似于上图中的波形，这种模拟信号可以在磁带上记录成磁场强度的变化或在黑胶唱片上记录成沟槽大小的变化。但是当存储介质为计算机时，一般会通过线性脉冲编码调试（即Linear PCM）的过程将其数字化。这个过程会间隔固定的时间对信号进行测量，然后用独特的数字记号（通常为二进制）来量化。其中涉及两个重要的参数：</p>
+<ul>
+<li><p>采样率：采样率表示音频信号每秒的取样数，它决定了音频文件的频率范围。从下图可以看出采样率越高，数字波形的形状越接近原始模拟波形。根据<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%87%87%E6%A0%B7%E5%AE%9A%E7%90%86">采样定理</a>当采样率达到<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%A5%88%E5%A5%8E%E6%96%AF%E7%89%B9%E9%A2%91%E7%8E%87">奈奎斯特频率</a>，即频率达到所需要采样对象的最高频率的两倍时可以产生足够好的数字化效果。人类的听觉可以接收的音频范围为 20HZ~20kHZ，所以使用CD录制的音频采样率通常为 44.1kHZ，其所能捕捉的最大频率为20.05kHZ，对于人耳来说已经足够好了。<br><img src="/images/%E9%87%87%E6%A0%B7%E7%8E%87.png" alt="采样率"></p>
+</li>
+<li><p>位元深度：位元深度是用于保存样本值的字节数，它定义了在线性维度上可行的离散度，决定了我们所能捕捉的音频样本的精度。为每个样本的整理量化分配过少的位结果信息会导致数字音频信号产生噪声和扭曲。使用位元深度为 8 的方法可以提供 256 个离散级别的数据，对于一般音频也可使用。CD音质的位元深度为 16，更专业级别的音频录制环境的位元深度可能达到24或更高。</p>
+</li>
+</ul>
+<h2 id="图像采样"><a href="#图像采样" class="headerlink" title="图像采样"></a>图像采样</h2><p>对于图像，我们一般使用扫描或者拍照技术对其信息进行采集。在数字化过程中，与音频基于时间的采样不同，图像是基于空间采样的（对于视频这种既有空间属性也有时间属性的信号，这两种方式都会使用）。空间采样包含对一副图片在一定分辨率下捕捉其亮度和色度，进而创建由该图片的像素点数据所构成的数字化结果。</p>
+<p>在采样时，将二维空间中连续的图片在水平和垂直方向上等距的分割为矩形网状结构，形成一个个微小的方格称为<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%83%8F%E7%B4%A0">像素</a>。像素没有固定的尺寸大小，它只是对一个最小完整采样的抽象。这样一副图片就被采样成有限个像素点构成的集合。然后通过量化将各像素的灰度值从模拟量转化为离散量。其中有如下主要参数：</p>
+<ul>
+<li><p>采样点数：对一幅图像采样时，若每行像素为M个，每列像素为N个，则图像尺寸为M *  N个像素。像素数量对图片质量有显著影响。一般来说图像采样点数越多，图像质量越好，但数据量越大。例如下图为采样点数从 256  * 256 逐步减少到到 8 * 8 对图像质量的影响。<br><img src="/images/%E5%83%8F%E7%B4%A0%E7%82%B9%E6%95%B0.png" alt="像素点数"></p>
+</li>
+<li><p>量化级数：对于<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F">灰度图像</a>我们需要将各像素的灰度值量化，一般使用 8 位 256 个量化级数来表示 0~255 的灰度值。量化级数越多，图像质量越好。下图表示采样点数一定时，量化级数从 256 递减至 2 时对图像质量的影响。<br><img src="/images/%E7%81%B0%E5%BA%A6.png" alt="灰度"></p>
+</li>
+</ul>
+<p>对于彩色图像，基于RGB<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%96%93">色彩模型</a>按照颜色成分——红（R）、绿（G）、蓝（B）分别采样和量化的。若各种颜色成分均按 8 位量化，即每种颜色量级别是 256，可以处理256×256×256&#x3D;16777216 种颜色。</p>
+<blockquote>
+<p>扩展阅读：<a target="_blank" rel="noopener" href="https://objccn.io/issue-21-1/">相机工作原理</a>。</p>
+</blockquote>
+<h1 id="编码压缩"><a href="#编码压缩" class="headerlink" title="编码压缩"></a>编码压缩</h1><p>对于音视频数字信号，如果不加压缩的存储和传输虽然能够保留原始的呈现效果，但是会占用大量的存储空间与带宽。例如对于一个双声道，44.1kHz，16位LPCM音频文件的码率为：2 * 44.1kHz * 16bit&#x3D;1.346Mbit&#x2F;s，也就是每分钟要占用 10MB的空间。对于一个帧率为 30FPS，1280 * 720分辨率的每个像素采用 24 位的RGB色彩空间的视频文件其码率为：30 * 1280 * 720 * 24bit &#x3D; 634Mbit&#x2F;s,也就是每分钟要占用 4.6GB的空间。这样的码率显然在当前（虽然现在都8102年了）的设备存储及网络传输中显得难以接受，因此我们需要对这些音视频文件进行编码压缩。</p>
+<blockquote>
+<p>扩展阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/leixiaohua1020/article/details/28114081">频压缩编码和音频压缩编码的基本原理</a>。 注：本文中音视频编码原理部分内容摘录自该博客。</p>
+</blockquote>
+<h2 id="音频编解码"><a href="#音频编解码" class="headerlink" title="音频编解码"></a>音频编解码</h2><p>音频编码主要是将音频采样数据（如PCM数据）中声音信号的冗余成分去除压缩为音频码流，从而降低音频的数据量的过程。</p>
+<h3 id="音频编码基本原理"><a href="#音频编码基本原理" class="headerlink" title="音频编码基本原理"></a>音频编码基本原理</h3><p>所谓冗余成分是指音频中不能被人耳感知到的信号，它们对确定声音的音调等信息没有任何的帮助。冗余信号包含人耳听觉范围外的音频信号（即频率在20Hz~20KHz之外的部分）以及被掩蔽掉的音频信号。根据人耳听觉的生理和心理声学现象，当一个强音信号与一个弱音信号同时存在时，弱音信号将被强音信号所掩蔽而听不见，这样弱音信号就可以视为冗余信号而不用传送。这就是人耳听觉的掩蔽效应。主要表现在频谱掩蔽效应和时域掩蔽效应：</p>
+<h4 id="频谱掩蔽效应"><a href="#频谱掩蔽效应" class="headerlink" title="频谱掩蔽效应"></a>频谱掩蔽效应</h4><p>一个频率的声音能量小于某个阈值之后，人耳就会听不到，这个阈值称为最小可闻阈。当有另外能量较大的声音出现的时候，该声音频率附近的阈值会提高很多，即所谓的掩蔽效应。如图所示</p>
+<p><img src="/images/%E9%A2%91%E5%9F%9F%E6%8E%A9%E8%94%BD%E6%95%88%E5%BA%94.jpeg" alt="频域掩蔽效应"><br>我们可以看出人耳对2KHz～5KHz的声音最敏感，而对频率太低或太高的声音信号都很迟钝。当有一个频率为0.2KHz、强度为60dB的声音出现时，其附近的阈值提高了很多。由图中我们可以看出在0.1KHz以下、1KHz以上的部分,由于离0.2KHz强信号较远，不受0.2KHz强信号影响,阈值不受影响；而在0.1KHz～1KHz范围，由于0.2KHz强音的出现,阈值有较大的提升，人耳在此范围所能感觉到的最小声音强度大幅提升。如果0.1KHz～1KHz范围内的声音信号的强度在被提升的阈值曲线之下，由于它被0.2KHz强音信号所掩蔽，那么此时我们人耳只能听到0.2KHz的强音信号而根本听不见其它弱信号，这些与0.2KHz强音信号同时存在的弱音信号就可视为冗余信号而不必传送。</p>
+<h4 id="时域掩蔽效应"><a href="#时域掩蔽效应" class="headerlink" title="时域掩蔽效应"></a>时域掩蔽效应</h4><p>当强音信号和弱音信号同时出现时，还存在时域掩蔽效应。即两者发生时间很接近的时候，也会发生掩蔽效应。时域掩蔽过程曲线如图所示，分为前掩蔽、同时掩蔽和后掩蔽三部分。</p>
+<p><img src="/images/%E6%97%B6%E5%9F%9F%E6%8E%A9%E8%94%BD%E6%95%88%E5%BA%94.jpeg" alt="时域掩蔽效应"></p>
+<p>前掩蔽是指人耳在听到强信号之前的短暂时间内，已经存在的弱信号会被掩蔽而听不到。同时掩蔽是指当强信号与弱信号同时存在时，弱信号会被强信号所掩蔽而听不到。后掩蔽是指当强信号消失后，需经过较长的一段时间才能重新听见弱信号，称为后掩蔽。这些被掩蔽的弱信号即可视为冗余信号。</p>
+<h3 id="主要音频编解码方案"><a href="#主要音频编解码方案" class="headerlink" title="主要音频编解码方案"></a>主要音频编解码方案</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh/WAV">WAV</a>:WAV 编码的一种实现是在 PCM 数据格式的前面加上 44 字节，分别用来描述 PCM 的采样率，声道数及数据格式等信息，WAV 文件与无损文件是不同的，它只不过是不去对原始文件做压缩。音质很好，大量软件及平台都支持。</li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Windows_Media_Audio">WMA</a>:微软推出的数字音频编码方案，一般情况下会比同样音质的MP3文件体积小。与MP3一样，需要购买版权支持。</li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/MP3">MP3</a>:当前较为流行的一种有损压缩的数字音频编码方案之一。iOS的AVFoundation框架只提供对MP3数据的解码，并不支持对其编码。</li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%80%B2%E9%9A%8E%E9%9F%B3%E8%A8%8A%E7%B7%A8%E7%A2%BC">AAC</a>:与H.264标准对应的音频编码方案，相比MP3格式有显著的提升，且没有专利问题，也是一种有损压缩方案。AAC是iPhone等多种设备的默认音频编码格式。它的扩展名主要有：.aac，.mp4，m4a。</li>
+</ul>
+<p>当然还有许多其他音频编解码方案，但是对于iOS开发学习过程来说，主要针对AAC编码方案即可。</p>
+<h2 id="视频编解码"><a href="#视频编解码" class="headerlink" title="视频编解码"></a>视频编解码</h2><p>视频编码主要是将视频像素数据（如<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/YUV">YUV</a>数据）压缩为视频码流，降低视频数据量的过程。等等，YUV是什么鬼？我们像素数据采集的时候不是RGB数据么？其实在我们平时拍照或者拍视频的时候会经历一个色彩二次抽样的过程，将数据转换为YVU颜色模式的数据。在下面的相机拍照的工作流程图中也可以看到这个步骤：</p>
+<p><img src="/images/IMG_8077.jpg" alt="IMG_8077"></p>
+<h3 id="色彩二次抽样"><a href="#色彩二次抽样" class="headerlink" title="色彩二次抽样"></a>色彩二次抽样</h3><p>由于人类的视觉系统对颜色的位置及移动不及对亮度敏感，所以可以使用较多的亮度细节、较少的色度细节作优化，而不至于图片的质量受损严重。分别用一个亮度分量（Y’）及两个不同颜色分量（色度UV，分别用Cb和Cr来表示蓝色和红色的浓度偏移量）来替换原来的RGB数据从而减少颜色数据的过程就叫色彩二次抽样。</p>
+<p><img src="/images/Barn-yuv.png" alt="Barn-yuv"></p>
+<p>这张维基百科上的彩色图片可以让你对一张图片的 Y’及U、V组成部分有一个直观的认识。为节省带宽，大多数YUV格式平均使用的每像素位数都少于24位。其成分按照 J:a:b 的格式来取值：</p>
+<ul>
+<li>J：水平抽样参照（概念上区域的宽度）。通常为4。</li>
+<li>a：在J个像素第一行中的色度抽样数目（Cr, Cb）。</li>
+<li>b：在J个像素第二行中的额外色度抽样数目（Cr, Cb）</li>
+</ul>
+<p>其中主要的格式有4:2:0，4:2:2，4:4:4。在所有的格式下，每个像素的全部亮度信息都被保存下来了，在4:4:4时全部的色彩信息也被保存下来了，表示完全取样，数据量相比于RGB模型没有变化。4:2:2表示2:1的水平取样，垂直完全采样，数据量相比于RGB模式减少三分之一，4:2:0表示2:1的水平取样，垂直2：1采样。数据量相比于RGB模式减少二分之一。注意当前iPhone上的摄像头就是采用4:2:0的方式进行拍摄的。下图可以帮助理解这个二次抽样比例的模式：</p>
+<p><img src="/images/Jab.png" alt="Jab"></p>
+<h3 id="视频编码基本原理"><a href="#视频编码基本原理" class="headerlink" title="视频编码基本原理"></a>视频编码基本原理</h3><p>数据压缩是通过去除数据中的冗余信息而达成。就视频数据而言，数据中的冗余信息有如下几种：</p>
+<ul>
+<li>数据冗余:例如如空间冗余、时间冗余、结构冗余、信息熵冗余等，即图像的各像素之间存在着很强的相关性。消除这些冗余并不会导致信息损失，属于无损压缩。</li>
+<li>视觉冗余:人眼的一些特性比如亮度辨别阈值，视觉阈值，对亮度和色度的敏感度不同，使得在编码的时候引入适量的误差，也不会被察觉出来。可以利用人眼的视觉特性，以一定的客观失真换取数据压缩。这种压缩属于有损压缩。</li>
+</ul>
+<p>一般的数字视频压缩编码方法都是混合编码，即将变换编码，运动估计和运动补偿，以及熵编码三种方式相结合来进行压缩编码。通常使用变换编码来消去除图像的帧内冗余，用运动估计和运动补偿来去除图像的帧间冗余，用熵编码来进一步提高压缩的效率。</p>
+<h4 id="变换编码"><a href="#变换编码" class="headerlink" title="变换编码"></a>变换编码</h4><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%8F%98%E6%8D%A2%E7%BC%96%E7%A0%81">变换编码</a>的作用是将空间域描述的图像信号变换到频率域，然后对变换后的系数进行编码处理。一般来说，图像在空间上具有较强的相关性，变换到频率域可以实现去相关和能量集中。常用的正交变换有离散傅里叶变换，离散余弦变换等等。数字视频压缩过程中应用广泛的是离散余弦变换，简称DCT变换。</p>
+<p>变换编码一般用于帧内压缩，去除空间冗余信息和部分视觉冗余信息，所以一般是有损压缩算法，通常也用于JEPG静态图像压缩算法，但是通常是对原始图片的部分处理以生成极高质量的照片，通过这一步骤创建的帧称为 I-frames。</p>
+<h4 id="运动估计和运动补偿"><a href="#运动估计和运动补偿" class="headerlink" title="运动估计和运动补偿"></a>运动估计和运动补偿</h4><p>这一步骤主要通过以组为单位的视频帧消除时间序列上的相关性来压缩冗余数据，是帧间压缩。例如对于像新闻联播这种背景静止，画面主体运动较小的数字视频，每一幅画面之间的区别很小，画面之间的相关性很大。对于这种情况我们没有必要对每一帧图像单独进行编码，而是可以只对相邻视频帧中变化的部分进行编码，从而进一步减小数据量。</p>
+<p>运动估计一般将当前的输入图像分割成若干彼此不相重叠的小图像子块，例如一帧图像的大小为1280 * 720，首先将其以网格状的形式分成40 * 45个尺寸为16 * 16的彼此没有重叠的图像块，然后在前一图像或者后一个图像某个搜索窗口的范围内为每一个图像块寻找一个与之最为相似的图像块。这个搜寻的过程叫做运动估计。通过计算最相似的图像块与该图像块之间的位置信息，可以得到一个运动矢量。这样在编码过程中就可以将当前图像中的块与参考图像运动矢量所指向的最相似的图像块相减，得到一个残差图像块，由于残差图像块中的每个像素值很小，所以在压缩编码中可以获得更高的压缩比。这个相减过程叫运动补偿。</p>
+<p><img src="/images/GOP.png" alt="GOP"></p>
+<p>由于编码过程中需要使用参考图像来进行运动估计和运动补偿，因此参考图像的选择显得很重要，很多帧组合在一起作为一组图片（简称GOP），如下图所示。其中有三种不同类型的帧：</p>
+<ul>
+<li>I-frames:又称关键帧，只使用本帧内的数据进行编码，在编码过程中它不需要进行运动估计和运动补偿。包含创建完整图片需要的所有数据，因此其尺寸是最大的，压缩比并不高，解压时间短。每个GOP正好有一个I-frames。</li>
+<li>P-frames:又称预测帧，编码时使用一个前面的I-frames或P-frames作为参考图像进行运动补偿，实际上是对当前图像与参考图像的差值进行编码。</li>
+<li>B-frames:又称双向帧，编码过程中它要使用一个前面的I-frames或P-frames和一个后面的I-frames或P-frames进行预测。几乎不需要存储空间，但解压时间最长。</li>
+</ul>
+<h4 id="熵编码"><a href="#熵编码" class="headerlink" title="熵编码"></a>熵编码</h4><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%86%B5%E7%B7%A8%E7%A2%BC%E6%B3%95">熵编码</a>是一种独立于介质的具体特征的进行无损数据压缩的方案。其基本原理是对信源中出现概率大的符号赋予短码，对于出现概率小的符号赋予长码，从而在统计上获得较短的平均码长。可变字长编码通常有霍夫曼编码、算术编码、游程编码等。通过这种变长编码算法来进一步提高编码效率。</p>
+<h3 id="主要视频编码方案"><a href="#主要视频编码方案" class="headerlink" title="主要视频编码方案"></a>主要视频编码方案</h3><p>视频编码有各种各样的方案标准，其实整体看起来还是比较混乱的，这里我们只举例几种稍作了解：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/MPEG-2">MPEG-2</a>:是MPEG工作组于1994年发布的视频和音频压缩国际标准，通常用来为广播信号提供视频和音频编码，包括卫星电视、有线电视等。是采用以香农信息论为基础的预测编码、变换编码、熵编码及运动补偿等第一代数据压缩编码技术。</li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/MPEG-4">MPEG-4</a>:一般特指MPEG-4第2部分，是基于第二代压缩编码技术制定的国际标准，它以视听媒体对象为基本单元，实现了从基于像素的传统编码向基于对象和内容的现代编码的转变，提高了压缩率。</li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/H.264/MPEG-4_AVC">H.264</a>又称为MPEG-4第10部分，是目前最主流的方案，充分利用了现有MPEG-4标准中的各个环节，即保留了以往压缩技术的优点和精华又具有其他压缩技术无法比拟的许多优点。是一种面向块，基于运动补偿的视频编码标准。可以提供更高的编码效率，更高清的视频画面质量，更好的网络适应能力。</li>
+</ul>
+<h1 id="封装格式"><a href="#封装格式" class="headerlink" title="封装格式"></a>封装格式</h1><p>我们平时在电脑中存储的或者网上下载的各种.mov、.avi、.mp4等等后缀名的文件，平时我们将这些类型视为文件格式，其实更准确的理解是这些类型是文件的封装格式。封装格式也是元文件格式，封装格式就是按照一定的规范结构将视频数据，音频数据等放在一起。所谓的结构不仅包含了媒体信息，如视频、音频、字幕、编码和时间信息等，还包含了描述性的元数据，比如电影标题、歌曲作者等。这些元数据可以通过工具进行呈现。</p>
+<p>下面我们了解一下一些常用的封装格式：</p>
+<ul>
+<li>QuickTime:苹果公司开发的封装格式，它可存储的内容相当丰富，除了视频、音频以外还可支持图片、文字（文本字幕）等。文件后缀名为.mov、.qt。</li>
+<li>AVI:微软公司开发的对抗苹果QuickTime格式的技术，AVI本身只提供了一个框架，内部的图像数据及声音数据可以支持任意的编码形式。AVI与其他格式最大的不同是它将索引放在文件尾部，所以不能支持流媒体播放。文件后缀名为.avi。</li>
+<li>MP4:是MPEG-4第 14 部分规范定义的容器格式，是从QuickTime直接派生出来的行业标准格式，视频主要采用H.264编码格式，音频主要采用AAC编码格式，同时也支持老版本的MPEG编码标准。文件后缀名为.mp4,在苹果生态系统中，也常用.m4a的音频文件及.m4v的视频文件等格式区分基于MP4格式的特定媒体类型。</li>
+<li>TS:TS封装支持几乎所有编码的高清视频和音轨文件。视频编码有MPEG2、MPEG4 AVC、VC1，音频则种类DD、TrueHD、DTS、DTSHD等。TS的全名是Transport Stream，在打包视频和音频时，能提供时间戳，在整个打包视频的任何时段开始播放，都能顺利解码并保持音画同步。文件后缀为.ts。</li>
+<li>FLV：FLV流媒体格式是一种全新的视频格式，全称为Flash Video。由于它形成的文件极小、加载速度极快，使得网络观看视频文件成为可能。它的出现有效地解决了视频文件导入Flash后，使导出的SWF文件体积庞大，不能在网络上很好地应用等缺点，因此FLV格式成为了当今主流视频格式。目前几乎所有全球热门的在线视频网站都采用了FLV视频格式。文件后缀为.flv。</li>
+<li>MKV：MKV格式是民间流行的一种视频格式，以它兼容众多视频编码见长，可以是DivX、XviD、RealVideo、H264、MPEG2、VC1等等。但是由于是民间格式，没有版权限制，又易于播放，所以官方发布的视频影片都不采用mkv，网上制作下载常见。文件后缀为.mkv。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91%E5%BC%80%E5%8F%91/" rel="tag"># 音视频开发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/12/iOS%20%E5%B8%B8%E8%AF%BB%E5%B8%B8%E6%96%B0%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/" rel="prev" title="iOS 常读常新的文章索引（持续更新）">
+      <i class="fa fa-chevron-left"></i> iOS 常读常新的文章索引（持续更新）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/04/Runtime%20%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%AF%B9%E8%B1%A1%E4%B8%8E%E7%B1%BB/" rel="next" title="Runtime 源码笔记：对象与类">
+      Runtime 源码笔记：对象与类 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%87%E6%A0%B7"><span class="nav-number">1.</span> <span class="nav-text">采样</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E9%87%87%E6%A0%B7"><span class="nav-number">1.1.</span> <span class="nav-text">音频采样</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E9%87%87%E6%A0%B7"><span class="nav-number">1.2.</span> <span class="nav-text">图像采样</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E7%A0%81%E5%8E%8B%E7%BC%A9"><span class="nav-number">2.</span> <span class="nav-text">编码压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81"><span class="nav-number">2.1.</span> <span class="nav-text">音频编解码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9F%B3%E9%A2%91%E7%BC%96%E7%A0%81%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="nav-number">2.1.1.</span> <span class="nav-text">音频编码基本原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%91%E8%B0%B1%E6%8E%A9%E8%94%BD%E6%95%88%E5%BA%94"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">频谱掩蔽效应</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%B6%E5%9F%9F%E6%8E%A9%E8%94%BD%E6%95%88%E5%BA%94"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">时域掩蔽效应</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E9%9F%B3%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%96%B9%E6%A1%88"><span class="nav-number">2.1.2.</span> <span class="nav-text">主要音频编解码方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81"><span class="nav-number">2.2.</span> <span class="nav-text">视频编解码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%89%B2%E5%BD%A9%E4%BA%8C%E6%AC%A1%E6%8A%BD%E6%A0%B7"><span class="nav-number">2.2.1.</span> <span class="nav-text">色彩二次抽样</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="nav-number">2.2.2.</span> <span class="nav-text">视频编码基本原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%98%E6%8D%A2%E7%BC%96%E7%A0%81"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">变换编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%90%E5%8A%A8%E4%BC%B0%E8%AE%A1%E5%92%8C%E8%BF%90%E5%8A%A8%E8%A1%A5%E5%81%BF"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">运动估计和运动补偿</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%86%B5%E7%BC%96%E7%A0%81"><span class="nav-number">2.2.2.3.</span> <span class="nav-text">熵编码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81%E6%96%B9%E6%A1%88"><span class="nav-number">2.2.3.</span> <span class="nav-text">主要视频编码方案</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%81%E8%A3%85%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">封装格式</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="姚七六"
+      src="/images/self.gif">
+  <p class="site-author-name" itemprop="name">姚七六</p>
+  <div class="site-description" itemprop="description">Life is short. Live your dream and wear your passion.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/176zane" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;176zane" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:176zane@gmail.com" title="E-Mail → mailto:176zane@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/176zane" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;176zane" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/lovekobe0824" title="微博 → https:&#x2F;&#x2F;weibo.com&#x2F;lovekobe0824" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>微博</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">姚七六</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
